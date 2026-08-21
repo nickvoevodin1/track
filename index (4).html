@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TRACK — ежедневный контроль монтажных работ</title>
+<meta name="description" content="Монтажник отправляет отчёт за несколько минут. Руководитель видит все объекты, клиент видит ход работ. 5 000 ₽ в месяц за активный объект.">
+<meta property="og:title" content="TRACK — ежедневный контроль монтажных работ">
+<meta property="og:description" content="Знайте, что происходит на каждом объекте — каждый день.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0B0A08;
+  --surface:#141210;
+  --raised:#1C1916;
+  --edge:#2A2622;
+  --edge-hi:#3D3630;
+  --gold:#E8B84B;
+  --gold-dim:#C79A33;
+  --text:#F5F1E8;
+  --text-2:#B5AEA2;
+  --muted:#7A736A;
+  --ok:#4FA96A;
+  --warn:#D9A441;
+  --late:#C4553D;
+
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);color:var(--text);
+  font-family:var(--body);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+section{padding:120px 0;position:relative}
+@media(max-width:860px){.wrap{padding:0 20px}section{padding:72px 0}}
+
+/* ---------- type ---------- */
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.015em;line-height:1.06}
+h1{font-size:clamp(38px,6.6vw,88px);font-weight:900}
+h2{font-size:clamp(30px,4.4vw,58px)}
+h3{font-size:clamp(19px,1.7vw,24px);line-height:1.2}
+.lead{font-size:clamp(17px,1.55vw,21px);color:var(--text-2);font-weight:300;line-height:1.55}
+p{color:var(--text-2);font-weight:300}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:10px;margin-bottom:22px;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);opacity:.6}
+.center{text-align:center}
+.center .eyebrow{justify-content:center}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;height:70px;z-index:100;
+  display:flex;align-items:center;transition:background .25s,border-color .25s;
+  border-bottom:1px solid transparent;
+}
+header.on{background:rgba(11,10,8,.86);backdrop-filter:blur(14px);border-bottom-color:var(--edge)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo{font-family:var(--mono);font-weight:500;font-size:17px;letter-spacing:.22em;color:var(--text);text-decoration:none}
+.logo b{color:var(--gold);font-weight:500}
+nav{display:flex;gap:30px}
+nav a{color:var(--text-2);text-decoration:none;font-size:14.5px;font-weight:300;transition:color .18s}
+nav a:hover{color:var(--gold)}
+@media(max-width:900px){nav{display:none}}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:52px;padding:0 30px;border:none;border-radius:2px;cursor:pointer;
+  font-family:var(--body);font-size:15.5px;font-weight:500;text-decoration:none;
+  background:var(--gold);color:#17140E;transition:background .18s,transform .12s;
+}
+.btn:hover{background:var(--gold-dim)}
+.btn:active{transform:scale(.985)}
+.btn--sm{height:42px;padding:0 20px;font-size:14px}
+.btn--ghost{background:transparent;color:var(--text);border:1px solid var(--edge-hi)}
+.btn--ghost:hover{background:var(--raised);border-color:var(--gold)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* ---------- hero ---------- */
+.hero{padding:170px 0 110px;text-align:center;position:relative}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,184,75,.09),transparent 70%);
+}
+.hero>*{position:relative}
+.hero h1{max-width:16ch;margin:0 auto 26px}
+.hero .lead{max-width:62ch;margin:0 auto 38px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.05em}
+
+/* ---------- signature: доска объектов ---------- */
+.board{
+  margin-top:74px;border:1px solid var(--edge);background:var(--surface);
+  border-radius:3px;overflow:hidden;text-align:left;
+}
+.board-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;border-bottom:1px solid var(--edge);background:var(--raised);
+}
+.board-top span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.row{
+  display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+  padding:18px 20px;border-bottom:1px solid var(--edge);
+  opacity:0;transform:translateY(10px);
+}
+.row:last-child{border-bottom:none}
+.row.in{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.row-name{font-size:16px;font-weight:400;color:var(--text)}
+.row-sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:3px}
+.status{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.s-ok .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(79,169,106,.16)}
+.s-ok{color:var(--ok)}
+.s-warn .dot{background:var(--warn);box-shadow:0 0 0 3px rgba(217,164,65,.16)}
+.s-warn{color:var(--warn)}
+.s-late .dot{background:var(--late);box-shadow:0 0 0 3px rgba(196,85,61,.16)}
+.s-late{color:var(--late)}
+@media(max-width:600px){
+  .row{grid-template-columns:1fr;gap:8px}
+  .status{font-size:11px}
+}
+
+/* ---------- generic layout ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+@media(max-width:900px){.split{grid-template-columns:1fr;gap:40px}}
+.head-block{max-width:60ch;margin-bottom:56px}
+.head-block p{margin-top:20px}
+
+/* ---------- quote chips (вопросы клиента) ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{
+  border:1px solid var(--edge);background:var(--surface);
+  padding:11px 17px;border-radius:2px;font-size:14.5px;color:var(--text-2);font-weight:300;
+}
+
+/* ---------- flow ---------- */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:32px}
+.flow span{
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;
+  border:1px solid var(--edge-hi);padding:10px 15px;border-radius:2px;color:var(--text);
+}
+.flow i{color:var(--gold);font-style:normal;font-size:13px}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.g3,.g2{grid-template-columns:1fr}}
+.cell{background:var(--void);padding:36px 30px}
+.cell h3{margin-bottom:12px}
+.cell p{font-size:15.5px}
+.cell .num{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em;display:block;margin-bottom:16px}
+
+/* ---------- report card (что видит клиент) ---------- */
+.report{border:1px solid var(--edge);background:var(--surface);border-radius:3px;overflow:hidden}
+.report-top{padding:16px 22px;border-bottom:1px solid var(--edge);background:var(--raised);display:flex;justify-content:space-between;align-items:center}
+.report-top strong{font-family:var(--body);font-weight:500;font-size:15px}
+.report-top time{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.rrow{padding:20px 22px;border-bottom:1px solid var(--edge)}
+.rrow:last-child{border-bottom:none}
+.rlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.rtext{font-size:15.5px;color:var(--text);font-weight:300}
+.media{display:flex;gap:8px;margin-top:4px}
+.media i{
+  flex:1;height:62px;border:1px solid var(--edge-hi);border-radius:2px;
+  background:linear-gradient(135deg,var(--raised),var(--surface));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;color:var(--muted);font-style:normal;letter-spacing:.1em;
+}
+
+/* ---------- compare ---------- */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+@media(max-width:900px){.cmp{grid-template-columns:1fr}}
+.cmp>div{background:var(--void);padding:38px 32px}
+.cmp .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:block}
+.cmp .a .tag{color:var(--muted)}
+.cmp .b .tag{color:var(--gold)}
+.chain{font-family:var(--mono);font-size:12.5px;line-height:2.1;color:var(--text-2)}
+.chain b{color:var(--text);font-weight:400}
+
+/* ---------- money ---------- */
+.calc{border:1px solid var(--edge);background:var(--surface);padding:44px;border-radius:3px}
+.calc-line{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--edge);font-size:15.5px;color:var(--text-2);font-weight:300}
+.calc-line:last-of-type{border-bottom:none}
+.calc-line b{font-family:var(--mono);font-weight:400;color:var(--text);font-size:15px}
+.calc-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:22px;padding-top:22px;border-top:1px solid var(--gold)}
+.calc-total span{font-size:15px;color:var(--text-2);font-weight:300}
+.calc-total strong{font-family:var(--display);font-size:clamp(30px,3.6vw,44px);color:var(--gold);font-weight:800}
+.plus{list-style:none;margin-top:28px}
+.plus li{padding:9px 0 9px 26px;position:relative;color:var(--text-2);font-size:15.5px;font-weight:300}
+.plus li::before{content:'+';position:absolute;left:0;color:var(--gold);font-family:var(--mono);font-size:14px}
+
+/* ---------- price ---------- */
+.price-hero{text-align:center;padding:64px 32px;border:1px solid var(--edge);background:var(--surface);border-radius:3px}
+.price-hero .amount{font-family:var(--display);font-size:clamp(48px,8vw,104px);font-weight:900;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.price-hero .per{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:16px}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--edge);border:1px solid var(--edge);border-top:none}
+@media(max-width:700px){.tiers{grid-template-columns:repeat(2,1fr)}}
+.tier{background:var(--void);padding:26px 20px;text-align:center}
+.tier .n{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;display:block;margin-bottom:9px}
+.tier .v{font-family:var(--display);font-size:23px;font-weight:700;color:var(--text)}
+
+/* ---------- final ---------- */
+.final{text-align:center;position:relative}
+.final::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(232,184,75,.08),transparent 70%);
+}
+.final>*{position:relative}
+.final h2{max-width:15ch;margin:0 auto 24px}
+.final .lead{max-width:54ch;margin:0 auto 36px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--edge);padding:44px 0}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.05em}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(22px)}
+.rv.in{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .rv,.row{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap">
+    <a href="#top" class="logo">TR<b>A</b>CK</a>
+    <nav>
+      <a href="#how">Как работает</a>
+      <a href="#manager">Руководителю</a>
+      <a href="#client">Клиенту</a>
+      <a href="#price">Стоимость</a>
+    </nav>
+    <a href="#try" class="btn btn--sm">Попробовать</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Ежедневный контроль монтажных работ</div>
+    <h1>Знайте, что происходит на каждом объекте&nbsp;— каждый день</h1>
+    <p class="lead">Монтажник отправляет в TRACK, что сделал сегодня, что планирует завтра, статус по срокам, фото и видео. TRACK собирает это в понятный ежедневный отчёт для руководителя и клиента.</p>
+    <div class="hero-cta">
+      <a href="#try" class="btn">Попробовать TRACK</a>
+      <a href="#how" class="btn btn--ghost">Как это работает</a>
+    </div>
+    <div class="hero-note">5 000 ₽ / месяц за активный объект</div>
+
+    <div class="board">
+      <div class="board-top">
+        <span>Объекты в работе</span>
+        <span>Сегодня</span>
+      </div>
+      <div class="row" data-row>
+        <div><div class="row-name">ЖК Москва</div><div class="row-sub">Отчёт получен · 18:40</div></div>
+        <div class="status s-ok"><i class="dot"></i>По плану</div>
+      </div>
+      <div class="row" data-row>
+        <div><div class="row-name">ЖК Сити</div><div class="row-sub">Отчёт получен · 19:05</div></div>
+        <div class="status s-ok"><i class="dot"></i>По плану</div>
+      </div>
+      <div class="row" data-row>
+        <div><div class="row-name">Коттедж Одинцово</div><div class="row-sub">Ждём поставку кабеля</div></div>
+        <div class="status s-warn"><i class="dot"></i>Риск задержки</div>
+      </div>
+      <div class="row" data-row>
+        <div><div class="row-name">Офис на Тверской</div><div class="row-sub">Не открыли доступ на этаж</div></div>
+        <div class="status s-late"><i class="dot"></i>Задерживаемся</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОБЛЕМА -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <div class="eyebrow">Проблема</div>
+        <h2>Контроль объектов не должен забирать часы работы руководителя</h2>
+      </div>
+      <div class="rv">
+        <p>Чтобы понять, что происходит на объекте, руководителю приходится писать, звонить, запрашивать фотографии и уточнять статус у прораба или монтажников.</p>
+        <p style="margin-top:20px">Клиент делает то же самое:</p>
+        <div class="chips">
+          <div class="chip">Что сделали сегодня?</div>
+          <div class="chip">Как идёт работа?</div>
+          <div class="chip">Укладываемся в сроки?</div>
+          <div class="chip">Можете прислать фото?</div>
+        </div>
+        <p style="margin-top:26px">В результате руководитель и прораб тратят время на постоянный сбор информации, а клиент не получает системного сервиса.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- РЕШЕНИЕ -->
+<section>
+  <div class="wrap">
+    <div class="head-block rv">
+      <div class="eyebrow">Решение</div>
+      <h2>Контроль объекта — в ежедневном отчёте</h2>
+      <p>TRACK превращает ежедневный отчёт монтажника в понятную картину для руководителя и клиента.</p>
+      <div class="flow">
+        <span>Что сделали</span><i>→</i>
+        <span>Что планируем</span><i>→</i>
+        <span>Сроки</span><i>→</i>
+        <span>Фото</span><i>→</i>
+        <span>Видео</span>
+      </div>
+    </div>
+    <div class="grid g3 rv">
+      <div class="cell"><h3>Руководитель</h3><p>Получает контроль над объектами, не выезжая на них.</p></div>
+      <div class="cell"><h3>Клиент</h3><p>Получает прозрачность и видит реальный ход работ.</p></div>
+      <div class="cell"><h3>Компания</h3><p>Экономит время и повышает качество обслуживания.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- КАК РАБОТАЕТ -->
+<section id="how">
+  <div class="wrap">
+    <div class="head-block rv">
+      <div class="eyebrow">Как работает TRACK</div>
+      <h2>Монтажник отчитывается за несколько минут</h2>
+      <p>В конце рабочего дня монтажник открывает TRACK и отправляет четыре вещи.</p>
+    </div>
+    <div class="grid g2 rv">
+      <div class="cell">
+        <span class="num">01</span>
+        <h3>Что сделали сегодня</h3>
+        <p>Коротко, своими словами — без формы на двадцать полей.</p>
+      </div>
+      <div class="cell">
+        <span class="num">02</span>
+        <h3>План на завтра</h3>
+        <p>Что будет сделано на объекте следующим.</p>
+      </div>
+      <div class="cell">
+        <span class="num">03</span>
+        <h3>Статус по срокам</h3>
+        <p style="margin-bottom:14px">Один из трёх. Если не «по плану» — монтажник пишет причину.</p>
+        <div class="status s-ok" style="margin-bottom:8px"><i class="dot"></i>По плану</div>
+        <div class="status s-warn" style="margin-bottom:8px"><i class="dot"></i>Есть риск задержки</div>
+        <div class="status s-late"><i class="dot"></i>Задерживаемся</div>
+      </div>
+      <div class="cell">
+        <span class="num">04</span>
+        <h3>Фото и видео</h3>
+        <p>Фактический результат работ на объекте.</p>
+      </div>
+    </div>
+    <div class="calc rv" style="margin-top:1px;border-radius:0;text-align:center;padding:40px">
+      <p style="font-size:16px">Дальше TRACK собирает всё сам: информация структурируется и привязывается к объекту, дате и ответственному. Руководитель и клиент получают готовый отчёт.</p>
+    </div>
+  </div>
+</section>
+
+<!-- РУКОВОДИТЕЛЬ -->
+<section id="manager">
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <div class="eyebrow">Что видит руководитель</div>
+        <h2>Все объекты — под контролем</h2>
+        <p style="margin-top:20px">Не нужно писать каждому прорабу «что там сегодня?». По каждому объекту видно: что сделали, что планируют завтра, статус по срокам, фото и видео, последний отчёт, ответственного и всю историю работ.</p>
+        <p style="margin-top:20px;color:var(--text)">Руководитель видит проблему до того, как приходится ехать на объект или клиент начинает задавать вопросы.</p>
+      </div>
+      <div class="rv">
+        <div class="board" style="margin-top:0">
+          <div class="board-top"><span>Сводка по объектам</span><span>4 в работе</span></div>
+          <div class="row in"><div><div class="row-name">ЖК Москва</div><div class="row-sub">Смонтировали 2 этаж, стояки</div></div><div class="status s-ok"><i class="dot"></i>По плану</div></div>
+          <div class="row in"><div><div class="row-name">ЖК Сити</div><div class="row-sub">Опрессовка системы</div></div><div class="status s-ok"><i class="dot"></i>По плану</div></div>
+          <div class="row in"><div><div class="row-name">Коттедж Одинцово</div><div class="row-sub">Ждём поставку кабеля, срок +2 дня</div></div><div class="status s-warn"><i class="dot"></i>Риск задержки</div></div>
+          <div class="row in"><div><div class="row-name">Офис на Тверской</div><div class="row-sub">Не открыли доступ на этаж</div></div><div class="status s-late"><i class="dot"></i>Задерживаемся</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- КЛИЕНТ -->
+<section id="client">
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <div class="report">
+          <div class="report-top"><strong>ЖК Москва</strong><time>Отчёт за 12 марта</time></div>
+          <div class="rrow"><div class="rlabel">Сегодня</div><div class="rtext">Смонтировали второй этаж, собрали стояки в двух подъездах.</div></div>
+          <div class="rrow"><div class="rlabel">Завтра</div><div class="rtext">Переходим на третий этаж, начинаем разводку.</div></div>
+          <div class="rrow"><div class="rlabel">Срок</div><div class="status s-ok"><i class="dot"></i>Идём по плану</div></div>
+          <div class="rrow"><div class="rlabel">Фото и видео</div><div class="media"><i>ФОТО</i><i>ФОТО</i><i>ВИДЕО</i></div></div>
+        </div>
+      </div>
+      <div class="rv">
+        <div class="eyebrow">Что видит клиент</div>
+        <h2>Клиент всегда понимает, что происходит на его объекте</h2>
+        <p style="margin-top:20px">После ежедневного отчёта монтажника клиент видит, что сделали сегодня, что планируется завтра, идут ли работы по сроку, и фактический результат на фото и видео.</p>
+        <p style="margin-top:20px;color:var(--text)">Клиент видит ход работ, не дожидаясь ответа менеджера. Ему не нужно звонить, писать или приезжать на объект, чтобы проверить процесс.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TELEGRAM -->
+<section>
+  <div class="wrap">
+    <div class="head-block rv center" style="margin-left:auto;margin-right:auto">
+      <div class="eyebrow">Почему не Telegram</div>
+      <h2>Telegram — для общения. TRACK — для контроля.</h2>
+    </div>
+    <div class="cmp rv">
+      <div class="a">
+        <span class="tag">В обычном чате</span>
+        <div class="chain">
+          Фото<br>↓<br>голосовое<br>↓<br>сообщение<br>↓<br>ещё 20 сообщений<br>↓<br>новое фото
+        </div>
+        <p style="margin-top:24px;font-size:15px">Через неделю сложно найти нужный отчёт.</p>
+      </div>
+      <div class="b">
+        <span class="tag">В TRACK</span>
+        <div class="chain">
+          <b>Объект</b><br>↓<br><b>дата</b><br>↓<br><b>отчёт</b><br>↓<br><b>фото и видео</b><br>↓<br><b>статус</b><br>↓<br><b>история</b>
+        </div>
+        <p style="margin-top:24px;font-size:15px;color:var(--text)">TRACK превращает ежедневную переписку в систему контроля.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section>
+  <div class="wrap">
+    <div class="head-block rv">
+      <div class="eyebrow">Преимущества</div>
+      <h2>Что получает компания</h2>
+    </div>
+    <div class="grid g3 rv">
+      <div class="cell"><h3>Контроль</h3><p>Руководитель видит, что происходит на объектах.</p></div>
+      <div class="cell"><h3>Экономия времени</h3><p>Меньше звонков, сообщений, поездок и ручного сбора информации.</p></div>
+      <div class="cell"><h3>Дисциплина</h3><p>Монтажники отчитываются по единому стандарту.</p></div>
+      <div class="cell"><h3>Прозрачность</h3><p>Клиент видит реальный ход работ.</p></div>
+      <div class="cell"><h3>История объекта</h3><p>Все отчёты, фото и видео сохраняются.</p></div>
+      <div class="cell"><h3>Клиентский сервис</h3><p>Компания сама регулярно показывает клиенту ход работ и результат.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ВЫГОДА -->
+<section>
+  <div class="wrap">
+    <div class="split">
+      <div class="rv">
+        <div class="eyebrow">Выгода для бизнеса</div>
+        <h2>Экономим время без потери контроля</h2>
+        <p style="margin-top:20px">Представим, что TRACK освобождает у прораба и руководителя 30 часов в месяц.</p>
+        <ul class="plus">
+          <li>меньше поездок на объекты</li>
+          <li>меньше ручного контроля</li>
+          <li>постоянная история выполнения работ</li>
+          <li>прозрачность для клиента</li>
+          <li>улучшение клиентского сервиса</li>
+        </ul>
+        <p style="margin-top:26px">TRACK окупается не за счёт экономии на контроле, а за счёт освобождённого времени и качества работы с клиентом.</p>
+      </div>
+      <div class="rv">
+        <div class="calc">
+          <div class="calc-line"><span>Высвобождено времени</span><b>30 часов</b></div>
+          <div class="calc-line"><span>Стоимость часа для бизнеса</span><b>1 500 ₽</b></div>
+          <div class="calc-total">
+            <span>В месяц</span>
+            <strong>45 000 ₽</strong>
+          </div>
+          <p style="margin-top:20px;font-size:14.5px">Стоимость высвобожденного рабочего времени. И это только прямая экономия.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СТОИМОСТЬ -->
+<section id="price">
+  <div class="wrap">
+    <div class="head-block rv center" style="margin-left:auto;margin-right:auto">
+      <div class="eyebrow">Стоимость</div>
+      <h2>Платите только за объекты в работе</h2>
+    </div>
+    <div class="rv">
+      <div class="price-hero">
+        <div class="amount">5 000 ₽</div>
+        <div class="per">в месяц за один активный объект</div>
+      </div>
+      <div class="tiers">
+        <div class="tier"><span class="n">1 объект</span><span class="v">5 000 ₽</span></div>
+        <div class="tier"><span class="n">2 объекта</span><span class="v">10 000 ₽</span></div>
+        <div class="tier"><span class="n">5 объектов</span><span class="v">25 000 ₽</span></div>
+        <div class="tier"><span class="n">10 объектов</span><span class="v">50 000 ₽</span></div>
+      </div>
+      <p class="center" style="margin-top:26px">Руководители, монтажники и клиенты — без дополнительной оплаты.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ФИНАЛ -->
+<section class="final" id="try">
+  <div class="wrap">
+    <div class="rv">
+      <h2>Перестаньте спрашивать: «Что там на объекте?»</h2>
+      <p class="lead">TRACK показывает это каждый день. Что сделали. Что будет завтра. Как идут сроки. Фото и видео.</p>
+      <div class="hero-cta">
+        <a href="#try" class="btn" id="cta">Попробовать TRACK</a>
+      </div>
+      <div class="hero-note">5 000 ₽ / месяц за активный объект</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#top" class="logo">TR<b>A</b>CK</a>
+    <div class="fine">Ежедневный контроль монтажных работ</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+
+  // header background on scroll
+  var hdr=document.getElementById('hdr'),tick=false;
+  function onScroll(){
+    if(tick) return; tick=true;
+    requestAnimationFrame(function(){
+      hdr.classList.toggle('on',window.scrollY>40);
+      tick=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  // reveal
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  // hero board rows, staggered
+  var rows=document.querySelectorAll('.hero [data-row]');
+  var bio=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      rows.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); }, 220+i*130); });
+      bio.disconnect();
+    });
+  },{threshold:.2});
+  if(rows.length) bio.observe(rows[0].parentNode);
+})();
+</script>
+</body>
+</html>
