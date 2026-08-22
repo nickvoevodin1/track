@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>TRACK — ежедневный контроль монтажных работ</title>
 <meta name="description" content="Монтажник отправляет отчёт за несколько минут. Руководитель видит все объекты, клиент видит ход работ. 5 000 ₽ в месяц за активный объект.">
 <meta property="og:title" content="TRACK — ежедневный контроль монтажных работ">
@@ -30,216 +30,348 @@
   --display:'Playfair Display',Georgia,serif;
   --body:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
-
   --ease:cubic-bezier(.16,1,.3,1);
+
+  --pad:32px;
+  --sect:120px;
+  --gap:70px;
 }
+@media(max-width:1024px){:root{--sect:88px;--gap:48px;--pad:28px}}
+@media(max-width:760px){:root{--sect:64px;--gap:36px;--pad:20px}}
 
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{
   background:var(--void);color:var(--text);
   font-family:var(--body);font-size:17px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
 }
-.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
-section{padding:120px 0;position:relative}
-@media(max-width:860px){.wrap{padding:0 20px}section{padding:72px 0}}
+@media(max-width:760px){body{font-size:16px}}
+
+/* ---------- фоновая сетка на весь сайт ---------- */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(232,184,75,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(232,184,75,.028) 1px,transparent 1px);
+  background-size:88px 88px;
+  mask-image:radial-gradient(ellipse 110% 80% at 50% 30%,#000 20%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 110% 80% at 50% 30%,#000 20%,transparent 80%);
+}
+@media(max-width:760px){.bg-grid{background-size:56px 56px}}
+
+.wrap{max-width:1180px;margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);position:relative;z-index:1}
+section{padding:var(--sect) 0;position:relative;z-index:1}
+section[id]{scroll-margin-top:84px}
 
 /* ---------- type ---------- */
-h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.015em;line-height:1.06}
-h1{font-size:clamp(38px,6.6vw,88px);font-weight:900}
-h2{font-size:clamp(30px,4.4vw,58px)}
-h3{font-size:clamp(19px,1.7vw,24px);line-height:1.2}
-.lead{font-size:clamp(17px,1.55vw,21px);color:var(--text-2);font-weight:300;line-height:1.55}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.015em;line-height:1.07;overflow-wrap:break-word}
+h1{font-size:clamp(33px,6.4vw,88px);font-weight:900;line-height:1.04}
+h2{font-size:clamp(26px,4.4vw,58px)}
+h3{font-size:clamp(18px,1.7vw,24px);line-height:1.2}
+.lead{font-size:clamp(16px,1.55vw,21px);color:var(--text-2);font-weight:300;line-height:1.55}
 p{color:var(--text-2);font-weight:300}
+p+p{margin-top:18px}
 .eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:500;
+  font-family:var(--mono);font-size:10.5px;font-weight:500;
   letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
-  display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
 }
-.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);opacity:.6}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--gold);opacity:.6;flex:none}
 .center{text-align:center}
 .center .eyebrow{justify-content:center}
+.strong{color:var(--text)}
 
 /* ---------- header ---------- */
 header{
-  position:fixed;top:0;left:0;right:0;height:70px;z-index:100;
+  position:fixed;top:0;left:0;right:0;height:64px;z-index:100;
   display:flex;align-items:center;transition:background .25s,border-color .25s;
   border-bottom:1px solid transparent;
 }
-header.on{background:rgba(11,10,8,.86);backdrop-filter:blur(14px);border-bottom-color:var(--edge)}
-header .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
-.logo{font-family:var(--mono);font-weight:500;font-size:17px;letter-spacing:.22em;color:var(--text);text-decoration:none}
+header.on{background:rgba(11,10,8,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:var(--edge)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%}
+.logo{font-family:var(--mono);font-weight:500;font-size:16px;letter-spacing:.22em;color:var(--text);text-decoration:none;flex:none}
 .logo b{color:var(--gold);font-weight:500}
-nav{display:flex;gap:30px}
-nav a{color:var(--text-2);text-decoration:none;font-size:14.5px;font-weight:300;transition:color .18s}
+nav{display:flex;gap:28px}
+nav a{color:var(--text-2);text-decoration:none;font-size:14.5px;font-weight:300;transition:color .18s;white-space:nowrap}
 nav a:hover{color:var(--gold)}
-@media(max-width:900px){nav{display:none}}
+@media(max-width:1000px){nav{display:none}}
 
 /* ---------- buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  height:52px;padding:0 30px;border:none;border-radius:2px;cursor:pointer;
+  min-height:52px;padding:14px 30px;border:none;border-radius:2px;cursor:pointer;
   font-family:var(--body);font-size:15.5px;font-weight:500;text-decoration:none;
   background:var(--gold);color:#17140E;transition:background .18s,transform .12s;
+  text-align:center;
 }
 .btn:hover{background:var(--gold-dim)}
 .btn:active{transform:scale(.985)}
-.btn--sm{height:42px;padding:0 20px;font-size:14px}
+.btn--sm{min-height:42px;padding:10px 18px;font-size:14px}
 .btn--ghost{background:transparent;color:var(--text);border:1px solid var(--edge-hi)}
 .btn--ghost:hover{background:var(--raised);border-color:var(--gold)}
-a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@media(max-width:560px){.hero-cta .btn{width:100%}}
 
-/* ---------- hero ---------- */
-.hero{padding:170px 0 110px;text-align:center;position:relative}
+/* ---------- HERO ---------- */
+.hero{padding-top:132px;padding-bottom:var(--sect);text-align:center;position:relative;overflow:hidden}
+@media(max-width:760px){.hero{padding-top:104px}}
 .hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(232,184,75,.09),transparent 70%);
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 70% 46% at 50% 0%,rgba(232,184,75,.10),transparent 70%);
 }
-.hero>*{position:relative}
-.hero h1{max-width:16ch;margin:0 auto 26px}
-.hero .lead{max-width:62ch;margin:0 auto 38px}
-.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.hero-note{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.05em}
 
-/* ---------- signature: доска объектов ---------- */
+/* чертёж на фоне героя */
+.blueprint{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-46%);
+  width:min(1500px,140%);height:auto;pointer-events:none;z-index:0;
+  opacity:0;transition:opacity 1.2s ease .3s;
+}
+.blueprint.on{opacity:1}
+.bp-line{
+  fill:none;stroke:var(--gold);stroke-width:1;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  opacity:.22;
+}
+.blueprint.on .bp-line{animation:draw 2.6s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.bp-fill{fill:var(--gold);opacity:.04}
+.bp-node{fill:var(--gold);opacity:0}
+.blueprint.on .bp-node{animation:nodeIn .8s ease forwards,nodePulse 3.4s ease-in-out infinite}
+@keyframes nodeIn{to{opacity:.75}}
+@keyframes nodePulse{0%,100%{opacity:.75}50%{opacity:.28}}
+.bp-ring{fill:none;stroke:var(--gold);stroke-width:1;opacity:0;transform-origin:center}
+.blueprint.on .bp-ring{animation:ringPulse 3.4s ease-out infinite}
+@keyframes ringPulse{0%{opacity:.4;r:4}70%{opacity:0;r:22}100%{opacity:0;r:22}}
+@media(max-width:760px){.blueprint{width:200%;transform:translate(-50%,-42%)}}
+
+.hero>.wrap{position:relative;z-index:2}
+.hero h1{max-width:16ch;margin:0 auto 24px}
+.hero .lead{max-width:60ch;margin:0 auto 34px}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+@media(max-width:560px){.hero-cta{flex-direction:column}}
+
+/* плавное появление в герое */
+.fade{opacity:0;transform:translateY(18px)}
+.hero .fade{animation:fadeUp .9s var(--ease) forwards}
+.hero .d1{animation-delay:.05s}
+.hero .d2{animation-delay:.18s}
+.hero .d3{animation-delay:.31s}
+.hero .d4{animation-delay:.44s}
+.hero .d5{animation-delay:.60s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+/* факты в герое */
+.hero-facts{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:var(--edge);border:1px solid var(--edge);
+  margin-top:52px;text-align:left;
+}
+@media(max-width:700px){.hero-facts{grid-template-columns:1fr;margin-top:38px}}
+.fact{background:rgba(11,10,8,.72);backdrop-filter:blur(3px);padding:28px 26px}
+@media(max-width:760px){.fact{padding:22px 20px}}
+.fact .fv{
+  display:block;font-family:var(--display);font-weight:800;
+  font-size:clamp(28px,3.4vw,40px);color:var(--gold);line-height:1;
+  letter-spacing:-.02em;margin-bottom:10px;
+}
+.fact .fl{display:block;font-size:14px;color:var(--text-2);font-weight:300;line-height:1.45}
+
+/* ---------- доска объектов ---------- */
 .board{
-  margin-top:74px;border:1px solid var(--edge);background:var(--surface);
+  margin-top:52px;border:1px solid var(--edge);background:var(--surface);
   border-radius:3px;overflow:hidden;text-align:left;
 }
+@media(max-width:760px){.board{margin-top:38px}}
 .board-top{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 20px;border-bottom:1px solid var(--edge);background:var(--raised);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:13px 18px;border-bottom:1px solid var(--edge);background:var(--raised);
 }
-.board-top span{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.board-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .row{
-  display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
-  padding:18px 20px;border-bottom:1px solid var(--edge);
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:16px 18px;border-bottom:1px solid var(--edge);
   opacity:0;transform:translateY(10px);
 }
 .row:last-child{border-bottom:none}
 .row.in{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease)}
-.row-name{font-size:16px;font-weight:400;color:var(--text)}
-.row-sub{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:3px}
-.status{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;white-space:nowrap}
+.row-name{font-size:15.5px;font-weight:400;color:var(--text);line-height:1.3}
+.row-sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:5px;line-height:1.4}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;white-space:nowrap;flex:none}
 .dot{width:8px;height:8px;border-radius:50%;flex:none}
-.s-ok .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(79,169,106,.16)}
-.s-ok{color:var(--ok)}
-.s-warn .dot{background:var(--warn);box-shadow:0 0 0 3px rgba(217,164,65,.16)}
-.s-warn{color:var(--warn)}
-.s-late .dot{background:var(--late);box-shadow:0 0 0 3px rgba(196,85,61,.16)}
-.s-late{color:var(--late)}
-@media(max-width:600px){
-  .row{grid-template-columns:1fr;gap:8px}
-  .status{font-size:11px}
+.s-ok{color:var(--ok)} .s-ok .dot{background:var(--ok);box-shadow:0 0 0 3px rgba(79,169,106,.16)}
+.s-warn{color:var(--warn)} .s-warn .dot{background:var(--warn);box-shadow:0 0 0 3px rgba(217,164,65,.16)}
+.s-late{color:var(--late)} .s-late .dot{background:var(--late);box-shadow:0 0 0 3px rgba(196,85,61,.16)}
+@media(max-width:620px){.row{flex-direction:column;align-items:flex-start;gap:9px}.row-sub{margin-top:4px}}
+
+/* ---------- layout ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
+@media(max-width:960px){.split{grid-template-columns:1fr}}
+.head-block{max-width:60ch;margin-bottom:52px}
+.head-block.center{margin-left:auto;margin-right:auto}
+.head-block p{margin-top:18px}
+@media(max-width:760px){.head-block{margin-bottom:34px}}
+@media(max-width:960px){
+  .split--flip>*:first-child{order:2}
+  .split--flip>*:last-child{order:1}
 }
 
-/* ---------- generic layout ---------- */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
-@media(max-width:900px){.split{grid-template-columns:1fr;gap:40px}}
-.head-block{max-width:60ch;margin-bottom:56px}
-.head-block p{margin-top:20px}
+/* мелкая графика-акцент в секциях */
+.mark{position:absolute;pointer-events:none;opacity:.2;z-index:0}
+.mark svg{display:block}
+.mark--tr{top:40px;right:0}
+.mark--bl{bottom:40px;left:0}
+@media(max-width:960px){.mark{display:none}}
+.mk{fill:none;stroke:var(--gold);stroke-width:1}
 
-/* ---------- quote chips (вопросы клиента) ---------- */
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.chip{
-  border:1px solid var(--edge);background:var(--surface);
-  padding:11px 17px;border-radius:2px;font-size:14.5px;color:var(--text-2);font-weight:300;
-}
+/* ---------- chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.chip{border:1px solid var(--edge);background:var(--surface);padding:10px 15px;border-radius:2px;font-size:14px;color:var(--text-2);font-weight:300}
 
 /* ---------- flow ---------- */
-.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:32px}
-.flow span{
-  font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;
-  border:1px solid var(--edge-hi);padding:10px 15px;border-radius:2px;color:var(--text);
-}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:28px}
+.flow span{font-family:var(--mono);font-size:12px;letter-spacing:.03em;border:1px solid var(--edge-hi);padding:9px 13px;border-radius:2px;color:var(--text)}
 .flow i{color:var(--gold);font-style:normal;font-size:13px}
 
-/* ---------- cards ---------- */
+/* ---------- grid cards ---------- */
 .grid{display:grid;gap:1px;background:var(--edge);border:1px solid var(--edge)}
 .g3{grid-template-columns:repeat(3,1fr)}
-.g2{grid-template-columns:repeat(2,1fr)}
-@media(max-width:900px){.g3,.g2{grid-template-columns:1fr}}
-.cell{background:var(--void);padding:36px 30px}
-.cell h3{margin-bottom:12px}
-.cell p{font-size:15.5px}
-.cell .num{font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em;display:block;margin-bottom:16px}
+@media(max-width:900px){.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.g3{grid-template-columns:1fr}}
+.cell{background:var(--void);padding:34px 28px}
+@media(max-width:760px){.cell{padding:26px 22px}}
+.cell h3{margin-bottom:11px}
+.cell p{font-size:15px}
 
-/* ---------- report card (что видит клиент) ---------- */
-.report{border:1px solid var(--edge);background:var(--surface);border-radius:3px;overflow:hidden}
-.report-top{padding:16px 22px;border-bottom:1px solid var(--edge);background:var(--raised);display:flex;justify-content:space-between;align-items:center}
-.report-top strong{font-family:var(--body);font-weight:500;font-size:15px}
-.report-top time{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
-.rrow{padding:20px 22px;border-bottom:1px solid var(--edge)}
-.rrow:last-child{border-bottom:none}
-.rlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.rtext{font-size:15.5px;color:var(--text);font-weight:300}
-.media{display:flex;gap:8px;margin-top:4px}
-.media i{
-  flex:1;height:62px;border:1px solid var(--edge-hi);border-radius:2px;
-  background:linear-gradient(135deg,var(--raised),var(--surface));
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:10px;color:var(--muted);font-style:normal;letter-spacing:.1em;
+/* ---------- демо отчёта ---------- */
+.demo{display:grid;grid-template-columns:1fr 340px;gap:var(--gap);align-items:start}
+@media(max-width:960px){.demo{grid-template-columns:1fr;gap:34px}}
+.steps{display:flex;flex-direction:column;gap:1px;background:var(--edge);border:1px solid var(--edge)}
+.step{
+  background:var(--void);padding:22px 24px;cursor:pointer;text-align:left;
+  border:none;border-left:2px solid transparent;width:100%;
+  font-family:var(--body);transition:background .2s,border-color .2s;display:block;color:inherit;
 }
+.step:hover{background:var(--surface)}
+.step[aria-selected="true"]{background:var(--surface);border-left-color:var(--gold)}
+.step .n{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.14em;display:block;margin-bottom:8px;transition:color .2s}
+.step[aria-selected="true"] .n{color:var(--gold)}
+.step .t{font-family:var(--display);font-size:19px;font-weight:700;color:var(--text);display:block;margin-bottom:6px}
+.step .d{font-size:14px;color:var(--text-2);font-weight:300;line-height:1.5;display:block}
+@media(max-width:760px){.step{padding:18px 20px}.step .t{font-size:17px}}
+
+.phone{border:1px solid var(--edge-hi);border-radius:18px;background:var(--surface);padding:10px;position:sticky;top:88px}
+@media(max-width:960px){.phone{position:static;max-width:340px;margin:0 auto;width:100%}}
+.phone-in{background:var(--void);border-radius:11px;overflow:hidden;border:1px solid var(--edge)}
+.phone-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 15px;border-bottom:1px solid var(--edge);background:var(--raised)}
+.phone-bar b{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--gold);font-weight:500}
+.phone-bar span{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.phone-body{padding:18px 16px}
+.f-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.f-field{border:1px solid var(--edge);background:var(--surface);border-radius:2px;padding:13px 14px;font-size:14px;color:var(--text);font-weight:300;line-height:1.45;min-height:52px;margin-bottom:16px}
+.f-field.empty{color:var(--muted)}
+.f-field.active{border-color:var(--gold)}
+.caret{display:inline-block;width:1px;height:14px;background:var(--gold);vertical-align:-2px;margin-left:1px;animation:blink 1s steps(2) infinite}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.f-status{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.f-opt{display:flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid var(--edge);border-radius:2px;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:var(--surface);transition:.2s}
+.f-opt.pick{border-color:currentColor}
+.f-opt.pick.o-ok{color:var(--ok)} .f-opt.pick.o-warn{color:var(--warn)} .f-opt.pick.o-late{color:var(--late)}
+.f-opt .dot{opacity:.35} .f-opt.pick .dot{opacity:1}
+.o-ok .dot{background:var(--ok)} .o-warn .dot{background:var(--warn)} .o-late .dot{background:var(--late)}
+.f-media{display:flex;gap:7px}
+.f-media i{flex:1;aspect-ratio:1/1;border:1px solid var(--edge);border-radius:2px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--muted);font-style:normal;letter-spacing:.08em;transition:.25s}
+.f-media i.on{border-color:var(--gold-dim);color:var(--gold);background:var(--raised)}
+.f-send{margin-top:18px;padding:12px;text-align:center;border-radius:2px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;background:var(--edge);color:var(--muted);transition:.25s}
+.f-send.on{background:var(--gold);color:#17140E}
+
+.note-band{border:1px solid var(--edge);background:var(--surface);border-radius:3px;padding:30px;text-align:center;margin-top:28px}
+@media(max-width:760px){.note-band{padding:24px 20px}}
+.note-band p{font-size:15px}
+
+/* ---------- report ---------- */
+.report{border:1px solid var(--edge);background:var(--surface);border-radius:3px;overflow:hidden}
+.report-top{padding:15px 20px;border-bottom:1px solid var(--edge);background:var(--raised);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.report-top strong{font-family:var(--body);font-weight:500;font-size:15px}
+.report-top time{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.rrow{padding:18px 20px;border-bottom:1px solid var(--edge)}
+.rrow:last-child{border-bottom:none}
+.rlabel{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.rtext{font-size:15px;color:var(--text);font-weight:300}
+.media{display:flex;gap:7px;margin-top:4px}
+.media i{flex:1;height:58px;border:1px solid var(--edge-hi);border-radius:2px;background:linear-gradient(135deg,var(--raised),var(--surface));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;color:var(--muted);font-style:normal;letter-spacing:.1em}
 
 /* ---------- compare ---------- */
 .cmp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge);border:1px solid var(--edge)}
-@media(max-width:900px){.cmp{grid-template-columns:1fr}}
-.cmp>div{background:var(--void);padding:38px 32px}
-.cmp .tag{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;display:block}
+@media(max-width:760px){.cmp{grid-template-columns:1fr}}
+.cmp>div{background:var(--void);padding:34px 28px}
+@media(max-width:760px){.cmp>div{padding:26px 22px}}
+.cmp .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px;display:block}
 .cmp .a .tag{color:var(--muted)}
 .cmp .b .tag{color:var(--gold)}
-.chain{font-family:var(--mono);font-size:12.5px;line-height:2.1;color:var(--text-2)}
+.chain{font-family:var(--mono);font-size:12px;line-height:2;color:var(--text-2)}
 .chain b{color:var(--text);font-weight:400}
 
-/* ---------- money ---------- */
-.calc{border:1px solid var(--edge);background:var(--surface);padding:44px;border-radius:3px}
-.calc-line{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--edge);font-size:15.5px;color:var(--text-2);font-weight:300}
-.calc-line:last-of-type{border-bottom:none}
-.calc-line b{font-family:var(--mono);font-weight:400;color:var(--text);font-size:15px}
-.calc-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:22px;padding-top:22px;border-top:1px solid var(--gold)}
+/* ---------- калькулятор ---------- */
+.calc{border:1px solid var(--edge);background:var(--surface);border-radius:3px;padding:38px}
+@media(max-width:760px){.calc{padding:26px 22px}}
+.ctrl{margin-bottom:26px}
+.ctrl-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.ctrl-top label{font-size:14.5px;color:var(--text-2);font-weight:300}
+.ctrl-top output{font-family:var(--mono);font-size:15px;color:var(--gold);font-weight:500;white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:34px;background:transparent;cursor:pointer;display:block}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--edge-hi);border-radius:2px}
+input[type=range]::-moz-range-track{height:2px;background:var(--edge-hi);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:var(--gold);border:5px solid var(--void);margin-top:-12px;box-shadow:0 0 0 1px var(--gold-dim)}
+input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--gold);border:5px solid var(--void);box-shadow:0 0 0 1px var(--gold-dim)}
+.ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.calc-out{border-top:1px solid var(--edge);padding-top:22px;margin-top:6px}
+.calc-line{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:10px 0;font-size:15px;color:var(--text-2);font-weight:300}
+.calc-line b{font-family:var(--mono);font-weight:400;color:var(--text);font-size:14.5px;white-space:nowrap}
+.calc-total{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin-top:14px;padding-top:18px;border-top:1px solid var(--gold);flex-wrap:wrap}
 .calc-total span{font-size:15px;color:var(--text-2);font-weight:300}
-.calc-total strong{font-family:var(--display);font-size:clamp(30px,3.6vw,44px);color:var(--gold);font-weight:800}
-.plus{list-style:none;margin-top:28px}
-.plus li{padding:9px 0 9px 26px;position:relative;color:var(--text-2);font-size:15.5px;font-weight:300}
+.calc-total strong{font-family:var(--display);font-size:clamp(28px,5vw,42px);color:var(--gold);font-weight:800;line-height:1;white-space:nowrap}
+.calc-note{font-family:var(--mono);font-size:10.5px;color:var(--muted);line-height:1.8;margin-top:18px}
+.plus{list-style:none;margin-top:24px}
+.plus li{padding:8px 0 8px 24px;position:relative;color:var(--text-2);font-size:15px;font-weight:300}
 .plus li::before{content:'+';position:absolute;left:0;color:var(--gold);font-family:var(--mono);font-size:14px}
 
 /* ---------- price ---------- */
-.price-hero{text-align:center;padding:64px 32px;border:1px solid var(--edge);background:var(--surface);border-radius:3px}
-.price-hero .amount{font-family:var(--display);font-size:clamp(48px,8vw,104px);font-weight:900;color:var(--gold);line-height:1;letter-spacing:-.02em}
-.price-hero .per{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:16px}
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--edge);border:1px solid var(--edge);border-top:none}
-@media(max-width:700px){.tiers{grid-template-columns:repeat(2,1fr)}}
-.tier{background:var(--void);padding:26px 20px;text-align:center}
-.tier .n{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;display:block;margin-bottom:9px}
-.tier .v{font-family:var(--display);font-size:23px;font-weight:700;color:var(--text)}
+.price-hero{text-align:center;padding:56px 24px;border:1px solid var(--edge);background:var(--surface);border-radius:3px;position:relative;overflow:hidden}
+@media(max-width:760px){.price-hero{padding:40px 20px}}
+.price-hero .amount{font-family:var(--display);font-size:clamp(44px,8vw,104px);font-weight:900;color:var(--gold);line-height:1;letter-spacing:-.02em;position:relative}
+.price-hero .per{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:14px;position:relative}
 
 /* ---------- final ---------- */
-.final{text-align:center;position:relative}
-.final::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(232,184,75,.08),transparent 70%);
-}
-.final>*{position:relative}
-.final h2{max-width:15ch;margin:0 auto 24px}
-.final .lead{max-width:54ch;margin:0 auto 36px}
+.final{text-align:center;position:relative;overflow:hidden}
+.final::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 50% 100%,rgba(232,184,75,.09),transparent 70%)}
+.final h2{max-width:15ch;margin:0 auto 22px}
+.final .lead{max-width:52ch;margin:0 auto 32px}
 
 /* ---------- footer ---------- */
-footer{border-top:1px solid var(--edge);padding:44px 0}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.05em}
+footer{border-top:1px solid var(--edge);padding:40px 0;padding-bottom:calc(40px + env(safe-area-inset-bottom));position:relative;z-index:1}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+footer .fine{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
 
 /* ---------- reveal ---------- */
-.rv{opacity:0;transform:translateY(22px)}
-.rv.in{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rv{opacity:0;transform:translateY(20px)}
+.rv.in{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rv.in.s1{transition-delay:.08s}
+.rv.in.s2{transition-delay:.16s}
 
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
-  .rv,.row{opacity:1;transform:none}
+  .rv,.row,.fade{opacity:1!important;transform:none!important}
+  .blueprint{opacity:1}
+  .bp-line{stroke-dashoffset:0!important}
+  .bp-node{opacity:.6!important}
+  .caret{animation:none;opacity:1}
 }
 </style>
 </head>
 <body>
+
+<div class="bg-grid" aria-hidden="true"></div>
 
 <header id="hdr">
   <div class="wrap">
@@ -256,23 +388,79 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
 
 <main id="top">
 
-<!-- HERO -->
 <section class="hero">
+  <!-- чертёж стройки на фоне -->
+  <svg class="blueprint" id="bp" viewBox="0 0 1400 760" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+    <!-- земля -->
+    <path class="bp-line" style="--len:1400" d="M0 620 H1400"/>
+
+    <!-- здание 1 -->
+    <path class="bp-line" style="--len:900" d="M250 620 V400 H430 V620"/>
+    <path class="bp-line" style="--len:200" d="M250 545 H430"/>
+    <path class="bp-line" style="--len:200" d="M250 470 H430"/>
+    <path class="bp-line" style="--len:260" d="M250 400 L340 350 L430 400"/>
+    <rect class="bp-fill" x="250" y="400" width="180" height="220"/>
+
+    <!-- здание 2 — башня -->
+    <path class="bp-line" style="--len:1200" d="M520 620 V250 H700 V620"/>
+    <path class="bp-line" style="--len:200" d="M520 560 H700"/>
+    <path class="bp-line" style="--len:200" d="M520 500 H700"/>
+    <path class="bp-line" style="--len:200" d="M520 440 H700"/>
+    <path class="bp-line" style="--len:200" d="M520 380 H700"/>
+    <path class="bp-line" style="--len:200" d="M520 320 H700"/>
+    <path class="bp-line" style="--len:400" d="M610 250 V620"/>
+    <rect class="bp-fill" x="520" y="250" width="180" height="370"/>
+
+    <!-- здание 3 — низкое -->
+    <path class="bp-line" style="--len:700" d="M790 620 V480 H960 V620"/>
+    <path class="bp-line" style="--len:190" d="M790 550 H960"/>
+
+    <!-- кран -->
+    <path class="bp-line" style="--len:480" d="M1120 620 V160"/>
+    <path class="bp-line" style="--len:120" d="M1090 620 L1120 560 L1150 620"/>
+    <path class="bp-line" style="--len:520" d="M960 190 H1330"/>
+    <path class="bp-line" style="--len:260" d="M1120 160 L1330 190"/>
+    <path class="bp-line" style="--len:200" d="M1120 160 L960 190"/>
+    <path class="bp-line" style="--len:160" d="M1240 190 V300"/>
+    <path class="bp-line" style="--len:70" d="M1220 300 H1260 V330 H1220 Z"/>
+
+    <!-- размерные линии -->
+    <path class="bp-line" style="--len:240" d="M250 670 H430 M250 660 V680 M430 660 V680"/>
+    <path class="bp-line" style="--len:240" d="M520 700 H700 M520 690 V710 M700 690 V710"/>
+
+    <!-- узлы объектов -->
+    <circle class="bp-ring" cx="340" cy="400" r="4"/>
+    <circle class="bp-node" cx="340" cy="400" r="3.5"/>
+    <circle class="bp-ring" cx="610" cy="320" r="4" style="animation-delay:1.1s"/>
+    <circle class="bp-node" cx="610" cy="320" r="3.5" style="animation-delay:1.1s"/>
+    <circle class="bp-ring" cx="875" cy="480" r="4" style="animation-delay:2.2s"/>
+    <circle class="bp-node" cx="875" cy="480" r="3.5" style="animation-delay:2.2s"/>
+    <circle class="bp-ring" cx="1240" cy="300" r="4" style="animation-delay:1.7s"/>
+    <circle class="bp-node" cx="1240" cy="300" r="3.5" style="animation-delay:1.7s"/>
+  </svg>
+
   <div class="wrap">
-    <div class="eyebrow">Ежедневный контроль монтажных работ</div>
-    <h1>Знайте, что происходит на каждом объекте&nbsp;— каждый день</h1>
-    <p class="lead">Монтажник отправляет в TRACK, что сделал сегодня, что планирует завтра, статус по срокам, фото и видео. TRACK собирает это в понятный ежедневный отчёт для руководителя и клиента.</p>
-    <div class="hero-cta">
+    <div class="eyebrow fade d1">Ежедневный контроль монтажных работ</div>
+    <h1 class="fade d2">Знайте, что происходит на каждом объекте&nbsp;— каждый день</h1>
+    <p class="lead fade d3">Монтажник отправляет в TRACK, что сделал сегодня, что планирует завтра, статус по срокам, фото и видео. TRACK собирает это в понятный ежедневный отчёт для руководителя и клиента.</p>
+    <div class="hero-cta fade d4">
       <a href="#try" class="btn">Попробовать TRACK</a>
       <a href="#how" class="btn btn--ghost">Как это работает</a>
     </div>
-    <div class="hero-note">5 000 ₽ / месяц за активный объект</div>
 
-    <div class="board">
-      <div class="board-top">
-        <span>Объекты в работе</span>
-        <span>Сегодня</span>
+    <div class="hero-facts fade d5">
+      <div class="fact">
+        <span class="fv">≈ 30 000 ₽</span>
+        <span class="fl">Экономия в месяц на каждом объекте</span>
       </div>
+      <div class="fact">
+        <span class="fv">20 часов</span>
+        <span class="fl">Освобождается от сбора информации по объекту</span>
+      </div>
+    </div>
+
+    <div class="board fade d5">
+      <div class="board-top"><span>Объекты в работе</span><span>Сегодня</span></div>
       <div class="row" data-row>
         <div><div class="row-name">ЖК Москва</div><div class="row-sub">Отчёт получен · 18:40</div></div>
         <div class="status s-ok"><i class="dot"></i>По плану</div>
@@ -293,30 +481,34 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
   </div>
 </section>
 
-<!-- ПРОБЛЕМА -->
 <section>
+  <div class="mark mark--tr" aria-hidden="true">
+    <svg width="220" height="160" viewBox="0 0 220 160">
+      <path class="mk" d="M0 130 H220 M40 130 V60 H120 V130 M40 95 H120 M40 60 L80 34 L120 60"/>
+      <path class="mk" d="M160 130 V50 M150 130 V70"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="split">
       <div class="rv">
         <div class="eyebrow">Проблема</div>
         <h2>Контроль объектов не должен забирать часы работы руководителя</h2>
       </div>
-      <div class="rv">
+      <div class="rv s1">
         <p>Чтобы понять, что происходит на объекте, руководителю приходится писать, звонить, запрашивать фотографии и уточнять статус у прораба или монтажников.</p>
-        <p style="margin-top:20px">Клиент делает то же самое:</p>
+        <p>Клиент делает то же самое:</p>
         <div class="chips">
           <div class="chip">Что сделали сегодня?</div>
           <div class="chip">Как идёт работа?</div>
           <div class="chip">Укладываемся в сроки?</div>
           <div class="chip">Можете прислать фото?</div>
         </div>
-        <p style="margin-top:26px">В результате руководитель и прораб тратят время на постоянный сбор информации, а клиент не получает системного сервиса.</p>
+        <p style="margin-top:24px">В результате руководитель и прораб тратят время на постоянный сбор информации, а клиент не получает системного сервиса.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- РЕШЕНИЕ -->
 <section>
   <div class="wrap">
     <div class="head-block rv">
@@ -331,7 +523,7 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
         <span>Видео</span>
       </div>
     </div>
-    <div class="grid g3 rv">
+    <div class="grid g3 rv s1">
       <div class="cell"><h3>Руководитель</h3><p>Получает контроль над объектами, не выезжая на них.</p></div>
       <div class="cell"><h3>Клиент</h3><p>Получает прозрачность и видит реальный ход работ.</p></div>
       <div class="cell"><h3>Компания</h3><p>Экономит время и повышает качество обслуживания.</p></div>
@@ -339,56 +531,82 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
   </div>
 </section>
 
-<!-- КАК РАБОТАЕТ -->
 <section id="how">
   <div class="wrap">
     <div class="head-block rv">
       <div class="eyebrow">Как работает TRACK</div>
       <h2>Монтажник отчитывается за несколько минут</h2>
-      <p>В конце рабочего дня монтажник открывает TRACK и отправляет четыре вещи.</p>
+      <p>В конце рабочего дня он открывает TRACK и заполняет четыре поля. Нажмите на шаг — увидите, как это выглядит у него в телефоне.</p>
     </div>
-    <div class="grid g2 rv">
-      <div class="cell">
-        <span class="num">01</span>
-        <h3>Что сделали сегодня</h3>
-        <p>Коротко, своими словами — без формы на двадцать полей.</p>
+
+    <div class="demo rv">
+      <div class="steps" role="tablist" aria-label="Шаги отчёта">
+        <button class="step" role="tab" aria-selected="true" data-step="0">
+          <span class="n">Шаг 01</span>
+          <span class="t">Что сделали сегодня</span>
+          <span class="d">Коротко, своими словами — без формы на двадцать полей.</span>
+        </button>
+        <button class="step" role="tab" aria-selected="false" data-step="1">
+          <span class="n">Шаг 02</span>
+          <span class="t">План на завтра</span>
+          <span class="d">Что будет сделано на объекте следующим.</span>
+        </button>
+        <button class="step" role="tab" aria-selected="false" data-step="2">
+          <span class="n">Шаг 03</span>
+          <span class="t">Статус по срокам</span>
+          <span class="d">Один из трёх. Если не «по плану» — монтажник пишет причину.</span>
+        </button>
+        <button class="step" role="tab" aria-selected="false" data-step="3">
+          <span class="n">Шаг 04</span>
+          <span class="t">Фото и видео</span>
+          <span class="d">Фактический результат работ на объекте.</span>
+        </button>
       </div>
-      <div class="cell">
-        <span class="num">02</span>
-        <h3>План на завтра</h3>
-        <p>Что будет сделано на объекте следующим.</p>
-      </div>
-      <div class="cell">
-        <span class="num">03</span>
-        <h3>Статус по срокам</h3>
-        <p style="margin-bottom:14px">Один из трёх. Если не «по плану» — монтажник пишет причину.</p>
-        <div class="status s-ok" style="margin-bottom:8px"><i class="dot"></i>По плану</div>
-        <div class="status s-warn" style="margin-bottom:8px"><i class="dot"></i>Есть риск задержки</div>
-        <div class="status s-late"><i class="dot"></i>Задерживаемся</div>
-      </div>
-      <div class="cell">
-        <span class="num">04</span>
-        <h3>Фото и видео</h3>
-        <p>Фактический результат работ на объекте.</p>
+
+      <div class="phone" aria-live="polite">
+        <div class="phone-in">
+          <div class="phone-bar"><b>TRACK</b><span>ЖК Москва · 12 марта</span></div>
+          <div class="phone-body">
+            <div class="f-label">Что сделали сегодня</div>
+            <div class="f-field empty" id="f0">—</div>
+            <div class="f-label">План на завтра</div>
+            <div class="f-field empty" id="f1">—</div>
+            <div class="f-label">Статус по срокам</div>
+            <div class="f-status" id="f2">
+              <div class="f-opt o-ok"><i class="dot"></i>По плану</div>
+              <div class="f-opt o-warn"><i class="dot"></i>Есть риск задержки</div>
+              <div class="f-opt o-late"><i class="dot"></i>Задерживаемся</div>
+            </div>
+            <div class="f-label">Фото и видео</div>
+            <div class="f-media" id="f3"><i>ФОТО</i><i>ФОТО</i><i>ВИДЕО</i></div>
+            <div class="f-send" id="fsend">ОТПРАВИТЬ ОТЧЁТ</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="calc rv" style="margin-top:1px;border-radius:0;text-align:center;padding:40px">
-      <p style="font-size:16px">Дальше TRACK собирает всё сам: информация структурируется и привязывается к объекту, дате и ответственному. Руководитель и клиент получают готовый отчёт.</p>
+
+    <div class="note-band rv s1">
+      <p>Дальше TRACK собирает всё сам: информация структурируется и привязывается к объекту, дате и ответственному. Руководитель и клиент получают готовый отчёт.</p>
     </div>
   </div>
 </section>
 
-<!-- РУКОВОДИТЕЛЬ -->
 <section id="manager">
+  <div class="mark mark--bl" aria-hidden="true">
+    <svg width="260" height="150" viewBox="0 0 260 150">
+      <path class="mk" d="M0 120 H260 M30 120 V70 H90 V120 M110 120 V45 H170 V120 M190 120 V85 H240 V120"/>
+      <path class="mk" d="M30 95 H90 M110 82 H170"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="split">
       <div class="rv">
         <div class="eyebrow">Что видит руководитель</div>
         <h2>Все объекты — под контролем</h2>
-        <p style="margin-top:20px">Не нужно писать каждому прорабу «что там сегодня?». По каждому объекту видно: что сделали, что планируют завтра, статус по срокам, фото и видео, последний отчёт, ответственного и всю историю работ.</p>
-        <p style="margin-top:20px;color:var(--text)">Руководитель видит проблему до того, как приходится ехать на объект или клиент начинает задавать вопросы.</p>
+        <p>Не нужно писать каждому прорабу «что там сегодня?». По каждому объекту видно: что сделали, что планируют завтра, статус по срокам, фото и видео, последний отчёт, ответственного и всю историю работ.</p>
+        <p class="strong">Руководитель видит проблему до того, как приходится ехать на объект или клиент начинает задавать вопросы.</p>
       </div>
-      <div class="rv">
+      <div class="rv s1">
         <div class="board" style="margin-top:0">
           <div class="board-top"><span>Сводка по объектам</span><span>4 в работе</span></div>
           <div class="row in"><div><div class="row-name">ЖК Москва</div><div class="row-sub">Смонтировали 2 этаж, стояки</div></div><div class="status s-ok"><i class="dot"></i>По плану</div></div>
@@ -401,11 +619,10 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
   </div>
 </section>
 
-<!-- КЛИЕНТ -->
 <section id="client">
   <div class="wrap">
-    <div class="split">
-      <div class="rv">
+    <div class="split split--flip">
+      <div class="rv s1">
         <div class="report">
           <div class="report-top"><strong>ЖК Москва</strong><time>Отчёт за 12 марта</time></div>
           <div class="rrow"><div class="rlabel">Сегодня</div><div class="rtext">Смонтировали второй этаж, собрали стояки в двух подъездах.</div></div>
@@ -417,47 +634,41 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
       <div class="rv">
         <div class="eyebrow">Что видит клиент</div>
         <h2>Клиент всегда понимает, что происходит на его объекте</h2>
-        <p style="margin-top:20px">После ежедневного отчёта монтажника клиент видит, что сделали сегодня, что планируется завтра, идут ли работы по сроку, и фактический результат на фото и видео.</p>
-        <p style="margin-top:20px;color:var(--text)">Клиент видит ход работ, не дожидаясь ответа менеджера. Ему не нужно звонить, писать или приезжать на объект, чтобы проверить процесс.</p>
+        <p>После ежедневного отчёта монтажника клиент видит, что сделали сегодня, что планируется завтра, идут ли работы по сроку, и фактический результат на фото и видео.</p>
+        <p class="strong">Клиент видит ход работ, не дожидаясь ответа менеджера. Ему не нужно звонить, писать или приезжать на объект, чтобы проверить процесс.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TELEGRAM -->
 <section>
   <div class="wrap">
-    <div class="head-block rv center" style="margin-left:auto;margin-right:auto">
+    <div class="head-block center rv">
       <div class="eyebrow">Почему не Telegram</div>
       <h2>Telegram — для общения. TRACK — для контроля.</h2>
     </div>
-    <div class="cmp rv">
+    <div class="cmp rv s1">
       <div class="a">
         <span class="tag">В обычном чате</span>
-        <div class="chain">
-          Фото<br>↓<br>голосовое<br>↓<br>сообщение<br>↓<br>ещё 20 сообщений<br>↓<br>новое фото
-        </div>
-        <p style="margin-top:24px;font-size:15px">Через неделю сложно найти нужный отчёт.</p>
+        <div class="chain">Фото<br>↓<br>голосовое<br>↓<br>сообщение<br>↓<br>ещё 20 сообщений<br>↓<br>новое фото</div>
+        <p style="margin-top:22px;font-size:14.5px">Через неделю сложно найти нужный отчёт.</p>
       </div>
       <div class="b">
         <span class="tag">В TRACK</span>
-        <div class="chain">
-          <b>Объект</b><br>↓<br><b>дата</b><br>↓<br><b>отчёт</b><br>↓<br><b>фото и видео</b><br>↓<br><b>статус</b><br>↓<br><b>история</b>
-        </div>
-        <p style="margin-top:24px;font-size:15px;color:var(--text)">TRACK превращает ежедневную переписку в систему контроля.</p>
+        <div class="chain"><b>Объект</b><br>↓<br><b>дата</b><br>↓<br><b>отчёт</b><br>↓<br><b>фото и видео</b><br>↓<br><b>статус</b><br>↓<br><b>история</b></div>
+        <p class="strong" style="margin-top:22px;font-size:14.5px">TRACK превращает ежедневную переписку в систему контроля.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ПРЕИМУЩЕСТВА -->
 <section>
   <div class="wrap">
     <div class="head-block rv">
       <div class="eyebrow">Преимущества</div>
       <h2>Что получает компания</h2>
     </div>
-    <div class="grid g3 rv">
+    <div class="grid g3 rv s1">
       <div class="cell"><h3>Контроль</h3><p>Руководитель видит, что происходит на объектах.</p></div>
       <div class="cell"><h3>Экономия времени</h3><p>Меньше звонков, сообщений, поездок и ручного сбора информации.</p></div>
       <div class="cell"><h3>Дисциплина</h3><p>Монтажники отчитываются по единому стандарту.</p></div>
@@ -468,14 +679,18 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
   </div>
 </section>
 
-<!-- ВЫГОДА -->
-<section>
+<section id="benefit">
+  <div class="mark mark--tr" aria-hidden="true">
+    <svg width="200" height="180" viewBox="0 0 200 180">
+      <path class="mk" d="M20 160 V40 M10 160 H60 M20 40 H160 M20 40 L160 60 M120 60 V110 M110 110 H130 V135 H110 Z"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="split">
       <div class="rv">
         <div class="eyebrow">Выгода для бизнеса</div>
         <h2>Экономим время без потери контроля</h2>
-        <p style="margin-top:20px">Представим, что TRACK освобождает у прораба и руководителя 30 часов в месяц.</p>
+        <p>Подвиньте ползунки под свою компанию. Считаем от 20 часов в месяц, которые уходят на сбор информации по одному объекту, и стоимости часа для бизнеса.</p>
         <ul class="plus">
           <li>меньше поездок на объекты</li>
           <li>меньше ручного контроля</li>
@@ -483,56 +698,88 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
           <li>прозрачность для клиента</li>
           <li>улучшение клиентского сервиса</li>
         </ul>
-        <p style="margin-top:26px">TRACK окупается не за счёт экономии на контроле, а за счёт освобождённого времени и качества работы с клиентом.</p>
+        <p style="margin-top:24px">TRACK окупается не за счёт экономии на контроле, а за счёт освобождённого времени и качества работы с клиентом.</p>
       </div>
-      <div class="rv">
+
+      <div class="rv s1">
         <div class="calc">
-          <div class="calc-line"><span>Высвобождено времени</span><b>30 часов</b></div>
-          <div class="calc-line"><span>Стоимость часа для бизнеса</span><b>1 500 ₽</b></div>
-          <div class="calc-total">
-            <span>В месяц</span>
-            <strong>45 000 ₽</strong>
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="r-obj">Объектов в работе</label>
+              <output id="o-obj">2 объекта</output>
+            </div>
+            <input type="range" id="r-obj" min="1" max="20" step="1" value="2">
+            <div class="ticks"><span>1</span><span>20</span></div>
           </div>
-          <p style="margin-top:20px;font-size:14.5px">Стоимость высвобожденного рабочего времени. И это только прямая экономия.</p>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="r-hrs">Часов в месяц на один объект</label>
+              <output id="o-hrs">20 часов</output>
+            </div>
+            <input type="range" id="r-hrs" min="5" max="40" step="5" value="20">
+            <div class="ticks"><span>5</span><span>40</span></div>
+          </div>
+
+          <div class="ctrl">
+            <div class="ctrl-top">
+              <label for="r-rate">Стоимость часа для бизнеса</label>
+              <output id="o-rate">1 500 ₽</output>
+            </div>
+            <input type="range" id="r-rate" min="500" max="4000" step="100" value="1500">
+            <div class="ticks"><span>500 ₽</span><span>4 000 ₽</span></div>
+          </div>
+
+          <div class="calc-out">
+            <div class="calc-line"><span>Высвобожденное время</span><b id="o-hours">40 часов</b></div>
+            <div class="calc-line"><span>Стоимость этого времени</span><b id="o-save">60 000 ₽</b></div>
+            <div class="calc-line"><span>Стоимость TRACK</span><b id="o-cost">10 000 ₽</b></div>
+            <div class="calc-total">
+              <span id="o-label">Экономия в месяц</span>
+              <strong id="o-diff">+ 50 000 ₽</strong>
+            </div>
+          </div>
+
+          <div class="calc-note">Оценка, а не гарантия. Считаем прямую экономию времени — сверх неё компания получает историю работ и сервис для клиента.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- СТОИМОСТЬ -->
 <section id="price">
   <div class="wrap">
-    <div class="head-block rv center" style="margin-left:auto;margin-right:auto">
+    <div class="head-block center rv">
       <div class="eyebrow">Стоимость</div>
       <h2>Платите только за объекты в работе</h2>
     </div>
-    <div class="rv">
+    <div class="rv s1">
       <div class="price-hero">
         <div class="amount">5 000 ₽</div>
         <div class="per">в месяц за один активный объект</div>
       </div>
-      <div class="tiers">
-        <div class="tier"><span class="n">1 объект</span><span class="v">5 000 ₽</span></div>
-        <div class="tier"><span class="n">2 объекта</span><span class="v">10 000 ₽</span></div>
-        <div class="tier"><span class="n">5 объектов</span><span class="v">25 000 ₽</span></div>
-        <div class="tier"><span class="n">10 объектов</span><span class="v">50 000 ₽</span></div>
-      </div>
-      <p class="center" style="margin-top:26px">Руководители, монтажники и клиенты — без дополнительной оплаты.</p>
+      <p class="center" style="margin-top:24px">Компания платит только за объекты, которые находятся в работе. Руководители, монтажники и клиенты — без дополнительной оплаты.</p>
     </div>
   </div>
 </section>
 
-<!-- ФИНАЛ -->
 <section class="final" id="try">
+  <svg class="blueprint" id="bp2" viewBox="0 0 1400 500" aria-hidden="true" preserveAspectRatio="xMidYMid meet" style="opacity:0;top:auto;bottom:-40px;transform:translate(-50%,0)">
+    <path class="bp-line" style="--len:1400" d="M0 420 H1400"/>
+    <path class="bp-line" style="--len:700" d="M180 420 V300 H340 V420 M180 360 H340"/>
+    <path class="bp-line" style="--len:900" d="M1060 420 V240 H1220 V420 M1060 330 H1220"/>
+    <path class="bp-line" style="--len:400" d="M620 420 V200 M600 420 L620 380 L640 420"/>
+    <path class="bp-line" style="--len:420" d="M480 230 H820"/>
+    <circle class="bp-node" cx="260" cy="300" r="3.5"/>
+    <circle class="bp-node" cx="1140" cy="240" r="3.5" style="animation-delay:1.4s"/>
+  </svg>
   <div class="wrap">
     <div class="rv">
       <h2>Перестаньте спрашивать: «Что там на объекте?»</h2>
       <p class="lead">TRACK показывает это каждый день. Что сделали. Что будет завтра. Как идут сроки. Фото и видео.</p>
       <div class="hero-cta">
-        <a href="#try" class="btn" id="cta">Попробовать TRACK</a>
+        <a href="#try" class="btn">Попробовать TRACK</a>
       </div>
-      <div class="hero-note">5 000 ₽ / месяц за активный объект</div>
     </div>
   </div>
 </section>
@@ -548,38 +795,145 @@ footer .fine{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-
 
 <script>
 (function(){
-  'use strict';
+'use strict';
+var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var hasIO = 'IntersectionObserver' in window;
 
-  // header background on scroll
-  var hdr=document.getElementById('hdr'),tick=false;
-  function onScroll(){
-    if(tick) return; tick=true;
-    requestAnimationFrame(function(){
-      hdr.classList.toggle('on',window.scrollY>40);
-      tick=false;
-    });
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
+/* шапка */
+var hdr=document.getElementById('hdr'),tick=false;
+function onScroll(){
+  if(tick) return; tick=true;
+  requestAnimationFrame(function(){ hdr.classList.toggle('on',window.scrollY>40); tick=false; });
+}
+window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
 
-  // reveal
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  },{threshold:.15});
+/* чертёж в герое — запуск после загрузки */
+var bp=document.getElementById('bp');
+if(bp) setTimeout(function(){ bp.classList.add('on'); },150);
+
+/* чертёж в финале — по скроллу */
+var bp2=document.getElementById('bp2');
+if(bp2){
+  if(hasIO && !reduce){
+    var pio=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ bp2.style.opacity='1'; bp2.classList.add('on'); pio.disconnect(); } });
+    },{threshold:.2});
+    pio.observe(bp2.parentNode);
+  } else { bp2.style.opacity='1'; bp2.classList.add('on'); }
+}
+
+/* появление блоков */
+if(hasIO){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.12});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+} else {
+  document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in');});
+}
 
-  // hero board rows, staggered
-  var rows=document.querySelectorAll('.hero [data-row]');
-  var bio=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(!e.isIntersecting) return;
-      rows.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); }, 220+i*130); });
-      bio.disconnect();
-    });
-  },{threshold:.2});
-  if(rows.length) bio.observe(rows[0].parentNode);
+/* строки доски */
+var rows=document.querySelectorAll('.hero [data-row]');
+if(rows.length){
+  if(reduce || !hasIO){ rows.forEach(function(r){r.classList.add('in');}); }
+  else{
+    var bio=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        rows.forEach(function(r,i){ setTimeout(function(){ r.classList.add('in'); },200+i*130); });
+        bio.disconnect();
+      });
+    },{threshold:.2});
+    bio.observe(rows[0].parentNode);
+  }
+}
+
+/* демо отчёта */
+var T0='Смонтировали второй этаж, собрали стояки в двух подъездах.';
+var T1='Переходим на третий этаж, начинаем разводку.';
+var steps=[].slice.call(document.querySelectorAll('.step'));
+var f0=document.getElementById('f0'),f1=document.getElementById('f1');
+var opts=[].slice.call(document.querySelectorAll('#f2 .f-opt'));
+var medias=[].slice.call(document.querySelectorAll('#f3 i'));
+var fsend=document.getElementById('fsend');
+var typeTimer=null,mediaTimers=[],current=-1;
+
+function resetAll(){
+  clearTimeout(typeTimer);
+  mediaTimers.forEach(clearTimeout); mediaTimers=[];
+  f0.textContent='—'; f0.className='f-field empty';
+  f1.textContent='—'; f1.className='f-field empty';
+  opts.forEach(function(o){o.classList.remove('pick');});
+  medias.forEach(function(m){m.classList.remove('on');});
+  fsend.classList.remove('on');
+}
+function fill(el,text){ el.textContent=text; el.className='f-field'; }
+function typeInto(el,text){
+  el.className='f-field active';
+  if(reduce){ fill(el,text); return; }
+  var i=0;
+  (function tk(){
+    el.innerHTML=text.slice(0,i)+'<span class="caret"></span>';
+    i++;
+    if(i<=text.length){ typeTimer=setTimeout(tk,22); } else { fill(el,text); }
+  })();
+}
+function show(n){
+  if(n===current) return;
+  current=n;
+  steps.forEach(function(s,i){ s.setAttribute('aria-selected', i===n?'true':'false'); });
+  resetAll();
+  if(n===0){ typeInto(f0,T0); return; }
+  fill(f0,T0);
+  if(n===1){ typeInto(f1,T1); return; }
+  fill(f1,T1);
+  opts[0].classList.add('pick');
+  if(n===2) return;
+  medias.forEach(function(m,i){ mediaTimers.push(setTimeout(function(){ m.classList.add('on'); },reduce?0:i*160)); });
+  mediaTimers.push(setTimeout(function(){ fsend.classList.add('on'); },reduce?0:560));
+}
+steps.forEach(function(s){
+  s.addEventListener('click',function(){ show(parseInt(s.getAttribute('data-step'),10)); });
+  s.addEventListener('keydown',function(e){
+    var i=parseInt(s.getAttribute('data-step'),10),n;
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'){ e.preventDefault(); n=(i+1)%steps.length; steps[n].focus(); show(n); }
+    if(e.key==='ArrowUp'||e.key==='ArrowLeft'){ e.preventDefault(); n=(i-1+steps.length)%steps.length; steps[n].focus(); show(n); }
+  });
+});
+var demoEl=document.querySelector('.demo');
+if(demoEl && hasIO){
+  var dio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ show(0); dio.disconnect(); } });
+  },{threshold:.25});
+  dio.observe(demoEl);
+} else { show(0); }
+
+/* калькулятор: экономия = объекты × часы × ставка */
+var PER=5000;
+var rObj=document.getElementById('r-obj'),rHrs=document.getElementById('r-hrs'),rRate=document.getElementById('r-rate');
+var oObj=document.getElementById('o-obj'),oHrs=document.getElementById('o-hrs'),oRate=document.getElementById('o-rate');
+var oHours=document.getElementById('o-hours'),oSave=document.getElementById('o-save');
+var oCost=document.getElementById('o-cost'),oDiff=document.getElementById('o-diff'),oLabel=document.getElementById('o-label');
+
+function money(n){ return n.toLocaleString('ru-RU')+' ₽'; }
+function plural(n,a,b,c){ var x=n%10,y=n%100; if(x===1&&y!==11)return a; if(x>=2&&x<=4&&(y<10||y>=20))return b; return c; }
+function recalc(){
+  var obj=+rObj.value, hrs=+rHrs.value, rate=+rRate.value;
+  var hours=obj*hrs, save=hours*rate, cost=obj*PER, diff=save-cost;
+  oObj.textContent=obj+' '+plural(obj,'объект','объекта','объектов');
+  oHrs.textContent=hrs+' '+plural(hrs,'час','часа','часов');
+  oRate.textContent=money(rate);
+  oHours.textContent=hours+' '+plural(hours,'час','часа','часов');
+  oSave.textContent=money(save);
+  oCost.textContent=money(cost);
+  oDiff.textContent=(diff>=0?'+ ':'− ')+money(Math.abs(diff));
+  oDiff.style.color=diff>=0?'var(--gold)':'var(--late)';
+  oLabel.textContent=diff>=0?'Экономия в месяц':'Пока не окупается';
+}
+if(rObj&&rHrs&&rRate){
+  [rObj,rHrs,rRate].forEach(function(r){ r.addEventListener('input',recalc); });
+  recalc();
+}
 })();
 </script>
 </body>
