@@ -57,6 +57,8 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 .big-claim{font-size:clamp(19px,2.6vw,26px);line-height:1.4;max-width:24ch}
 .dim{color:var(--muted)}
 .gold{color:var(--gold)}
+/* приглушённая половина двухцветного заголовка — золотая должна доминировать */
+.soft{color:rgba(245,241,232,.38)}
 
 /* ---------- кнопки ---------- */
 .btn{
@@ -124,7 +126,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 }
 @media(max-width:520px){.scat{min-height:0;flex-direction:row;align-items:center;gap:14px;padding:16px}}
 .scat-n{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
-.scat-i{font-size:26px;line-height:1}
+
 .scat p{color:var(--text-2);font-size:15px;margin-top:auto}
 @media(max-width:520px){.scat p{margin-top:0}}
 
@@ -135,7 +137,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
   color:var(--text-2);font-size:clamp(16px,2vw,19px);
 }
 .nots li:first-child{border-top:1px solid var(--edge)}
-.nots li b{color:var(--text);font-weight:500}
+.nots li b{color:var(--gold);font-weight:700}
 
 /* ---------- экран 4: решение ---------- */
 .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:36px}
@@ -202,7 +204,10 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
 @media(max-width:760px){.duo{grid-template-columns:1fr}}
 .pane{background:var(--surface);border:1px solid var(--edge);border-radius:3px;padding:26px 24px}
-.pane--track{border-color:var(--gold-dim)}
+.pane--track{
+  border-color:var(--gold-dim);
+  background:linear-gradient(158deg,rgba(232,184,75,.20) 0%,rgba(232,184,75,.08) 55%,rgba(232,184,75,.03) 100%);
+}
 .pane h4{
   font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--muted);font-weight:500;margin-bottom:18px;
@@ -225,8 +230,12 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 /* ---------- экран 8: клиент ---------- */
 .client{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-top:44px}
 @media(max-width:860px){.client{grid-template-columns:1fr;gap:34px}}
-.sees{list-style:none}
-.sees li{position:relative;padding:11px 0 11px 30px;color:var(--text-2);font-size:17px}
+.sees{
+  list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:28px;margin-top:6px;
+}
+@media(max-width:560px){.sees{grid-template-columns:1fr}}
+.sees li{position:relative;color:var(--text-2);font-size:17px}
 .sees li::before{content:"✓";position:absolute;left:0;top:11px;color:var(--gold);font-family:var(--mono);font-size:14px}
 .swap{background:var(--surface);border:1px solid var(--edge);border-radius:3px;padding:26px 24px}
 .swap .was{color:var(--muted);font-style:italic;font-size:17px;line-height:1.5}
@@ -249,7 +258,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 
 /* ---------- экран 11: позиционирование (по макету) ---------- */
 .stance h2{max-width:22ch}
-.stance .muted-line{color:var(--muted)}
+
 .gains{
   display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:52px;max-width:940px;
 }
@@ -295,15 +304,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 .final .lede{margin-left:0}
 
 /* ---------- подвал ---------- */
-.site-footer{border-top:1px solid var(--edge);background:var(--surface);padding:46px 0}
-.footer-in{
-  max-width:1180px;margin:0 auto;padding:0 var(--pad);
-  display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;
-}
-.footer-in p{color:var(--muted);font-size:14px}
-.footer-links{display:flex;flex-wrap:wrap;gap:22px}
-.footer-links a{color:var(--text-2);text-decoration:none;font-size:14px}
-.footer-links a:hover{color:var(--gold)}
+
 
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -318,17 +319,242 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
   .chain b{align-self:center;transform:rotate(90deg);line-height:1}
 }
 @media(max-width:760px){
-  .footer-in{flex-direction:column;align-items:flex-start;gap:14px}
-  .footer-links{flex-direction:column;gap:0}
-  .footer-links a{display:block;padding:9px 0}
   .horizon span{flex:1 1 100%;text-align:center}
 }
+
+/* ============================================================
+   Иконки — единый набор, тонкий контур, скруглённые концы
+   ============================================================ */
+.ic{width:24px;height:24px;flex:none;display:block;color:var(--text-2)}
+.ic--sm{width:19px;height:19px}
+.ic--lg{width:38px;height:38px}
+.ic--xl{width:46px;height:46px}
+.ic--gold{color:var(--gold)}
+
+/* ============================================================
+   Экран 1 — текст слева, телефон справа
+   ============================================================ */
+.hero-grid{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:60px;align-items:center;
+}
+@media(max-width:1080px){.hero-grid{grid-template-columns:1fr;gap:52px}}
+.hero h1{max-width:15ch}
+
+.hero-device{display:flex;justify-content:center;perspective:1400px}
+.phone{
+  width:min(330px,82vw);flex:none;border-radius:44px;padding:11px;
+  background:linear-gradient(150deg,#55504A 0%,#25221E 46%,#4A453F 100%);
+  box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06);
+  transform:rotateY(-15deg) rotateX(4deg) rotate(2deg);
+  animation:float 7s ease-in-out infinite;
+}
+@media(max-width:1080px){.phone{transform:rotateY(-7deg) rotateX(2deg);animation:none}}
+@media(max-width:520px){.phone{transform:none;border-radius:38px;padding:9px}}
+@keyframes float{
+  0%,100%{transform:rotateY(-15deg) rotateX(4deg) rotate(2deg) translateY(0)}
+  50%    {transform:rotateY(-15deg) rotateX(4deg) rotate(2deg) translateY(-16px)}
+}
+.phone-screen{
+  background:#0E0D0B;border-radius:34px;padding:26px 18px 20px;
+  position:relative;overflow:hidden;
+}
+@media(max-width:520px){.phone-screen{border-radius:30px;padding:22px 15px 17px}}
+.phone-screen::before{
+  content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);
+  width:78px;height:20px;background:#000;border-radius:12px;
+}
+.ph-title{font-size:19px;font-weight:600;margin:26px 0 15px;color:var(--text)}
+.ph-card{background:#1A1815;border-radius:16px;padding:15px 15px 17px;margin-bottom:12px}
+.ph-today{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:500;color:var(--text)}
+.ph-today .ic{width:19px;height:19px}
+.ph-metric{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-top:13px}
+.ph-metric span{color:var(--muted);font-size:13px}
+.ph-pct{color:var(--gold);font-size:21px;font-weight:600}
+.ph-count{font-size:22px;font-weight:600;margin-top:2px;color:var(--text)}
+.ph-track{height:7px;background:#2C2823;border-radius:4px;margin-top:9px;overflow:hidden}
+.ph-fill{display:block;height:100%;width:58%;background:var(--gold);border-radius:4px}
+.ph-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:11px}
+.ph-label{color:var(--muted);font-size:12px;margin:0 0 7px 2px}
+.tile{
+  position:relative;display:grid;place-items:center;
+  aspect-ratio:4/3;border-radius:9px;background:#242019;
+}
+.tile .ic{width:26px;height:26px;color:rgba(255,255,255,.9)}
+.tile--a{background:linear-gradient(160deg,#3B3630,#211E1A)}
+.tile--b{background:linear-gradient(160deg,#4A423A,#252119)}
+.tile--c{background:linear-gradient(160deg,#332F2A,#1D1A16)}
+.tile--d{background:linear-gradient(160deg,#413A32,#221F1B)}
+.tile--e{background:linear-gradient(160deg,#4E463C,#26221C)}
+.tile--f{background:linear-gradient(160deg,#38332C,#1F1C18)}
+.ph-plan{margin-top:2px;margin-bottom:0}
+.ph-h{font-size:16px;font-weight:600;margin-bottom:11px;color:var(--text)}
+.ph-task{
+  display:flex;align-items:center;gap:10px;padding:9px 0;font-size:14px;color:var(--text-2);
+  border-bottom:1px solid #262220;
+}
+.ph-task:last-child{border-bottom:0}
+.ph-task .ic{width:18px;height:18px}
+
+/* ============================================================
+   Правки блоков под новые иконки
+   ============================================================ */
+.scat{align-items:flex-start}
+.flow-step .ic{margin-bottom:14px}
+.card .ic--xl{margin-bottom:18px}
+.tag{display:inline-flex;align-items:center;gap:8px}
+.tag .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.stages li .ic{color:inherit}
+.stages .done .ic{color:var(--ok)}
+.stages .next .ic{color:var(--muted)}
+.sees li{display:flex;align-items:center;gap:11px;padding:7px 0}
+.sees li::before{content:none}
+.swap .arr{display:flex;align-items:center;gap:9px}
+.pane-note{margin-top:18px;color:var(--text-2);font-size:16px}
+.quote-big{
+  position:relative;margin:20px 0 26px;padding:34px 40px 34px 78px;max-width:none;
+  background:var(--surface);border:1px solid var(--edge);border-left:2px solid var(--gold);
+  border-radius:0 3px 3px 0;color:var(--text-2);font-style:italic;
+  font-size:clamp(20px,2.9vw,32px);line-height:1.32;
+}
+.quote-big::before,.quote-big::after{
+  font-family:var(--display);font-style:normal;color:var(--gold);line-height:1;
+}
+.quote-big::before{
+  content:"«";position:absolute;left:26px;top:26px;font-size:clamp(44px,6vw,68px);opacity:.85;
+}
+.quote-big::after{content:"»";margin-left:.12em;font-size:1.1em;vertical-align:-.06em;opacity:.85}
+@media(max-width:640px){
+  .quote-big{padding:26px 22px 26px 24px}
+  .quote-big::before{position:static;display:block;margin-bottom:2px;font-size:44px}
+}
+.price-sum{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.price-sum .ic{color:var(--gold)}
+
+/* ============================================================
+   Анимации
+   ============================================================ */
+.site-header{transition:box-shadow .3s,background .3s}
+.site-header.scrolled{box-shadow:0 1px 24px rgba(0,0,0,.5)}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.stagger > *{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+.stagger.in > *{opacity:1;transform:none}
+.stagger.in > *:nth-child(1){transition-delay:.05s}
+.stagger.in > *:nth-child(2){transition-delay:.12s}
+.stagger.in > *:nth-child(3){transition-delay:.19s}
+.stagger.in > *:nth-child(4){transition-delay:.26s}
+.stagger.in > *:nth-child(5){transition-delay:.33s}
+.stagger.in > *:nth-child(6){transition-delay:.40s}
+.stagger.in > *:nth-child(7){transition-delay:.47s}
+
+/* полосы прогресса заполняются, когда доезжают до экрана */
+.dial .fill{width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1) .15s}
+.dial.in .fill{width:72%}
+.ph-fill{width:0;transition:width 1.6s cubic-bezier(.22,1,.36,1) .5s}
+.phone.in .ph-fill{width:58%}
+
+/* отклик на наведение */
+.scat,.flow-step,.card,.pane,.dial{transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .3s}
+.scat:hover,.flow-step:hover,.card:hover{transform:translateY(-4px);border-color:var(--edge-hi)}
+.row{transition:background .25s}
+.row:hover{background:rgba(232,184,75,.04)}
+.inf span,.horizon span,.trail span{transition:border-color .25s,color .25s}
+.horizon span:hover,.inf span:hover{border-color:var(--gold-dim);color:var(--gold)}
+.hdr-nav a{position:relative}
+.hdr-nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:-5px;height:1px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .28s;
+}
+.hdr-nav a:hover::after{transform:scaleX(1)}
+.ic{transition:transform .3s}
+.scat:hover .ic,.flow-step:hover .ic,.card:hover .ic{transform:translateY(-2px) scale(1.06)}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal,.stagger > *{opacity:1!important;transform:none!important}
+  .dial .fill{width:72%!important}
+  .ph-fill{width:58%!important}
+  .phone{animation:none}
+}
+
+/* ============================================================
+   Подвал — логотип, контакты, реквизиты
+   ============================================================ */
+.site-footer{border-top:1px solid var(--edge);background:var(--surface);padding:56px 0 48px}
+.footer-in{
+  max-width:1180px;margin:0 auto;padding:0 var(--pad);
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;align-items:start;
+}
+@media(max-width:860px){.footer-in{grid-template-columns:1fr 1fr;gap:34px}}
+@media(max-width:560px){.footer-in{grid-template-columns:1fr;gap:30px}}
+.footer-col{display:flex;flex-direction:column;align-items:flex-start}
+.footer-brand .brand{font-size:22px;margin-bottom:14px}
+.footer-col p{color:var(--muted);font-size:14px;line-height:1.55}
+.footer-k{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:14px;
+}
+.footer-col a{
+  color:var(--text-2);text-decoration:none;font-size:15px;
+  padding:6px 0;transition:color .2s;
+}
+.footer-col a:hover{color:var(--gold)}
+.footer-col p + a{margin-top:12px}
 
 </style>
 </head>
 <body>
 
-<header class="site-header">
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-camera" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 11h5l2.5-3h9L23 11h5v15H4z"/><circle cx="16" cy="18" r="5"/>
+  </symbol>
+  <symbol id="i-mic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="12" y="4" width="8" height="14" rx="4"/><path d="M7 15a9 9 0 0018 0M16 24v4M11 28h10"/>
+  </symbol>
+  <symbol id="i-chat" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M27 18a5 5 0 01-5 5H12l-7 5V9a5 5 0 015-5h12a5 5 0 015 5z"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 5h6l3 7-4 2a13 13 0 006 6l2-4 7 3v6a2 2 0 01-2 2C14 27 5 18 5 7a2 2 0 012-2z"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 17l6.5 6.5L26 9"/>
+  </symbol>
+  <symbol id="i-check-c" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="16" cy="16" r="12"/><path d="M10.5 16.5l4 4 7.5-8"/>
+  </symbol>
+  <symbol id="i-next" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 16h20M19 9l7 7-7 7"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="16" cy="16" r="12"/><path d="M16 8v8.5l6 3.5"/>
+  </symbol>
+  <symbol id="i-media" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="6" width="24" height="20" rx="3"/><path d="M4 21l7-7 6 6 4-4 7 7"/><circle cx="20.5" cy="12.5" r="2"/>
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4" y="7" width="24" height="21" rx="3"/><path d="M4 14h24M11 4v6M21 4v6"/>
+  </symbol>
+  <symbol id="i-play" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+    <circle cx="16" cy="16" r="12"/><path d="M13 10.5l9 5.5-9 5.5z"/>
+  </symbol>
+  <symbol id="i-doc" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 3H8a2 2 0 00-2 2v22a2 2 0 002 2h16a2 2 0 002-2V11z"/><path d="M18 3v8h8M11 17h10M11 22h7"/>
+  </symbol>
+  <symbol id="i-book" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 5h8a4 4 0 014 4v18a3 3 0 00-3-3H5z"/><path d="M27 5h-8a4 4 0 00-4 4v18a3 3 0 013-3h9z"/>
+  </symbol>
+  <symbol id="i-layers" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 4l12 6-12 6-12-6z"/><path d="M4 16l12 6 12-6M4 22l12 6 12-6"/>
+  </symbol>
+  <symbol id="i-eye" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 16s5-8 14-8 14 8 14 8-5 8-14 8S2 16 2 16z"/><circle cx="16" cy="16" r="4"/>
+  </symbol>
+</svg>
+
+<header class="site-header" id="hdr">
   <div class="hdr-in">
     <a href="#top" class="brand">TR<em>A</em>CK</a>
     <nav class="hdr-nav">
@@ -338,7 +564,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
       <a href="#s10">Внедрение</a>
       <a href="#s12">Цена</a>
     </nav>
-    <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn btn--sm">Написать в Telegram</a>
+    <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn btn--sm">Попробовать бесплатно</a>
   </div>
 </header>
 
@@ -346,23 +572,58 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 
 <!-- 01 — боль -->
 <section class="hero">
-  <div class="wrap">
-    <div class="eyebrow">01 <i>· боль</i></div>
-    <h1>Сколько объектов вы контролируете прямо сейчас?</h1>
-    <p class="lede">Если больше трёх — вы наверняка уже знаете эту проблему. Чтобы понять, что происходит на объектах, приходится:</p>
-    <div class="chain">
-      <span>писать прорабам</span><b>→</b>
-      <span>звонить монтажникам</span><b>→</b>
-      <span>искать фото</span><b>→</b>
-      <span>уточнять сроки</span><b>→</b>
-      <span>собирать всё в голове</span>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow">01 <i>· боль</i></div>
+      <h1>Сколько объектов вы контролируете прямо сейчас?</h1>
+      <p class="lede">Если больше трёх — вы наверняка уже знаете эту проблему. Чтобы понять, что происходит на объектах, приходится:</p>
+      <div class="chain">
+        <span>писать прорабам</span><b>→</b>
+        <span>звонить монтажникам</span><b>→</b>
+        <span>искать фото</span><b>→</b>
+        <span>уточнять сроки</span><b>→</b>
+        <span>собирать всё в голове</span>
+      </div>
+      <p class="hero-loop">И так — каждый день.</p>
+      <div class="cta-row">
+        <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn">Попробовать бесплатно</a>
+        <a href="#s4" class="btn btn--ghost">Как это работает</a>
+      </div>
+      <p class="note">1 месяц бесплатно · без ограничений по объектам и сотрудникам</p>
     </div>
-    <p class="hero-loop">И так — каждый день.</p>
-    <div class="cta-row">
-      <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn">Попробовать бесплатно</a>
-      <a href="#s4" class="btn btn--ghost">Как это работает</a>
+
+    <div class="hero-device">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="ph-title">Объект: ЖК Парус</div>
+
+          <div class="ph-card">
+            <div class="ph-today"><svg class="ic ic--gold"><use href="#i-calendar"></use></svg>Сегодня</div>
+            <div class="ph-metric"><span>Выполнено работ</span><b class="ph-pct" data-count="58">58%</b></div>
+            <div class="ph-count">7 / 12</div>
+            <div class="ph-track"><span class="ph-fill"></span></div>
+          </div>
+
+          <div class="ph-grid">
+            <i class="tile tile--a"></i><i class="tile tile--b"></i><i class="tile tile--c"></i>
+          </div>
+
+          <div class="ph-label">Фото и видео</div>
+          <div class="ph-grid">
+            <i class="tile tile--d"></i>
+            <i class="tile tile--e"><svg class="ic"><use href="#i-play"></use></svg></i>
+            <i class="tile tile--f"><svg class="ic"><use href="#i-play"></use></svg></i>
+          </div>
+
+          <div class="ph-card ph-plan">
+            <div class="ph-h">План на завтра</div>
+            <div class="ph-task"><svg class="ic ic--gold"><use href="#i-check-c"></use></svg>Монтаж воздуховодов</div>
+            <div class="ph-task"><svg class="ic ic--gold"><use href="#i-check-c"></use></svg>Прокладка кабелей</div>
+            <div class="ph-task"><svg class="ic ic--gold"><use href="#i-check-c"></use></svg>Установка оборудования</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p class="note">1 месяц бесплатно · без ограничений по объектам и сотрудникам</p>
   </div>
 </section>
 
@@ -372,12 +633,12 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s2">
   <div class="wrap">
     <div class="eyebrow">02 <i>· где информация</i></div>
-    <h2>Проблема не в том, что информации нет.<br><span class="gold">Проблема в том, что она разбросана.</span></h2>
-    <div class="scatter">
-      <div class="scat"><div class="scat-i">📸</div><div><div class="scat-n">Объект №1</div><p>фото в Telegram</p></div></div>
-      <div class="scat"><div class="scat-i">🎙</div><div><div class="scat-n">Объект №2</div><p>голосовое от прораба</p></div></div>
-      <div class="scat"><div class="scat-i">💬</div><div><div class="scat-n">Объект №3</div><p>«вроде успеваем»</p></div></div>
-      <div class="scat"><div class="scat-i">📞</div><div><div class="scat-n">Объект №4</div><p>информацию нужно выяснять звонком</p></div></div>
+    <h2><span class="soft">Проблема не в том, что информации нет.</span><br><span class="gold">Проблема в том, что она разбросана.</span></h2>
+    <div class="scatter stagger">
+      <div class="scat"><svg class="ic ic--lg ic--gold"><use href="#i-camera"></use></svg><div><div class="scat-n">Объект №1</div><p>фото в телеграме</p></div></div>
+      <div class="scat"><svg class="ic ic--lg ic--gold"><use href="#i-mic"></use></svg><div><div class="scat-n">Объект №2</div><p>голосовое от прораба</p></div></div>
+      <div class="scat"><svg class="ic ic--lg ic--gold"><use href="#i-chat"></use></svg><div><div class="scat-n">Объект №3</div><p>«вроде успеваем»</p></div></div>
+      <div class="scat"><svg class="ic ic--lg ic--gold"><use href="#i-phone"></use></svg><div><div class="scat-n">Объект №4</div><p>информацию нужно выяснять звонком</p></div></div>
     </div>
     <p class="lede">И руководитель каждый вечер сам собирает из этого картину происходящего.</p>
   </div>
@@ -390,7 +651,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
   <div class="wrap">
     <div class="eyebrow">03 <i>· а если иначе</i></div>
     <h2>А если руководителю вообще не нужно спрашивать «что там?»</h2>
-    <ul class="nots">
+    <ul class="nots stagger">
       <li><b>Не</b> собирать информацию.</li>
       <li><b>Не</b> искать фотографии.</li>
       <li><b>Не</b> звонить каждому прорабу.</li>
@@ -408,11 +669,11 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
     <div class="eyebrow">04 <i>· решение</i></div>
     <h2>TRACK</h2>
     <p class="lede">Система оперативного контроля монтажных работ.<br>Монтажник в конце рабочего дня за пару минут отправляет:</p>
-    <div class="flow">
-      <div class="flow-step"><div class="k">Шаг 1</div><div class="v">Что сделал</div></div>
-      <div class="flow-step"><div class="k">Шаг 2</div><div class="v">Что будет делать</div></div>
-      <div class="flow-step"><div class="k">Шаг 3</div><div class="v">Сроки</div></div>
-      <div class="flow-step"><div class="k">Шаг 4</div><div class="v">Фото / видео</div></div>
+    <div class="flow stagger">
+      <div class="flow-step"><svg class="ic ic--lg ic--gold"><use href="#i-check"></use></svg><div class="k">Шаг 1</div><div class="v">Что сделал</div></div>
+      <div class="flow-step"><svg class="ic ic--lg ic--gold"><use href="#i-next"></use></svg><div class="k">Шаг 2</div><div class="v">Что будет делать</div></div>
+      <div class="flow-step"><svg class="ic ic--lg ic--gold"><use href="#i-clock"></use></svg><div class="k">Шаг 3</div><div class="v">Сроки</div></div>
+      <div class="flow-step"><svg class="ic ic--lg ic--gold"><use href="#i-media"></use></svg><div class="k">Шаг 4</div><div class="v">Фото и видео</div></div>
     </div>
     <p class="lede">TRACK собирает это автоматически. Результат: руководитель видит готовую картину по всем объектам.</p>
   </div>
@@ -424,13 +685,13 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s5">
   <div class="wrap">
     <div class="eyebrow">05 <i>· один экран</i></div>
-    <h2>Все объекты — на одном экране</h2>
-    <div class="board">
+    <h2>Все объекты — <span class="gold">на одном экране</span></h2>
+    <div class="board stagger">
       <div class="board-bar"><i></i><i></i><i></i><span>TRACK · объекты</span></div>
-      <div class="row"><div><div class="row-name">ЖК Москва</div><div class="row-sub">отчёт сегодня</div></div><div class="tag tag--ok">🟢 По плану</div></div>
-      <div class="row"><div><div class="row-name">ЖК Сити</div><div class="row-sub">отчёт сегодня</div></div><div class="tag tag--ok">🟢 По плану</div></div>
-      <div class="row"><div><div class="row-name">Коттедж Одинцово</div><div class="row-sub">ждём материал</div></div><div class="tag tag--warn">🟡 Риск задержки</div></div>
-      <div class="row"><div><div class="row-name">Офис на Тверской</div><div class="row-sub">нужно решение</div></div><div class="tag tag--late">🔴 Задержка</div></div>
+      <div class="row"><div><div class="row-name">ЖК Москва</div><div class="row-sub">отчёт сегодня</div></div><div class="tag tag--ok"><i class="dot"></i>По плану</div></div>
+      <div class="row"><div><div class="row-name">ЖК Сити</div><div class="row-sub">отчёт сегодня</div></div><div class="tag tag--ok"><i class="dot"></i>По плану</div></div>
+      <div class="row"><div><div class="row-name">Коттедж Одинцово</div><div class="row-sub">ждём материал</div></div><div class="tag tag--warn"><i class="dot"></i>Риск задержки</div></div>
+      <div class="row"><div><div class="row-name">Офис на Тверской</div><div class="row-sub">нужно решение</div></div><div class="tag tag--late"><i class="dot"></i>Задержка</div></div>
     </div>
     <p class="lede">За несколько секунд руководитель понимает, где всё нормально, а где нужно вмешаться.</p>
   </div>
@@ -442,19 +703,19 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s6">
   <div class="wrap">
     <div class="eyebrow">06 <i>· прогресс</i></div>
-    <h2>Не просто отчёт.<br><span class="gold">Понимание прогресса.</span></h2>
+    <h2><span class="soft">Не просто отчёт.</span><br><span class="gold">Понимание прогресса.</span></h2>
     <div class="prog">
       <div>
         <p class="note" style="margin-bottom:8px">Руководитель задаёт план:</p>
-        <ul class="stages">
-          <li class="done"><span class="mark">✓</span>Вентиляция</li>
-          <li class="done"><span class="mark">✓</span>Отопление</li>
-          <li class="next"><span class="mark">→</span>Узел управления</li>
-          <li class="next"><span class="mark">→</span>Пусконаладка</li>
+        <ul class="stages stagger">
+          <li class="done"><svg class="ic ic--sm"><use href="#i-check"></use></svg>Вентиляция</li>
+          <li class="done"><svg class="ic ic--sm"><use href="#i-check"></use></svg>Отопление</li>
+          <li class="next"><svg class="ic ic--sm"><use href="#i-next"></use></svg>Узел управления</li>
+          <li class="next"><svg class="ic ic--sm"><use href="#i-next"></use></svg>Пусконаладка</li>
         </ul>
       </div>
       <div class="dial">
-        <div class="num">72<span style="font-size:.42em">%</span></div>
+        <div class="num"><span data-count="72">72</span><span class="pc">%</span></div>
         <div class="cap">готовности</div>
         <div class="track"><span class="fill"></span></div>
       </div>
@@ -472,7 +733,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
     <h2>А что будет через месяц?</h2>
     <div class="duo">
       <div class="pane pane--tg">
-        <h4>Telegram</h4>
+        <h4>Телеграм</h4>
         <ul>
           <li>«Где-то было фото...»</li>
           <li>«Вроде что-то делали...»</li>
@@ -484,11 +745,11 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
         <div class="trail">
           <span>объект</span><span>дата</span><span>отчёт</span><span>фото</span><span>видео</span><span>статус</span><span>прогресс</span>
         </div>
-        <p style="margin-top:18px;color:var(--text-2);font-size:16px">Вся история объекта сохраняется автоматически.</p>
+        <p class="pane-note">Вся история объекта сохраняется автоматически.</p>
       </div>
     </div>
     <p class="lede">И к ней можно вернуться:</p>
-    <div class="horizon"><span>через месяц</span><span>через полгода</span><span>через год</span></div>
+    <div class="horizon stagger"><span>через месяц</span><span>через полгода</span><span>через год</span></div>
     <p class="lede">Всё, что происходило с объектом, остаётся в его истории.</p>
   </div>
 </section>
@@ -499,21 +760,21 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s8">
   <div class="wrap">
     <div class="eyebrow">08 <i>· клиенту</i></div>
-    <h2>И самое интересное — это видит не только руководитель.</h2>
+    <h2>И самое интересное — <span class="gold">это видит не только руководитель.</span></h2>
     <div class="client">
       <div>
         <p class="note" style="margin-bottom:6px">Ваш клиент тоже может видеть:</p>
-        <ul class="sees">
-          <li>текущий прогресс</li>
-          <li>что уже сделано</li>
-          <li>что будет дальше</li>
-          <li>статус по срокам</li>
-          <li>фото и видео</li>
+        <ul class="sees stagger">
+          <li><svg class="ic ic--sm ic--gold"><use href="#i-eye"></use></svg>текущий прогресс</li>
+          <li><svg class="ic ic--sm ic--gold"><use href="#i-check"></use></svg>что уже сделано</li>
+          <li><svg class="ic ic--sm ic--gold"><use href="#i-next"></use></svg>что будет дальше</li>
+          <li><svg class="ic ic--sm ic--gold"><use href="#i-clock"></use></svg>статус по срокам</li>
+          <li><svg class="ic ic--sm ic--gold"><use href="#i-media"></use></svg>фото и видео</li>
         </ul>
       </div>
       <div class="swap">
         <p class="was">«А как там моя квартира? Успеваете?»</p>
-        <div class="arr">вместо этого →</div>
+        <div class="arr"><svg class="ic ic--sm"><use href="#i-next"></use></svg>вместо этого</div>
         <p class="now">Клиент сам видит ход работ.</p>
       </div>
     </div>
@@ -529,7 +790,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
     <div class="eyebrow">09 <i>· возражение</i></div>
     <h2>Но есть одна проблема с внедрением любого нового сервиса.</h2>
     <p class="lede">Руководитель думает:</p>
-    <p class="big-claim dim" style="margin-top:14px;font-style:italic">«Хорошо. А как мне заставить монтажников этим пользоваться?»</p>
+    <blockquote class="quote-big">Хорошо. А как мне заставить монтажников этим пользоваться?</blockquote>
     <p class="lede">И здесь появляется наше отличие.</p>
   </div>
 </section>
@@ -542,8 +803,9 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
     <div class="eyebrow">10 <i>· внедрение</i></div>
     <h2>Мы не просто даём вам доступ к TRACK.</h2>
     <p class="lede">Вы получаете:</p>
-    <div class="kit">
+    <div class="kit stagger">
       <div class="card">
+        <svg class="ic ic--xl ic--gold"><use href="#i-doc"></use></svg>
         <h3>Готовый регламент внедрения</h3>
         <ul>
           <li>Кто отвечает за контроль.</li>
@@ -555,6 +817,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
         <a href="regulations/" class="btn btn--ghost btn--sm">Открыть регламент</a>
       </div>
       <div class="card">
+        <svg class="ic ic--xl ic--gold"><use href="#i-book"></use></svg>
         <h3>Инструкцию использования сервиса</h3>
         <ul>
           <li>Как завести объект и сотрудников.</li>
@@ -575,8 +838,8 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s11" class="stance">
   <div class="wrap">
     <div class="eyebrow">11 <i>· что важно понимать</i></div>
-    <h2><span class="muted-line">Telegram помогает общаться.</span><br>TRACK помогает управлять монтажом.</h2>
-    <div class="gains">
+    <h2><span class="soft">Телеграм помогает общаться.</span><br>TRACK помогает управлять монтажом.</h2>
+    <div class="gains stagger">
       <div>Меньше звонков</div>
       <div>Меньше ручного контроля</div>
       <div>Меньше поездок на объекты</div>
@@ -591,7 +854,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s12">
   <div class="wrap">
     <div class="eyebrow">12 <i>· стоимость</i></div>
-    <h2>Один месяц бесплатно. Дальше — просто</h2>
+    <h2><span class="soft">Один месяц бесплатно.</span> <span class="gold">Дальше — просто</span></h2>
     <div class="price">
       <div class="price-col">
         <div class="price-k">пробный период</div>
@@ -610,7 +873,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
         </ul>
       </div>
     </div>
-    <p class="price-sum">Одна компания → <b>1 500 ₽ в месяц.</b></p>
+    <p class="price-sum">Одна компания <svg class="ic ic--sm"><use href="#i-next"></use></svg> <b>1 500 ₽ в месяц.</b></p>
     <div class="cta-row">
       <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn">Попробовать бесплатно</a>
     </div>
@@ -623,7 +886,7 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 <section id="s13" class="final">
   <div class="wrap">
     <div class="eyebrow">13 <i>· начать</i></div>
-    <h2>Подключите один объект бесплатно.</h2>
+    <h2>Подключите один объект <span class="gold">бесплатно.</span></h2>
     <p class="lede">Посмотрите, как изменится ежедневный контроль монтажных работ.</p>
     <div class="cta-row">
       <a href="https://t.me/tupikov_a" target="_blank" rel="noopener" class="btn">Попробовать TRACK</a>
@@ -637,14 +900,83 @@ h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,26px);l
 
 <footer class="site-footer">
   <div class="footer-in">
-    <p>TRACK — система оперативного контроля монтажных работ</p>
-    <nav class="footer-links">
+
+    <div class="footer-col footer-brand">
+      <a href="#top" class="brand">TR<em>A</em>CK</a>
+      <p>Система оперативного<br>контроля монтажных работ</p>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-k">Связаться</div>
+      <a href="https://t.me/tupikov_a" target="_blank" rel="noopener">Телеграм — @tupikov_a</a>
+      <a href="mailto:ip_artemtupikov19@bk.ru">ip_artemtupikov19@bk.ru</a>
+      <a href="tel:+79164726580">+7 916 472 6580</a>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-k">Реквизиты</div>
+      <p>Тупиков Артём Дмитриевич</p>
+      <p>Москва</p>
       <a href="regulations/">Регламент внедрения</a>
-      <a href="https://t.me/tupikov_a" target="_blank" rel="noopener">Написать в Telegram</a>
-    </nav>
+    </div>
+
   </div>
 </footer>
 
 
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- тень у шапки при прокрутке ---- */
+  var hdr = document.getElementById('hdr');
+  function onScroll(){ hdr.classList.toggle('scrolled', (window.scrollY || window.pageYOffset) > 12); }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---- счётчики: 0 → значение ---- */
+  function countUp(el){
+    var to = parseInt(el.dataset.count, 10);
+    var suffix = /%/.test(el.textContent) ? '%' : '';
+    if (reduce || isNaN(to)) return;
+    var start = null, dur = 1300;
+    function step(ts){
+      if (start === null) start = ts;
+      var t = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(to * eased) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    el.textContent = '0' + suffix;
+    requestAnimationFrame(step);
+  }
+
+  /* ---- появление блоков при прокрутке ---- */
+  var targets = document.querySelectorAll('section, .stagger, .dial, .phone, .board, .price, .swap');
+  if (reduce || !('IntersectionObserver' in window)){
+    targets.forEach(function(el){ el.classList.add('in'); });
+    document.querySelectorAll('[data-count]').forEach(function(el){
+      el.textContent = el.dataset.count + (/%/.test(el.textContent) ? '%' : '');
+    });
+    return;
+  }
+
+  targets.forEach(function(el){
+    if (!el.classList.contains('stagger')) el.classList.add('reveal');
+  });
+
+  var io = new IntersectionObserver(function(items){
+    items.forEach(function(it){
+      if (!it.isIntersecting) return;
+      it.target.classList.add('in');
+      it.target.querySelectorAll('[data-count]').forEach(countUp);
+      io.unobserve(it.target);
+    });
+  }, {rootMargin:'0px 0px -10% 0px', threshold:.08});
+
+  targets.forEach(function(el){ io.observe(el); });
+})();
+
+</script>
 </body>
 </html>
