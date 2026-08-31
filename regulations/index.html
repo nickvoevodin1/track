@@ -1,1031 +1,646 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TRACK — регламент внедрения</title>
-
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="TRACK">
-  <meta property="og:title" content="TRACK — регламент внедрения">
-  <meta property="og:description" content="Как встроить TRACK в рабочие процессы строительной компании: роли, правила ежедневной отчётности, статусы, план внедрения и KPI.">
-  <meta name="description" content="Как встроить TRACK в рабочие процессы строительной компании: роли, правила ежедневной отчётности, статусы, план внедрения и KPI.">
-
-  <style>
-/* ============================================================
-   TRACK — статические стили регламента
-   Компоненты (заголовок секции, эйрбрау, калаут, таблицы,
-   шаги, табы) реализованы обычными классами: работают
-   на статике, без сборки и фреймворков.
-   Шрифты подключаются с Google Fonts, локальных файлов нет.
-   ============================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap&subset=cyrillic,cyrillic-ext,latin');
-
-/* ---------- COLOR TOKENS ---------- */
-:root {
-  --paper-0:#ffffff; --paper-1:#f7f5f1; --paper-2:#edebe6; --paper-3:#e7e3dc; --paper-4:#ddd8ce;
-  --ink-0:#1b1a17; --ink-1:#33312c; --ink-2:#6f6a5f; --ink-3:#8f8a7d; --ink-4:#b6b0a3;
-  --gold-0:#b57d2a; --gold-1:#9c6a24; --gold-2:#c79a4d; --cream-0:#f4e8d3; --cream-1:#ece0c8;
-  --line-0:#e0dbd1; --line-1:#d0cabd; --line-2:#c4bdae;
-  --black:#000000;
-
-  --bg-page:var(--paper-2); --bg-surface:var(--paper-0); --bg-subtle:var(--paper-1);
-  --bg-muted:var(--paper-3); --bg-cream:var(--cream-0);
-  --text-heading:var(--ink-0); --text-body:var(--ink-1); --text-secondary:var(--ink-2);
-  --text-label:var(--ink-3); --text-faint:var(--ink-4); --text-accent:var(--gold-0);
-  --text-on-cream:var(--gold-1);
-  --accent:var(--gold-0); --accent-deep:var(--gold-1); --accent-light:var(--gold-2);
-  --border:var(--line-0); --border-strong:var(--line-1); --border-focus:var(--line-2);
-  --link:var(--gold-0); --link-hover:var(--gold-1);
-  --rule:var(--line-0); --quote-bar:var(--gold-0);
-
-  /* ---------- TYPOGRAPHY ---------- */
-  --font-serif:'Lora','Georgia','Times New Roman',serif;
-  --font-display:'Playfair Display','Georgia',serif;
-  --font-body:var(--font-serif);
-  --font-label:var(--font-serif);
-  --fw-regular:400; --fw-medium:500; --fw-semibold:600; --fw-bold:700;
-  --fs-hero:60px; --fs-h1:40px; --fs-h2:31px; --fs-h3:21px; --fs-lead:21px;
-  --fs-body:18px; --fs-body-sm:16px; --fs-small:14px; --fs-eyebrow:13px;
-  --fs-micro:12px; --fs-stat:52px;
-  --lh-tight:1.12; --lh-snug:1.3; --lh-body:1.5; --lh-relaxed:1.58;
-  --ls-eyebrow:0.14em; --ls-caps:0.08em; --ls-tight:-0.011em; --ls-normal:0;
-
-  /* ---------- SPACING / LAYOUT ---------- */
-  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px;
-  --space-6:24px; --space-7:32px; --space-8:40px; --space-9:56px; --space-10:72px;
-  --space-11:96px; --space-12:128px;
-  --pad-card:var(--space-6); --pad-callout:var(--space-7); --section-gap:var(--space-11);
-  --measure:720px; --content-max:880px; --toc-width:210px; --shell-max:1240px;
-  --gutter:48px; --page-pad-x:40px; --header-h:76px;
-  --radius-xs:2px; --radius-sm:3px; --radius-md:5px; --radius-pill:999px;
-  --bw-hair:1px; --bw-bar:3px;
-
-  /* ---------- EFFECTS ---------- */
-  --shadow-none:none;
-  --shadow-xs:0 1px 2px rgba(27,26,23,.04);
-  --ease-out:cubic-bezier(.22,.61,.36,1);
-  --ease-in-out:cubic-bezier(.45,0,.2,1);
-  --dur-base:200ms;
-  --transition:color var(--dur-base) var(--ease-out),background-color var(--dur-base) var(--ease-out),border-color var(--dur-base) var(--ease-out),opacity var(--dur-base) var(--ease-out);
-  --selection-bg:var(--cream-0);
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TRACK — регламент внедрения</title>
+<meta name="description" content="Как встроить TRACK в рабочие процессы строительной компании: роли, правила ежедневной отчётности, статусы, план внедрения и KPI.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="TRACK">
+<meta property="og:title" content="TRACK — регламент внедрения">
+<meta property="og:description" content="Как встроить TRACK в рабочие процессы строительной компании: роли, правила ежедневной отчётности, статусы, план внедрения и KPI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0B0A08; --surface:#141210; --raised:#1C1916;
+  --edge:#2A2622; --edge-hi:#3D3630;
+  --gold:#E8B84B; --gold-dim:#C79A33;
+  --text:#F5F1E8; --text-2:#B5AEA2; --muted:#7A736A;
+  --ok:#4FA96A; --warn:#D9A441; --late:#C4553D;
+  --display:'Playfair Display',Georgia,serif;
+  --body:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --pad:32px; --sect:76px;
 }
-::selection { background: var(--selection-bg); }
+@media(max-width:1024px){:root{--pad:24px;--sect:56px}}
+@media(max-width:760px){:root{--pad:18px;--sect:44px}}
 
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:calc(var(--header-h) + 24px); }
-body {
-  margin:0; background:var(--bg-page); color:var(--text-body);
-  font-family:var(--font-body); font-size:var(--fs-body); line-height:var(--lh-body);
-  font-variant-numeric:oldstyle-nums; -webkit-font-smoothing:antialiased;
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--void);color:var(--text);
+  font-family:var(--body);font-size:17px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-a { color:var(--link); text-decoration:none; transition:var(--transition); }
-a:hover { color:var(--link-hover); }
-img { max-width:100%; }
-:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+@media(max-width:760px){body{font-size:16px;line-height:1.6}}
 
-/* ---------- SPLASH ---------- */
-@keyframes splashOut { 0%,72% { opacity:1; visibility:visible; } 100% { opacity:0; visibility:hidden; } }
-@keyframes logoIn { from { opacity:0; transform:translateY(12px) scale(.94); } to { opacity:1; transform:translateY(0) scale(1); } }
-@keyframes barFill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
-@keyframes pageReveal { 0%,62% { opacity:0; transform:scale(1.015); } 100% { opacity:1; transform:scale(1); } }
+/* ---------- полоса прогресса чтения ---------- */
+.read-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:transparent}
+.read-progress span{display:block;height:100%;width:0;background:var(--gold);transition:width .1s linear}
 
-.splash {
-  position:fixed; inset:0; z-index:100; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; padding:24px; background:#faf7f1;
-  animation:splashOut 4.4s cubic-bezier(.4,0,.2,1) forwards;
+/* ---------- шапка ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(11,10,8,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--edge);
 }
-.splash-inner { display:flex; flex-direction:column; align-items:center; text-align:center;
-  animation:logoIn 1s cubic-bezier(.2,.7,.2,1) both; }
-.splash-inner img { width:220px; max-width:62vw; height:auto; display:block; }
-.splash-bar { width:180px; max-width:54vw; height:2px; border-radius:var(--radius-pill);
-  background:color-mix(in srgb,var(--border) 60%,transparent); margin:30px 0 16px; overflow:hidden; }
-.splash-bar i { display:block; width:100%; height:100%; background:var(--accent);
-  transform-origin:left; animation:barFill 3.4s cubic-bezier(.45,.05,.2,1) forwards; }
-.splash-note { font-family:var(--font-display); font-style:italic; font-size:14px; color:var(--text-faint); }
-.page-reveal { animation:pageReveal 4.4s ease forwards; }
-
-/* ---------- HEADER ---------- */
-.article-header { position:sticky; top:0; z-index:50;
-  background:color-mix(in srgb,var(--bg-page) 88%,transparent); backdrop-filter:blur(8px);
-  border-bottom:var(--bw-hair) solid var(--border); }
-.article-header-inner { max-width:var(--shell-max); margin:0 auto; height:var(--header-h);
-  padding:0 var(--page-pad-x); display:flex; align-items:center; justify-content:space-between; gap:20px; }
-.article-header-inner img { height:34px; width:auto; display:block; }
-.header-right { display:flex; align-items:center; gap:28px; }
-.header-nav-links { display:flex; align-items:center; gap:28px; }
-.header-nav-links a { font-size:var(--fs-small); color:var(--text-secondary); }
-.header-nav-links a:hover { color:var(--accent); }
-
-/* ---------- BUTTON (DS: Button) ---------- */
-.btn { font-family:var(--font-body); font-weight:var(--fw-medium); line-height:1;
-  border-radius:var(--radius-sm); cursor:pointer; transition:var(--transition);
-  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
-  text-decoration:none; border:1px solid transparent; padding:11px 22px; font-size:var(--fs-body-sm); }
-.btn-sm { padding:7px 14px; font-size:var(--fs-small); }
-.btn-outline { background:transparent; color:var(--text-heading); border-color:var(--border-strong); }
-.btn-outline:hover { border-color:var(--accent); color:var(--accent); }
-.btn-gold { background:var(--accent); color:var(--paper-0); border-color:var(--accent); }
-.btn-gold:hover { background:var(--accent-deep); border-color:var(--accent-deep); color:var(--paper-0); }
-
-/* ---------- ПОЛОСА ПРОГРЕССА ЧТЕНИЯ ---------- */
-/* Тонкая линия под шапкой: показывает, сколько статьи прочитано.
-   Работает и на мобильном, и на десктопе. */
-.read-progress {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: 3px; z-index: 60;
-  background: transparent; pointer-events: none;
+.hdr-in{
+  max-width:1240px;margin:0 auto;padding:14px var(--pad);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
 }
-.read-progress span {
-  display: block; height: 100%; width: 0;
-  background: var(--accent);
-  transition: width .08s linear;
+.brand{
+  font-family:var(--display);font-size:19px;font-weight:800;letter-spacing:.06em;
+  color:var(--text);text-decoration:none;flex:none;
+}
+.brand em{color:var(--gold);font-style:normal}
+.hdr-nav{display:flex;gap:26px}
+.hdr-nav a{color:var(--text-2);text-decoration:none;font-size:14px;transition:color .2s}
+.hdr-nav a:hover{color:var(--gold)}
+.hdr-back{
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--void);background:var(--gold);text-decoration:none;
+  padding:9px 16px;border-radius:2px;white-space:nowrap;transition:background .2s;
+}
+.hdr-back:hover{background:#F2C863}
+@media(max-width:900px){.hdr-nav{display:none}}
+
+/* ---------- обложка ---------- */
+.cover{max-width:1240px;margin:0 auto;padding:var(--sect) var(--pad) 0}
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:26px;
+}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--gold-dim)}
+.cover h1{
+  font-family:var(--display);font-weight:800;line-height:1.06;letter-spacing:-.01em;
+  font-size:clamp(34px,6.2vw,66px);margin-bottom:18px;
+}
+.cover .sub{
+  font-size:clamp(18px,2.4vw,24px);color:var(--text-2);max-width:32ch;line-height:1.4;
+  font-weight:400;
+}
+.cover-rule{max-width:1240px;margin:var(--sect) auto 0;padding:0 var(--pad)}
+.cover-rule hr{border:0;border-top:1px solid var(--edge)}
+
+/* ---------- каркас: содержание + текст ---------- */
+.wrap{
+  max-width:1240px;margin:0 auto;padding:var(--sect) var(--pad) 0;
+  display:grid;grid-template-columns:250px minmax(0,1fr);gap:64px;align-items:start;
+}
+@media(max-width:1024px){.wrap{grid-template-columns:1fr;gap:0}}
+
+.toc{position:sticky;top:88px;max-height:calc(100vh - 120px);overflow-y:auto;padding-right:8px}
+.toc-title{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:16px;
+}
+.toc a{
+  display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:baseline;
+  color:var(--text-2);text-decoration:none;font-size:14px;line-height:1.35;
+  padding:7px 0 7px 12px;border-left:1px solid var(--edge);transition:color .2s,border-color .2s;
+}
+.toc a:hover{color:var(--text);border-left-color:var(--edge-hi)}
+.toc a.active{color:var(--gold);border-left-color:var(--gold)}
+.toc-n{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.toc a.active .toc-n{color:var(--gold)}
+
+/* содержание на мобильном — раскрывающийся список */
+.toc-mobile{display:none;margin-bottom:var(--sect);border:1px solid var(--edge);border-radius:3px;background:var(--surface)}
+.toc-mobile summary{
+  list-style:none;cursor:pointer;padding:15px 18px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text);display:flex;align-items:center;justify-content:space-between;
+}
+.toc-mobile summary::-webkit-details-marker{display:none}
+.toc-mobile summary::after{content:"+";color:var(--gold);font-size:18px;line-height:1}
+.toc-mobile[open] summary::after{content:"–"}
+.toc-mobile .toc{position:static;max-height:none;padding:0 18px 16px}
+.toc-mobile .toc-title{display:none}
+@media(max-width:1024px){
+  .toc-desktop{display:none}
+  .toc-mobile{display:block}
 }
 
-/* ---------- SHELL / TOC ---------- */
-.article-shell { max-width:var(--shell-max); margin:0 auto; padding:var(--space-10) var(--page-pad-x) var(--space-11);
-  display:grid; grid-template-columns:var(--toc-width) minmax(0,1fr); gap:52px; align-items:start; }
-.article-toc { position:sticky; top:calc(var(--header-h) + 28px); }
-.article-toc nav { display:flex; flex-direction:column; border-left:1px solid var(--border); }
-.article-toc nav a { font-size:var(--fs-small); color:var(--text-secondary);
-  padding:6px 0 6px 16px; margin-left:-1px; border:0; border-left:2px solid transparent; transition:var(--transition); }
-.article-toc nav a:hover { color:var(--accent); }
-.article-toc nav a.is-active { color:var(--accent); font-weight:var(--fw-medium); border-left-color:var(--accent); }
-.article-main { max-width:var(--content-max); }
+/* ---------- секции ---------- */
+.sec{padding-bottom:var(--sect);scroll-margin-top:80px}
+.sec-num{
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--gold);
+  padding-bottom:14px;margin-bottom:22px;border-bottom:1px solid var(--edge);
+}
+.sec h2{
+  font-family:var(--display);font-weight:700;line-height:1.14;letter-spacing:-.01em;
+  font-size:clamp(25px,3.6vw,38px);margin-bottom:22px;
+}
+.sec h3.lead-sub{
+  font-family:var(--display);font-weight:700;font-size:clamp(20px,2.6vw,25px);
+  margin:36px 0 14px;line-height:1.25;
+}
+.sec h3.banner{
+  font-family:var(--display);font-weight:700;font-size:clamp(21px,2.8vw,28px);
+  color:var(--gold);margin:32px 0 14px;line-height:1.2;
+}
+.sec h4{
+  font-family:var(--mono);font-weight:500;font-size:13px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--gold);margin:32px 0 12px;line-height:1.5;
+}
+.sec p{margin-bottom:14px;color:var(--text-2);max-width:68ch}
+.sec p.cue{color:var(--muted);margin-bottom:8px}
+.sec p.step{
+  color:var(--text);font-weight:500;margin:20px 0 6px;
+  padding-left:14px;border-left:2px solid var(--gold-dim);
+}
+.sec ul{list-style:none;margin:0 0 18px;max-width:68ch}
+.sec li{
+  position:relative;padding-left:22px;margin-bottom:9px;color:var(--text-2);
+}
+.sec li::before{
+  content:"";position:absolute;left:2px;top:.68em;
+  width:5px;height:5px;background:var(--gold-dim);border-radius:50%;
+}
+.sec ul.ticks li::before{
+  content:"✓";background:none;width:auto;height:auto;top:0;left:0;
+  color:var(--gold);font-size:14px;
+}
+.sec blockquote{
+  margin:20px 0;padding:20px 22px;background:var(--surface);
+  border-left:2px solid var(--gold);border-radius:0 3px 3px 0;
+  color:var(--text);font-size:16px;line-height:1.6;
+}
+@media(max-width:760px){.sec blockquote{padding:16px 16px}}
 
-/* ---------- EYEBROW (DS: Eyebrow) ---------- */
-.eyebrow { font-family:var(--font-label); font-size:var(--fs-eyebrow); letter-spacing:var(--ls-eyebrow);
-  text-transform:uppercase; font-weight:var(--fw-medium); color:var(--text-label);
-  display:flex; align-items:baseline; gap:.9em; margin-bottom:var(--space-4); }
-.eyebrow .n { color:var(--accent); font-weight:var(--fw-semibold); letter-spacing:.06em; }
+/* статусы */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 20px}
+.chip{
+  font-family:var(--mono);font-size:12px;letter-spacing:.04em;
+  padding:8px 13px;border-radius:2px;border:1px solid var(--edge-hi);
+  background:var(--surface);white-space:nowrap;
+}
+.chip--ok{color:var(--ok);border-color:rgba(79,169,106,.4)}
+.chip--warn{color:var(--warn);border-color:rgba(217,164,65,.4)}
+.chip--late{color:var(--late);border-color:rgba(196,85,61,.4)}
 
-/* ---------- SECTION HEADER (DS: SectionHeader) ---------- */
-.section-header { margin-bottom:var(--space-6); }
-.section-header h2 { font-family:var(--font-display); font-size:var(--fs-h2); line-height:var(--lh-snug);
-  font-weight:var(--fw-semibold); letter-spacing:var(--ls-tight); color:var(--text-heading); margin:0; }
-.section-header.size-hero h1 { font-family:var(--font-display); font-size:var(--fs-hero); line-height:var(--lh-tight);
-  font-weight:var(--fw-semibold); letter-spacing:var(--ls-tight); color:var(--text-heading); margin:0; }
-.section-header .lead { font-size:var(--fs-lead); line-height:var(--lh-relaxed);
-  color:var(--text-secondary); margin:var(--space-4) 0 0; max-width:var(--measure); }
+/* ---------- подвал ---------- */
+.site-footer{
+  border-top:1px solid var(--edge);margin-top:var(--sect);
+  background:var(--surface);
+}
+.footer-in{
+  max-width:1240px;margin:0 auto;padding:44px var(--pad);
+  display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between;
+}
+.footer-in p{color:var(--muted);font-size:14px}
+.footer-cta{
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--void);background:var(--gold);text-decoration:none;
+  padding:13px 22px;border-radius:2px;transition:background .2s;
+}
+.footer-cta:hover{background:#F2C863}
 
-/* ---------- ARTICLE TEXT ---------- */
-.article-main p, .article-main ul, .article-main ol { max-width:var(--measure); }
-.article-main p { margin:0 0 var(--space-4); }
-.article-main h3 { font-family:var(--font-display); font-size:var(--fs-h3); font-weight:var(--fw-semibold);
-  color:var(--text-heading); margin:var(--space-7) 0 var(--space-3); line-height:var(--lh-snug); }
-.article-main strong { font-weight:var(--fw-semibold); color:var(--text-heading); }
-.hero-sub { font-family:var(--font-display); font-size:34px; font-weight:var(--fw-semibold);
-  line-height:1.22; color:var(--text-heading); margin:var(--space-6) 0 var(--space-5); max-width:var(--measure); }
-.hero-lead { font-size:20px; line-height:var(--lh-relaxed); max-width:var(--measure); margin:0 0 var(--space-6); }
-.hero-meta { display:flex; align-items:center; gap:var(--space-4); font-size:15px; color:var(--text-secondary); flex-wrap:wrap; }
-.rule { border:0; border-top:1px solid var(--rule); margin:80px 0; }
+/* ---------- наверх ---------- */
+.to-top{
+  position:fixed;right:22px;bottom:22px;z-index:55;
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;text-decoration:none;
+  background:var(--raised);border:1px solid var(--edge-hi);color:var(--gold);
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+.to-top.show{opacity:1;pointer-events:auto}
+@media(max-width:760px){.to-top{right:14px;bottom:14px}}
 
-/* ---------- BADGE (DS: Badge) ---------- */
-.badge { display:inline-flex; align-items:center; font-family:var(--font-body); font-size:var(--fs-small);
-  line-height:1; padding:6px 11px; border-radius:var(--radius-sm); white-space:nowrap;
-  background:var(--bg-cream); color:var(--text-on-cream); border:1px solid var(--cream-1); }
-
-/* ---------- CALLOUT (DS: Callout) ---------- */
-.callout { background:var(--bg-muted); border-left:var(--bw-bar) solid var(--quote-bar);
-  padding:var(--pad-callout); border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  font-family:var(--font-body); font-size:var(--fs-body); line-height:var(--lh-body);
-  color:var(--text-body); max-width:var(--measure); margin:var(--space-6) 0; }
-.callout p { margin:0; max-width:none; }
-.callout p + p { margin-top:var(--space-3); }
-
-/* ---------- SPEC ROW (DS: SpecRow) ---------- */
-.spec { display:grid; gap:0; max-width:var(--measure); margin:var(--space-5) 0; }
-.spec-row { display:grid; grid-template-columns:150px 1fr; gap:var(--space-5); align-items:baseline;
-  padding:var(--space-3) 0; border-bottom:1px solid var(--border); }
-.spec-row .k { font-size:var(--fs-small); color:var(--text-secondary); font-variant-numeric:oldstyle-nums; }
-.spec-row .v { font-size:var(--fs-body-sm); color:var(--text-body); line-height:var(--lh-snug); }
-
-/* ---------- CARDS / STATS ---------- */
-.card { border:1px solid var(--border); border-radius:var(--radius-sm); padding:var(--pad-card);
-  background:var(--bg-surface); }
-.card .k { font-family:var(--font-label); font-size:var(--fs-eyebrow); letter-spacing:var(--ls-eyebrow);
-  text-transform:uppercase; color:var(--accent); margin-bottom:var(--space-3); display:block; }
-.card h3 { margin-top:0; }
-.card > :last-child { margin-bottom:0; }
-.grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-6); margin:var(--space-6) 0; }
-.grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); margin:var(--space-6) 0; }
-.grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-4); margin:var(--space-6) 0; }
-.grid-5 { display:grid; grid-template-columns:repeat(5,1fr); gap:var(--space-4); margin:var(--space-6) 0; }
-.stat-card { border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px; background:var(--bg-surface); }
-.stat-card .num { font-family:var(--font-display); font-size:26px; font-weight:var(--fw-bold);
-  color:var(--accent); line-height:1; }
-.stat-card .lbl { font-size:13px; color:var(--text-secondary); margin-top:8px; line-height:1.4; }
-
-/* ---------- TIMELINE ---------- */
-.timeline { display:grid; gap:0; max-width:var(--measure); border-top:1px solid var(--rule); margin:var(--space-6) 0; }
-.timeline .row { display:grid; grid-template-columns:150px 1fr; gap:20px; padding:18px 0; border-bottom:1px solid var(--rule); }
-.timeline .row .when { font-weight:var(--fw-semibold); color:var(--accent); }
-
-/* ---------- MARKER LISTS ---------- */
-ul.diamond, ul.check, ul.cross { list-style:none; margin:var(--space-4) 0; padding:0;
-  display:grid; gap:var(--space-3); max-width:var(--measure); }
-/* Маркер вынесен в отступ, а сам li — обычный блок. Через display:flex нельзя:
-   <strong> в начале пункта становился отдельным флекс-элементом, и текст после
-   него уезжал во вторую колонку. */
-ul.diamond li, ul.check li, ul.cross li { position:relative; padding-left:1.7em;
-  font-size:17px; line-height:var(--lh-body); }
-ul.diamond li::before, ul.check li::before, ul.cross li::before {
-  position:absolute; left:0; top:0; }
-ul.diamond li::before { content:"◇"; color:var(--accent); }
-ul.check li::before { content:"✓"; color:var(--accent); }
-ul.cross li::before { content:"✕"; color:var(--text-faint); }
-
-/* ---------- TABLES ---------- */
-.tbl-wrap { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin:var(--space-6) 0; }
-.tbl-wrap table { width:100%; border-collapse:collapse; font-size:15px; }
-.tbl-wrap th { background:var(--bg-muted); text-align:left; padding:13px 22px; font-weight:var(--fw-semibold); }
-.tbl-wrap td { padding:13px 22px; border-top:1px solid var(--border); vertical-align:top; }
-.tbl-wrap td.score, .tbl-wrap .score { color:var(--accent); font-weight:var(--fw-semibold); white-space:nowrap; }
-.tbl-wrap tr.total td { background:var(--bg-muted); font-weight:var(--fw-semibold); }
-
-/* ---------- SCORE PLATE ---------- */
-.score-plate { margin-top:var(--space-7); border:1px solid var(--accent); border-radius:var(--radius-sm);
-  padding:28px 30px; background:var(--bg-surface); display:flex; align-items:center;
-  justify-content:space-between; gap:20px; flex-wrap:wrap; }
-.score-plate .t { font-family:var(--font-display); font-weight:var(--fw-bold); font-size:22px; color:var(--text-heading); }
-.score-plate .v { font-family:var(--font-display); font-weight:var(--fw-bold); font-size:40px; color:var(--accent); }
-
-/* ---------- FIGURES ---------- */
-figure { margin:var(--space-8) 0 0; }
-figure img { width:100%; height:auto; display:block; border-radius:var(--radius-sm); border:1px solid var(--border); }
-figcaption { font-size:13px; color:var(--text-faint); font-style:italic; margin-top:var(--space-3); }
-
-/* ---------- INTERACTIVES ---------- */
-[data-steps] .chips { display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom:var(--space-6); }
-[data-step-chip] { width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:18px; border:1px solid var(--border); border-radius:var(--radius-sm);
-  background:var(--bg-surface); color:var(--text-secondary); cursor:pointer; transition:var(--transition); }
-[data-step-chip].is-active { background:var(--cream-0); border-color:var(--accent); color:var(--text-on-cream); }
-[data-step-panel] { display:none; gap:var(--space-6); align-items:flex-start; max-width:var(--measure); }
-[data-step-panel].is-active { display:flex; }
-[data-step-panel] .num { font-family:var(--font-display); font-size:38px; color:var(--accent); line-height:1; }
-
-[data-tabs] .tabs { display:flex; gap:var(--space-2); flex-wrap:wrap; margin-bottom:var(--space-6); }
-[data-tab-btn] { padding:10px 20px; border:1px solid var(--border); border-radius:var(--radius-sm);
-  background:var(--bg-surface); color:var(--text-secondary); font-family:var(--font-body);
-  font-size:var(--fs-body-sm); cursor:pointer; transition:var(--transition); }
-[data-tab-btn].is-active { background:var(--cream-0); border-color:var(--accent); color:var(--text-on-cream); }
-[data-tab-panel] { display:none; grid-template-columns:1fr 1fr; gap:var(--space-6); }
-[data-tab-panel].is-active { display:grid; }
-
-[data-calc] { display:grid; grid-template-columns:1fr 1fr; gap:44px; border:1px solid var(--border);
-  border-radius:var(--radius-sm); background:var(--bg-surface); padding:28px 30px; margin:var(--space-6) 0; }
-[data-calc] label { display:block; margin-bottom:var(--space-5); }
-[data-calc] .lab { display:flex; justify-content:space-between; font-size:var(--fs-small);
-  color:var(--text-secondary); margin-bottom:8px; }
-[data-calc] .lab [data-val] { color:var(--accent); font-weight:var(--fw-semibold); }
-[data-calc] input[type=range] { width:100%; accent-color:var(--accent); cursor:pointer; }
-[data-calc] .out { display:flex; justify-content:space-between; align-items:baseline;
-  padding:12px 0; border-bottom:1px solid var(--border); }
-[data-calc] .out .k { font-size:var(--fs-small); color:var(--text-secondary); }
-[data-calc] .out .v { font-family:var(--font-display); font-size:20px; color:var(--text-heading); }
-[data-calc] .out.primary .v { font-size:30px; color:var(--accent); font-weight:var(--fw-bold); }
-.calc-note { font-style:italic; font-size:13px; color:var(--text-faint); margin-top:var(--space-3); }
-
-/* ---------- SOURCES ---------- */
-.src-line { max-width:var(--measure); font-size:14px; color:var(--text-secondary); margin-top:20px; }
-.sources-list { max-width:var(--measure); font-size:15px; color:var(--text-secondary); padding-left:20px; }
-.sources-list li { margin-bottom:10px; }
-
-/* ---------- FOOTER ---------- */
-.site-footer { background:var(--ink-0); color:var(--paper-2); margin-top:var(--space-9); }
-.footer-top { max-width:var(--shell-max); margin:0 auto; padding:var(--space-10) var(--page-pad-x) var(--space-8);
-  display:grid; grid-template-columns:1.3fr 2fr; gap:var(--gutter); }
-.footer-top img { height:30px; width:auto; filter:brightness(0) invert(1); margin-bottom:var(--space-4); display:block; }
-.footer-top .tag { color:#b0aa9c; font-size:15px; line-height:1.6; max-width:340px; margin:0 0 var(--space-5); }
-.footer-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-6); }
-.footer-cols h4 { font-family:var(--font-label); font-size:var(--fs-eyebrow); letter-spacing:var(--ls-eyebrow);
-  text-transform:uppercase; color:#8b857a; margin:0 0 var(--space-3); font-weight:var(--fw-medium); }
-.footer-cols a { display:block; color:var(--paper-2); margin-bottom:8px; font-size:15px; }
-.footer-cols a:hover { color:var(--accent); }
-.footer-cols .contact { color:#b0aa9c; font-size:14px; line-height:1.7; margin-top:var(--space-3); }
-.footer-bottom { border-top:1px solid #33302a; max-width:var(--shell-max); margin:0 auto;
-  padding:18px var(--page-pad-x); display:flex; justify-content:space-between;
-  flex-wrap:wrap; gap:8px; color:#8b857a; font-size:13px; }
-
-/* ---------- HOMEPAGE ---------- */
-.home-shell { max-width:var(--shell-max); margin:0 auto; padding:var(--space-10) var(--page-pad-x) var(--space-11); }
-.home-shell h1 { font-family:var(--font-display); font-size:var(--fs-h1); font-weight:var(--fw-semibold);
-  letter-spacing:var(--ls-tight); color:var(--text-heading); margin:0 0 var(--space-3); }
-.home-shell .sub { font-size:var(--fs-lead); color:var(--text-secondary); max-width:540px; margin:0 0 var(--space-9); }
-.post-list { border-top:1px solid var(--border); }
-.post-list a { display:block; padding:26px 0; border-bottom:1px solid var(--border); }
-.post-list .pk { font-family:var(--font-label); font-size:var(--fs-eyebrow); letter-spacing:var(--ls-eyebrow);
-  text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
-.post-list .pt { font-family:var(--font-display); font-size:24px; font-weight:var(--fw-semibold);
-  color:var(--text-heading); margin-bottom:6px; transition:var(--transition); }
-.post-list a:hover .pt { color:var(--accent); }
-.post-list .pd { color:var(--text-secondary); font-size:16px; }
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior:auto; }
-  *, *::before, *::after { animation:none !important; transition:none !important; }
-  .splash { display:none; }
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  html{scroll-behavior:auto}
 }
 
-/* ============================================================
-   MOBILE ≤860px — скопировано из эталона
-   ============================================================ */
-@media (max-width: 860px) {
-  /* minmax(0,1fr), а не 1fr: у «1fr» автоминимум равен min-content, и лента
-     содержания в одну строку (nowrap) раздувает трек на всю свою длину —
-     страница становится шире экрана и телефон рисует десктопный макет. */
-  .article-shell { grid-template-columns:minmax(0,1fr) !important; gap:24px !important; padding:40px 22px 72px !important; }
-  .article-toc, .article-main { min-width:0 !important; max-width:100% !important; }
-  /* якорь не должен уезжать под шапку + липкую ленту содержания */
-  html { scroll-padding-top:124px; }
-  /* Содержание на мобильном — НЕ простыня в начале статьи, а компактная
-     липкая лента под шапкой: одна строка, листается горизонтально,
-     активный пункт подсвечивается и сам подъезжает в видимую зону. */
-  .article-toc {
-    position: sticky !important;
-    top: 62px !important;                 /* высота мобильной шапки */
-    z-index: 40;
-    order: -1;
-    margin: 0 -22px !important;           /* во всю ширину экрана */
-    padding: 0 !important;
-    background: color-mix(in srgb, var(--bg-page) 94%, transparent);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-  }
-  .article-toc > .eyebrow { display: none !important; }  /* подпись «СОДЕРЖАНИЕ» не нужна */
-  .article-toc nav {
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;         /* именно одна строка, не сетка чипов */
-    min-width: 0;                         /* иначе overflow-x ниже не работает */
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    border-left: 0 !important;
-    gap: 6px;
-    padding: 8px 22px !important;
-  }
-  .article-toc nav::-webkit-scrollbar { display: none; }
-  .article-toc nav a {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    border-left: 0 !important;
-    margin-left: 0 !important;
-    padding: 6px 14px !important;
-    font-size: 13px;
-    background: var(--bg-surface);
-    border-radius: 999px !important;
-    border: 1px solid var(--border) !important;
-  }
-  .article-toc nav a.is-active {
-    background: var(--cream-0);
-    border-color: var(--accent) !important;
-    color: var(--text-on-cream);
-  }
-  .article-shell article h2 { font-size:32px !important; line-height:1.12 !important; }
-  .section-header.size-hero h1 { font-size:40px !important; }
-  .hero-sub { font-size:20px !important; }
-  .hero-lead { font-size:17px !important; }
-  .article-header-inner { height:62px !important; padding:0 18px !important; }
-  .article-header-inner img { height:26px !important; }
-  .header-nav-links { display:none !important; }
-  .grid-2, .grid-3, .grid-4, .grid-5 { grid-template-columns:1fr !important; gap:14px !important; }
-  [data-tab-panel] { grid-template-columns:1fr !important; }
-  .article-shell article table { font-size:13px !important; }
-  .article-shell article th, .article-shell article td { padding:10px 12px !important; }
-  /* таблица шире экрана прокручивается внутри своей рамки, а не рвёт страницу */
-  .tbl-wrap { overflow-x:auto !important; -webkit-overflow-scrolling:touch; }
-  [data-steps] .chips, [data-tabs] .tabs { flex-wrap:wrap !important; }
-  [data-step-panel] { grid-template-columns:1fr !important; }
-  figure, img { max-width:100% !important; }
-  .spec-row, .timeline .row { grid-template-columns:1fr !important; gap:4px !important; }
-  .footer-top { grid-template-columns:1fr !important; gap:40px !important; padding:56px 22px 32px !important; }
-  .footer-cols { grid-template-columns:1fr !important; gap:28px !important; }
-  .footer-bottom { flex-direction:column !important; gap:6px !important; padding:18px 22px !important; }
-  [data-calc] { grid-template-columns:1fr !important; gap:28px !important; padding:22px !important; }
-  /* на узком экране подпись и крупное число не помещаются в одну строку */
-  [data-calc] .out { flex-wrap:wrap !important; gap:2px 12px !important; }
-  [data-calc] .out.primary .v { font-size:26px !important; }
-  .home-shell { padding:40px 22px 72px !important; }
-}
-  </style>
+</style>
 </head>
-<body>
+<body id="top">
 
 <div class="read-progress"><span id="read-progress-bar"></span></div>
 
-<header class="article-header">
-  <div class="article-header-inner">
-    <a href="#top" style="font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:.04em;text-decoration:none;color:var(--text-heading);">TRACK</a>
-    <div class="header-right">
-      <div class="header-nav-links">
-        <a href="#s-roles">Роли</a>
-        <a href="#s-rules">Правила</a>
-        <a href="#s-status">Статусы</a>
-        <a href="#s-checklist">Чек-лист</a>
-      </div>
-    </div>
+<header class="site-header">
+  <div class="hdr-in">
+    <a href="#top" class="brand">TR<em>A</em>CK</a>
+    <nav class="hdr-nav">
+      <a href="#s2">Роли</a>
+      <a href="#s5">Правила</a>
+      <a href="#s9">Статусы</a>
+      <a href="#s14">Внедрение</a>
+      <a href="#s16">KPI</a>
+    </nav>
+    <a href="../" class="hdr-back">На сайт</a>
   </div>
 </header>
 
-<div class="article-shell">
+<div class="cover">
+  <div class="eyebrow">Регламент · Внедрение</div>
+  <h1>Регламент внедрения TRACK</h1>
+  <p class="sub">Как встроить TRACK в рабочие процессы строительной компании</p>
+</div>
+<div class="cover-rule"><hr></div>
 
-  <aside class="article-toc">
-    <div class="eyebrow">Содержание</div>
-    <nav data-spy-nav="1">
-      <a href="#s-why">Зачем компании TRACK</a>
-      <a href="#s-roles">Кто за что отвечает</a>
-      <a href="#s-start">Запуск TRACK на объекте</a>
-      <a href="#s-rules">Правила ежедневной работы</a>
-      <a href="#s-report">Что считается качественным отчётом</a>
-      <a href="#s-nowork">Если работ не было</a>
-      <a href="#s-status">Статусы и реакция руководителя</a>
-      <a href="#s-truth">TRACK — источник истины</a>
-      <a href="#s-control">Контроль соблюдения</a>
-      <a href="#s-rollout">План внедрения</a>
-      <a href="#s-weekly">Еженедельный контроль</a>
-      <a href="#s-kpi">KPI внедрения</a>
-      <a href="#s-resist">Работа с сопротивлением</a>
-      <a href="#s-texts">Готовые тексты</a>
-      <a href="#s-result">Как работает процесс</a>
-      <a href="#s-checklist">Чек-лист внедрения</a>
+<div class="wrap">
+
+  <aside class="toc-desktop">
+    <nav class="toc">
+      <div class="toc-title">Содержание</div>
+      <a href="#s1"><span class="toc-n">01</span>Зачем компании TRACK</a>
+      <a href="#s2"><span class="toc-n">02</span>Кто за что отвечает</a>
+      <a href="#s3"><span class="toc-n">03</span>Чёткий момент запуска TRACK</a>
+      <a href="#s4"><span class="toc-n">04</span>Кто отвечает за внедрение TRACK</a>
+      <a href="#s5"><span class="toc-n">05</span>Как «заставить» монтажников пользоваться TRACK</a>
+      <a href="#s6"><span class="toc-n">06</span>Что считается качественным отчётом</a>
+      <a href="#s7"><span class="toc-n">07</span>Правило по фотографиям и видео</a>
+      <a href="#s8"><span class="toc-n">08</span>Что делать, если на объекте ничего не происходило</a>
+      <a href="#s9"><span class="toc-n">09</span>Что делать при статусах 🟡 и 🔴</a>
+      <a href="#s10"><span class="toc-n">10</span>Правило «TRACK — источник истины»</a>
+      <a href="#s11"><span class="toc-n">11</span>Как донести ценность TRACK монтажникам</a>
+      <a href="#s12"><span class="toc-n">12</span>Как презентовать внедрение сотрудникам</a>
+      <a href="#s13"><span class="toc-n">13</span>Как контролировать соблюдение</a>
+      <a href="#s14"><span class="toc-n">14</span>Как внедрять TRACK без сопротивления</a>
+      <a href="#s15"><span class="toc-n">15</span>Еженедельный контроль</a>
+      <a href="#s16"><span class="toc-n">16</span>KPI внедрения TRACK</a>
+      <a href="#s17"><span class="toc-n">17</span>Как презентовать TRACK клиенту</a>
+      <a href="#s18"><span class="toc-n">18</span>Что делать, если сотрудники сопротивляются</a>
+      <a href="#s19"><span class="toc-n">19</span>Принцип внедрения TRACK</a>
+      <a href="#s20"><span class="toc-n">20</span>Итог внедрения TRACK</a>
     </nav>
   </aside>
 
-  <article class="article-main" id="top">
+  <main>
+    <details class="toc-mobile" id="toc-mobile">
+      <summary>Содержание</summary>
+      <nav class="toc">
+        <a href="#s1"><span class="toc-n">01</span>Зачем компании TRACK</a>
+      <a href="#s2"><span class="toc-n">02</span>Кто за что отвечает</a>
+      <a href="#s3"><span class="toc-n">03</span>Чёткий момент запуска TRACK</a>
+      <a href="#s4"><span class="toc-n">04</span>Кто отвечает за внедрение TRACK</a>
+      <a href="#s5"><span class="toc-n">05</span>Как «заставить» монтажников пользоваться TRACK</a>
+      <a href="#s6"><span class="toc-n">06</span>Что считается качественным отчётом</a>
+      <a href="#s7"><span class="toc-n">07</span>Правило по фотографиям и видео</a>
+      <a href="#s8"><span class="toc-n">08</span>Что делать, если на объекте ничего не происходило</a>
+      <a href="#s9"><span class="toc-n">09</span>Что делать при статусах 🟡 и 🔴</a>
+      <a href="#s10"><span class="toc-n">10</span>Правило «TRACK — источник истины»</a>
+      <a href="#s11"><span class="toc-n">11</span>Как донести ценность TRACK монтажникам</a>
+      <a href="#s12"><span class="toc-n">12</span>Как презентовать внедрение сотрудникам</a>
+      <a href="#s13"><span class="toc-n">13</span>Как контролировать соблюдение</a>
+      <a href="#s14"><span class="toc-n">14</span>Как внедрять TRACK без сопротивления</a>
+      <a href="#s15"><span class="toc-n">15</span>Еженедельный контроль</a>
+      <a href="#s16"><span class="toc-n">16</span>KPI внедрения TRACK</a>
+      <a href="#s17"><span class="toc-n">17</span>Как презентовать TRACK клиенту</a>
+      <a href="#s18"><span class="toc-n">18</span>Что делать, если сотрудники сопротивляются</a>
+      <a href="#s19"><span class="toc-n">19</span>Принцип внедрения TRACK</a>
+      <a href="#s20"><span class="toc-n">20</span>Итог внедрения TRACK</a>
+      </nav>
+    </details>
 
-    <section id="s1">
-      <header class="section-header size-hero">
-        <div class="eyebrow">Регламент · Внедрение</div>
-        <h1>TRACK</h1>
-      </header>
-      <h2 class="hero-sub">Как встроить TRACK в рабочие процессы строительной компании</h2>
-      <p class="hero-lead">TRACK — не дополнительный чат и не ещё одна форма отчётности для монтажников. Это часть ежедневного рабочего процесса: монтажник фиксирует результат работы, TRACK структурирует информацию, руководитель видит актуальную картину по объектам, клиент при необходимости получает прозрачную информацию о ходе работ.</p>
-      <aside class="callout">
-        <p><strong>Золотое правило</strong></p>
-        <p>TRACK заменяет существующий процесс сбора информации, а не добавляется поверх него. Задача внедрения — не заставить сотрудников пользоваться сервисом ради самого сервиса, а заменить ручной сбор информации понятной и системной процедурой контроля.</p>
-      </aside>
+    <section class="sec" id="intro">
+      <h4>Как встроить TRACK в рабочие процессы строительной компании</h4>
+      <p>TRACK — это не дополнительный чат и не ещё одна форма отчётности для монтажников.</p>
+      <p>TRACK должен стать частью ежедневного рабочего процесса компании: монтажник фиксирует результат работы, TRACK структурирует информацию, руководитель получает актуальную картину по объектам, а при необходимости клиент получает прозрачную информацию о ходе работ.</p>
+      <p>Главная задача внедрения — не заставить сотрудников пользоваться TRACK ради самого сервиса, а заменить ручной сбор информации понятной и системной процедурой контроля.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-why">
-      <header class="section-header">
-        <div class="eyebrow">01</div>
-        <h2>Зачем компании TRACK</h2>
-      </header>
-      <ul class="check">
-        <li>видеть все объекты в одном месте;</li>
-        <li>контролировать прогресс и сроки;</li>
-        <li>своевременно выявлять проблемы;</li>
-        <li>получать стандартизированные отчёты монтажников;</li>
-        <li>сохранять историю работ по каждому объекту;</li>
-        <li>сокращать количество звонков, сообщений и выездов;</li>
-        <li>контролировать объекты без отдельного сотрудника, который собирает отчётность;</li>
-        <li>повышать прозрачность и качество клиентского сервиса.</li>
-      </ul>
-      <p><strong>Главная мысль для команды.</strong> TRACK нужен не для того, чтобы контролировать монтажников. Он нужен, чтобы компания могла быстро и без лишней ручной работы контролировать монтажные работы.</p>
+    <section class="sec" id="s1">
+      <div class="sec-num">01</div>
+      <h2>Зачем компании TRACK</h2>
+      <p>TRACK позволяет компании:</p>
+      <ul><li>видеть все объекты в одном месте;</li><li>контролировать прогресс и сроки;</li><li>своевременно выявлять проблемы;</li><li>получать стандартизированные отчёты монтажников;</li><li>сохранять историю работ по каждому объекту;</li><li>сокращать количество звонков, сообщений и выездов;</li><li>контролировать объекты без отдельного сотрудника, который собирает отчётность;</li><li>повышать прозрачность и качество клиентского сервиса.</li></ul>
+      <h4>Главная мысль для команды</h4>
+      <p>TRACK нужен не для того, чтобы контролировать монтажников.</p>
+      <p>Он нужен, чтобы компания могла быстро и без лишней ручной работы контролировать монтажные работы.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-roles">
-      <header class="section-header">
-        <div class="eyebrow">02</div>
-        <h2>Кто за что отвечает</h2>
-      </header>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Роль</th><th>Отвечает за</th><th>НЕ отвечает за</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><strong>Руководитель</strong><br><span style="color:var(--text-faint);">владелец, руководитель монтажного направления, прораб, руководитель проекта, генподрядчик</span></td>
-              <td>внедрение; подключение объектов и сотрудников; установку правил; контроль процесса и ежедневной отчётности; проверку проблемных объектов; контроль сроков; решения при отклонениях; использование данных TRACK в управлении</td>
-              <td>сбор отчётов за монтажников</td>
-            </tr>
-            <tr>
-              <td><strong>Монтажник</strong></td>
-              <td>ежедневный отчёт; выполненные работы; план на следующий рабочий день; статус по срокам; фото и видео; фиксацию проблем; достоверность информации</td>
-              <td>контроль других сотрудников</td>
-            </tr>
-            <tr>
-              <td><strong>Ответственный за внедрение</strong><br><span style="color:var(--text-faint);">назначается один человек</span></td>
-              <td>подключение сотрудников; заведение объектов; знание правил командой; ежедневную сдачу отчётов; реакцию на проблемы; использование TRACK в управлении</td>
-              <td>заполнение отчётов за монтажников</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p><strong>Руководитель контролирует систему, а не выполняет работу системы.</strong></p>
+    <section class="sec" id="s2">
+      <div class="sec-num">02</div>
+      <h2>Кто за что отвечает</h2>
+      <h3 class="lead-sub">Руководитель</h3>
+      <p>В зависимости от структуры компании это может быть владелец, руководитель монтажного направления, прораб, руководитель проекта, генеральный подрядчик и т.д.</p>
+      <p>Руководитель отвечает за:</p>
+      <ul><li>внедрение TRACK;</li><li>подключение объектов и сотрудников;</li><li>установку правил работы;</li><li>контроль соблюдения процесса;</li><li>контроль ежедневной отчётности;</li><li>проверку проблемных объектов;</li><li>контроль сроков;</li><li>принятие решений при отклонениях;</li><li>использование данных TRACK в управлении.</li></ul>
+      <p>Важно: руководитель не должен сам собирать отчёты за монтажников.</p>
+      <p>Его задача — контролировать систему, а не выполнять работу системы.</p>
+      <h3 class="lead-sub">Монтажник</h3>
+      <p>Монтажник отвечает только за свою часть работы:</p>
+      <ul><li>ежедневный отчёт;</li><li>указание выполненных работ;</li><li>план на следующий рабочий день;</li><li>актуальный статус по срокам;</li><li>фото и видео;</li><li>фиксацию возникших проблем;</li><li>достоверность информации.</li></ul>
+      <p>Монтажник ведёт свой объект и не отвечает за контроль других сотрудников.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-start">
-      <header class="section-header">
-        <div class="eyebrow">03</div>
-        <h2>Запуск TRACK на объекте</h2>
-      </header>
-      <p>TRACK подключается к объекту <strong>до начала или с начала монтажных работ</strong>. После назначения объекта и ответственного монтажника или бригады руководитель проходит пять шагов.</p>
-      <div data-steps="1">
-        <div class="chips">
-          <button data-step-chip="1">1</button><button data-step-chip="2">2</button><button data-step-chip="3">3</button><button data-step-chip="4">4</button><button data-step-chip="5">5</button>
-        </div>
-        <div data-step-panel="1"><div class="num">01</div><div><h3>Создаёт объект в TRACK</h3><p>Объект заводится до того, как бригада вышла на площадку.</p></div></div>
-        <div data-step-panel="2"><div class="num">02</div><div><h3>Назначает ответственных сотрудников</h3><p>У каждого объекта есть монтажник или бригада, которая ведёт по нему отчётность.</p></div></div>
-        <div data-step-panel="3"><div class="num">03</div><div><h3>При необходимости задаёт план этапов</h3><p>Этапы нужны там, где важно отслеживать прогресс по частям работ.</p></div></div>
-        <div data-step-panel="4"><div class="num">04</div><div><h3>Знакомит монтажника с правилами</h3><p>Готовый текст объявления — в разделе «Готовые тексты».</p></div></div>
-        <div data-step-panel="5"><div class="num">05</div><div><h3>Сообщает дату начала отчётности</h3><p>С этой даты TRACK становится основным способом ежедневной отчётности по монтажным работам.</p></div></div>
-      </div>
-      <p>Если объект уже в работе — TRACK подключается с текущего этапа, его актуальное состояние фиксируется на старте.</p>
+    <section class="sec" id="s3">
+      <div class="sec-num">03</div>
+      <h2>Чёткий момент запуска TRACK</h2>
+      <p>TRACK подключается к объекту до начала или с начала монтажных работ.</p>
+      <p>После назначения объекта и ответственного монтажника/бригады руководитель:</p>
+      <ul><li>создаёт объект в TRACK;</li><li>назначает ответственных сотрудников;</li><li>при необходимости задаёт план этапов;</li><li>знакомит монтажника с правилами работы;</li><li>сообщает дату, с которой отчётность ведётся через TRACK.</li></ul>
+      <p class="cue">С этой даты:</p>
+      <p>TRACK становится основным способом ежедневной отчётности по монтажным работам.</p>
+      <p>Если объект уже находится в работе, TRACK можно подключить с текущего этапа, зафиксировав его актуальное состояние.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-rules">
-      <header class="section-header">
-        <div class="eyebrow">04</div>
-        <h2>Правила ежедневной работы</h2>
-      </header>
-      <p>Главное правило: <strong>TRACK становится единственным стандартом отчётности по объектам.</strong> Не «попробуйте ещё TRACK, если удобно», а «с этого дня отчёт по объекту отправляется через TRACK».</p>
-      <p><strong>Правило 1. Отчёт — часть рабочего процесса.</strong> До установленного времени каждого рабочего дня монтажник закрывает отчёт в TRACK. Конкретное время компания устанавливает сама под свой график — например, до 18:00.</p>
-      <p><strong>Правило 2. Не дублировать отчёт.</strong> Если монтажник отправил информацию в WhatsApp или Telegram, но не заполнил TRACK, для управленческого контроля информация считается незафиксированной. Рабочее общение продолжается в привычных каналах, официальная ежедневная отчётность — в TRACK.</p>
-      <p><strong>Правило 3. Руководитель сам пользуется TRACK.</strong> Если монтажники заполняют TRACK, а руководитель продолжает писать «ну что там у вас?» — внедрение не работает. Руководитель постепенно перестаёт собирать информацию вручную.</p>
-      <p><strong>Правило 4. Рабочая смена закрывается отчётом.</strong> Смена считается закрытой только после отправки отчёта. В конце дня монтажник обязан указать выполненные работы, план на следующий день, статус по срокам, приложить фото или видео и зафиксировать возникшие проблемы.</p>
-      <aside class="callout">
-        <p><strong>Нет отчёта — смена не закрыта.</strong></p>
-      </aside>
+    <section class="sec" id="s4">
+      <div class="sec-num">04</div>
+      <h2>Кто отвечает за внедрение TRACK</h2>
+      <p>В компании должен быть назначен один ответственный за внедрение и соблюдение процесса.</p>
+      <p class="cue">Это может быть:</p>
+      <ul><li>руководитель монтажного направления;</li><li>прораб;</li><li>руководитель проекта;</li><li>операционный руководитель;</li><li>другой назначенный сотрудник.</li></ul>
+      <h4>Ответственный за внедрение не заполняет отчёты за монтажников.</h4>
+      <p>Он отвечает за то, чтобы:</p>
+      <ul><li>все необходимые сотрудники были подключены;</li><li>объекты были заведены;</li><li>монтажники знали правила;</li><li>отчёты сдавались ежедневно;</li><li>проблемы не оставались без реакции;</li><li>TRACK использовался в управлении.</li></ul>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-report">
-      <header class="section-header">
-        <div class="eyebrow">05</div>
-        <h2>Что считается качественным отчётом</h2>
-      </header>
-      <p>Сам факт отправки отчёта не означает, что отчёт качественный. <strong>Качественный отчёт = руководитель понимает ситуацию на объекте без дополнительного звонка.</strong></p>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Элемент</th><th>Плохо</th><th>Хорошо</th></tr></thead>
-          <tbody>
-            <tr><td>Что сделали сегодня</td><td>«Работали», «делали монтаж», «всё нормально»</td><td>«Смонтировали второй этаж, собрали стояки в двух подъездах»</td></tr>
-            <tr><td>Что планируем завтра</td><td>не указано</td><td>конкретный следующий шаг</td></tr>
-            <tr><td>Статус по срокам</td><td>не отмечен</td><td>🟢 по плану · 🟡 риск задержки · 🔴 задержка</td></tr>
-            <tr><td>Фото и видео</td><td>старые кадры или их нет</td><td>фактический результат текущего дня</td></tr>
-            <tr><td>Проблема</td><td>обсуждается устно</td><td>зафиксирована в отчёте</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p><strong>Правило по фотографиям.</strong> Фото и видео подтверждают фактический результат работ: материалы текущего рабочего дня, реально выполненные работы, проблемные места — отдельно. Старые фотографии вместо актуальных не используются. Фото — не формальность, оно помогает руководителю понять, что произошло на объекте.</p>
+    <section class="sec" id="s5">
+      <div class="sec-num">05</div>
+      <h2>Как «заставить» монтажников пользоваться TRACK</h2>
+      <p>Главное правило:</p>
+      <h3 class="lead-sub">TRACK становится единственным стандартом отчётности по объектам.</h3>
+      <p class="cue">Не:</p>
+      <blockquote>«Попробуйте ещё TRACK, если удобно».</blockquote>
+      <p class="cue">А:</p>
+      <blockquote>«С этого дня отчёт по объекту отправляется через TRACK».</blockquote>
+      <h4>Правило №1. Отчёт — часть рабочего процесса</h4>
+      <p class="cue">Например:</p>
+      <p>До 18:00 каждого рабочего дня монтажник закрывает отчёт в TRACK.</p>
+      <p>Конкретное время компания устанавливает самостоятельно в зависимости от своего рабочего графика.</p>
+      <h4>Правило №2. Не дублировать отчёт</h4>
+      <p>Если монтажник отправил информацию в WhatsApp или Telegram, но не заполнил TRACK:</p>
+      <p>Для управленческого контроля информация считается незафиксированной.</p>
+      <p>Рабочее общение может продолжаться в привычных каналах, но официальная ежедневная отчётность находится в TRACK.</p>
+      <h4>Правило №3. Руководитель сам пользуется TRACK</h4>
+      <p>Если монтажники заполняют TRACK, а руководитель продолжает писать:</p>
+      <blockquote>«Ну что там у вас?»</blockquote>
+      <p>— внедрение не работает.</p>
+      <p>Руководитель должен постепенно перестать собирать информацию вручную и использовать TRACK как основной инструмент контроля.</p>
+      <h4>Правило №4. Рабочая смена закрывается отчётом</h4>
+      <p>Рабочая смена монтажника считается закрытой только после отправки отчёта в TRACK.</p>
+      <p>В конце рабочего дня монтажник обязан:</p>
+      <ul><li>указать выполненные работы;</li><li>указать план на следующий день;</li><li>отметить статус по срокам;</li><li>приложить фото/видео;</li><li>зафиксировать возникшие проблемы, если они есть.</li></ul>
+      <p>Нет отчёта — смена не закрыта.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-nowork">
-      <header class="section-header">
-        <div class="eyebrow">06</div>
-        <h2>Если работ не было</h2>
-      </header>
-      <p><strong>Отсутствие работ не является причиной не сдавать отчёт.</strong> Монтажник всё равно отправляет отчёт и указывает причину:</p>
-      <ul class="diamond">
-        <li>ждём материал;</li>
-        <li>нет доступа на объект;</li>
-        <li>ждём решение руководителя;</li>
-        <li>клиент не предоставил доступ;</li>
-        <li>работы приостановлены;</li>
-        <li>ожидается другой подрядчик.</li>
-      </ul>
-      <p>Пример: «Сегодня работы не выполнялись. Ожидаем поставку кабеля. Поставка — завтра». Так руководитель сразу видит причину простоя и может принять решение. Для контроля сроков это критично.</p>
+    <section class="sec" id="s6">
+      <div class="sec-num">06</div>
+      <h2>Что считается качественным отчётом</h2>
+      <p>Сам факт отправки отчёта ещё не означает, что отчёт качественный.</p>
+      <p>Хороший отчёт должен позволять руководителю понять состояние объекта без дополнительного звонка монтажнику.</p>
+      <h4>Качественный отчёт содержит:</h4>
+      <p class="step">1. Что сделали сегодня</p>
+      <p>Конкретно выполненные работы, а не:</p>
+      <blockquote>«Работали», «делали монтаж», «всё нормально».</blockquote>
+      <p class="cue">Например:</p>
+      <blockquote>«Смонтировали второй этаж, собрали стояки в двух подъездах».</blockquote>
+      <p class="step">2. Что планируем завтра</p>
+      <p>Конкретный следующий шаг.</p>
+      <p class="step">3. Актуальный статус по срокам</p>
+      <div class="chips"><span class="chip chip--ok">🟢 По плану</span><span class="chip chip--warn">🟡 Риск задержки</span><span class="chip chip--late">🔴 Задержка</span></div>
+      <p class="step">4. Фото/видео</p>
+      <p>Фактический результат работы на объекте.</p>
+      <p class="step">5. Проблема, если она возникла</p>
+      <p>Если есть препятствие, его необходимо зафиксировать в отчёте.</p>
+      <p>Качественный отчёт = руководитель понимает ситуацию на объекте без дополнительных уточнений.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-status">
-      <header class="section-header">
-        <div class="eyebrow">07</div>
-        <h2>Статусы и реакция руководителя</h2>
-      </header>
-      <p>TRACK должен не просто показывать проблему, а помогать реагировать на неё вовремя.</p>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Статус</th><th>Что означает</th><th>Действия руководителя</th></tr></thead>
-          <tbody>
-            <tr><td>🟢 <strong>По плану</strong></td><td>объект идёт согласно плану</td><td>дополнительных действий не требуется</td></tr>
-            <tr><td>🟡 <strong>Риск задержки</strong></td><td>есть обстоятельство, которое может нарушить срок: задерживается материал, не хватает людей, обнаружена проблема на объекте, требуется решение руководителя, есть зависимость от другого подрядчика</td><td>1. ознакомиться с причиной<br>2. оценить влияние на срок<br>3. при необходимости принять решение<br>4. контролировать до устранения риска</td></tr>
-            <tr><td>🔴 <strong>Задержка</strong></td><td>срок нарушен или работы отстают от графика</td><td>1. определить причину<br>2. определить необходимые действия<br>3. зафиксировать новый ожидаемый срок<br>4. назначить ответственного за устранение<br>5. при необходимости проинформировать клиента</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <aside class="callout">
-        <p><strong>Главная задача жёлтого статуса — устранить проблему до того, как она станет задержкой.</strong></p>
-      </aside>
+    <section class="sec" id="s7">
+      <div class="sec-num">07</div>
+      <h2>Правило по фотографиям и видео</h2>
+      <p>Фото и видео должны подтверждать фактический результат работ на объекте.</p>
+      <p>Рекомендуется:</p>
+      <ul><li>отправлять материалы текущего рабочего дня;</li><li>фотографировать фактически выполненные работы;</li><li>не использовать старые фотографии вместо актуальных;</li><li>при необходимости показывать проблемные места отдельно.</li></ul>
+      <p>Фото — это не формальность.</p>
+      <p>Фото должно помогать руководителю понять, что реально произошло на объекте.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-truth">
-      <header class="section-header">
-        <div class="eyebrow">08</div>
-        <h2>TRACK — источник истины</h2>
-      </header>
-      <p>TRACK является основным источником информации о фактическом состоянии монтажных работ. Если информация есть в нескольких местах, для управленческого контроля используется зафиксированная в TRACK.</p>
-      <p>Это защищает компанию от ситуации: «в чате написали одно, монтажник сказал другое, а в отчёте третье».</p>
+    <section class="sec" id="s8">
+      <div class="sec-num">08</div>
+      <h2>Что делать, если на объекте ничего не происходило</h2>
+      <p>Отсутствие работ не является причиной не сдавать отчёт.</p>
+      <p>Если монтажные работы не выполнялись, монтажник всё равно отправляет отчёт и указывает причину.</p>
+      <p class="cue">Например:</p>
+      <ul><li>ждём материал;</li><li>нет доступа на объект;</li><li>ждём решение руководителя;</li><li>клиент не предоставил доступ;</li><li>работы приостановлены;</li><li>ожидается другой подрядчик.</li></ul>
+      <p>Это особенно важно для контроля сроков.</p>
+      <p class="cue">Например:</p>
+      <p>Сегодня работы не выполнялись. Ожидаем поставку кабеля. Поставка — завтра.</p>
+      <p>Так руководитель сразу видит причину простоя и может принять решение.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-control">
-      <header class="section-header">
-        <div class="eyebrow">09</div>
-        <h2>Контроль соблюдения</h2>
-      </header>
-      <p>Каждый день ответственный проверяет один вопрос: <strong>все ли монтажники отчитались?</strong></p>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Ситуация</th><th>Действие</th></tr></thead>
-          <tbody>
-            <tr><td>Отчёта нет в первый раз</td><td>напоминание</td></tr>
-            <tr><td>Повторяется</td><td>выясняем причину</td></tr>
-            <tr><td>Систематически</td><td>руководитель разбирает нарушение и принимает необходимые действия</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Компания может установить дисциплинарные меры самостоятельно — например, 500 ₽ за несданный отчёт, если такая мера соответствует внутренним правилам.</p>
-      <aside class="callout">
-        <p><strong>Сначала выясняется причина.</strong></p>
-        <p>Проблема может быть не в дисциплине, а в самом процессе, интерфейсе или организации работы.</p>
-      </aside>
+    <section class="sec" id="s9">
+      <div class="sec-num">09</div>
+      <h2>Что делать при статусах 🟡 и 🔴</h2>
+      <p>TRACK должен не просто показывать проблему, но и помогать реагировать на неё вовремя.</p>
+      <h4>🟢 По плану</h4>
+      <p>Объект идёт согласно плану.</p>
+      <p>Действия: дополнительных действий не требуется.</p>
+      <h4>🟡 Риск задержки</h4>
+      <p>Есть обстоятельство, которое может привести к нарушению срока.</p>
+      <p class="cue">Например:</p>
+      <ul><li>задерживается материал;</li><li>не хватает людей;</li><li>обнаружена проблема на объекте;</li><li>требуется решение руководителя;</li><li>есть зависимость от другого подрядчика.</li></ul>
+      <p>Действия руководителя:</p>
+      <ul><li>ознакомиться с причиной;</li><li>оценить влияние на срок;</li><li>при необходимости принять решение;</li><li>проконтролировать ситуацию до устранения риска.</li></ul>
+      <p>Главная задача жёлтого статуса:</p>
+      <p>Устранить проблему до того, как она станет задержкой.</p>
+      <h4>🔴 Задержка</h4>
+      <p>Срок уже нарушен или выполнение работ уже отстаёт от установленного графика.</p>
+      <p>Действия руководителя:</p>
+      <ul><li>определить причину задержки;</li><li>определить необходимые действия;</li><li>зафиксировать новый ожидаемый срок;</li><li>назначить ответственного за устранение проблемы;</li><li>при необходимости проинформировать клиента.</li></ul>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-rollout">
-      <header class="section-header">
-        <div class="eyebrow">10</div>
-        <h2>План внедрения: не подключать всё сразу</h2>
-      </header>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Период</th><th>Что делать</th><th>Что проверить</th></tr></thead>
-          <tbody>
-            <tr><td><strong>День 1</strong></td><td>выбрать 1–2 объекта и 1–2 бригады, подключить сотрудников, ознакомить с инструкцией</td><td>—</td></tr>
-            <tr><td><strong>Дни 2–3</strong></td><td>наблюдать за реальной работой</td><td>понятно ли монтажникам, что делать; удобно ли отправлять отчёт; сколько времени он занимает; какие вопросы вызывают сложности; корректно ли руководитель получает информацию</td></tr>
-            <tr><td><strong>Дни 4–7</strong></td><td>исправить выявленные проблемы и расширить TRACK на остальные объекты</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
+    <section class="sec" id="s10">
+      <div class="sec-num">10</div>
+      <h2>Правило «TRACK — источник истины»</h2>
+      <p>TRACK является основным источником информации о фактическом состоянии монтажных работ.</p>
+      <p>Если информация находится в нескольких местах, для управленческого контроля используется информация, зафиксированная в TRACK.</p>
+      <p>Это необходимо для того, чтобы компания не получала ситуацию:</p>
+      <blockquote>«В чате написали одно, монтажник сказал другое, а в отчёте третье».</blockquote>
+      <p>TRACK должен становиться единой точкой фиксации фактического состояния работ.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-weekly">
-      <header class="section-header">
-        <div class="eyebrow">11</div>
-        <h2>Еженедельный контроль</h2>
-      </header>
-      <p>Помимо ежедневной проверки отчётов, раз в неделю руководитель смотрит общую картину:</p>
-      <ul class="diamond">
-        <li>динамику прогресса;</li>
-        <li>объекты с риском задержки;</li>
-        <li>объекты с фактической задержкой;</li>
-        <li>проблемные этапы;</li>
-        <li>дисциплину сдачи отчётов;</li>
-        <li>актуальность информации в TRACK.</li>
-      </ul>
-      <p>Это превращает TRACK из ежедневной отчётности в инструмент управления монтажным направлением.</p>
+    <section class="sec" id="s11">
+      <div class="sec-num">11</div>
+      <h2>Как донести ценность TRACK монтажникам</h2>
+      <p>Нельзя начинать с:</p>
+      <blockquote>«Мы внедряем систему контроля, теперь вы будете каждый день отчитываться».</blockquote>
+      <p>Монтажник услышит:</p>
+      <blockquote>«За мной будут больше следить».</blockquote>
+      <p>Лучше объяснить пользу для самого сотрудника.</p>
+      <h4>Для монтажника TRACK даёт:</h4>
+      <ul><li>не нужно писать длинные отчёты;</li><li>не нужно отдельно объяснять руководителю, что было сделано;</li><li>фото и информация фиксируются сразу;</li><li>проблема официально зафиксирована;</li><li>меньше звонков и дополнительных вопросов;</li><li>всегда есть подтверждение выполненной работы.</li></ul>
+      <h4>Формулировка для команды</h4>
+      <blockquote>«TRACK не нужен, чтобы усложнить вам работу или следить за каждым вашим шагом. Наоборот — задача сделать так, чтобы вам не приходилось по несколько раз объяснять руководителю, что происходит на объекте. Один короткий отчёт — и вся информация зафиксирована».</blockquote>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-kpi">
-      <header class="section-header">
-        <div class="eyebrow">12</div>
-        <h2>KPI внедрения</h2>
-      </header>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Показатель</th><th>Цель</th></tr></thead>
-          <tbody>
-            <tr><td>Доля отчётов, сданных вовремя</td><td>90%+</td></tr>
-            <tr><td>Доля активных объектов с актуальной информацией</td><td>100%</td></tr>
-            <tr><td>Доля отчётов с необходимыми фото и видео</td><td>90%+, если фото предусмотрены процессом</td></tr>
-            <tr><td>Количество объектов со статусом 🟡 и 🔴</td><td>отслеживать не только количество, но и скорость устранения</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p><strong>Внедрение успешно, если</strong> монтажники регулярно сдают отчёты, информация по объектам актуальна, руководитель использует TRACK для контроля, а необходимость ручного сбора информации существенно сократилась.</p>
+    <section class="sec" id="s12">
+      <div class="sec-num">12</div>
+      <h2>Как презентовать внедрение сотрудникам</h2>
+      <p>Руководителю можно использовать готовый текст:</p>
+      <blockquote>«Коллеги, мы начинаем использовать TRACK для контроля монтажных работ. Его задача — не добавить вам работы, а заменить постоянные звонки и вопросы единым коротким отчётом. Каждый день вам нужно будет через TRACK указать, что сделали, что планируете дальше, отметить статус по срокам и приложить фото.</blockquote>
+      <p>Для руководителя это позволит видеть состояние объектов без постоянных звонков и поездок. Если на объекте возникает проблема — мы сразу фиксируем её в системе, чтобы она не потерялась в переписке.</p>
+      <p>С этого момента TRACK становится основным способом отчётности по монтажным работам. Если что-то неудобно — сообщайте. Первое время мы будем дорабатывать процесс вместе».</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-resist">
-      <header class="section-header">
-        <div class="eyebrow">13</div>
-        <h2>Работа с сопротивлением</h2>
-      </header>
-      <p>Нельзя начинать с «мы внедряем систему контроля, теперь вы будете каждый день отчитываться» — монтажник услышит «за мной будут больше следить».</p>
-      <p><strong>Что TRACK даёт самому монтажнику:</strong></p>
-      <ul class="check">
-        <li>не нужно писать длинные отчёты;</li>
-        <li>не нужно отдельно объяснять руководителю, что сделано;</li>
-        <li>фото и информация фиксируются сразу;</li>
-        <li>проблема официально зафиксирована;</li>
-        <li>меньше звонков и дополнительных вопросов;</li>
-        <li>всегда есть подтверждение выполненной работы.</li>
-      </ul>
-      <div class="tbl-wrap">
-        <table>
-          <thead><tr><th>Возражение</th><th>Ответ</th></tr></thead>
-          <tbody>
-            <tr><td>«Зачем это нужно? Мы и так в Telegram работаем»</td><td>TRACK не заменяет коммуникацию. Он заменяет ручной сбор информации и контроль монтажных работ.</td></tr>
-            <tr><td>«Это дополнительная работа»</td><td>TRACK не должен добавлять новую отчётность. Он должен заменить существующий процесс сбора отчётов.</td></tr>
-            <tr><td>«Я и так каждый день звоню руководителю»</td><td>Именно это мы хотим убрать. Один короткий отчёт вместо нескольких звонков.</td></tr>
-            <tr><td>«А если я забуду?»</td><td>TRACK сам напомнит об отчёте.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Если возражения повторяются — сначала выясните причину, а не применяйте меры. Систематический отказ сдавать отчёт чаще означает проблему в процессе, чем проблему с дисциплиной.</p>
+    <section class="sec" id="s13">
+      <div class="sec-num">13</div>
+      <h2>Как контролировать соблюдение</h2>
+      <p>Нужен простой ежедневный механизм.</p>
+      <h4>Каждый день ответственный проверяет:</h4>
+      <p>Все ли монтажники отчитались?</p>
+      <p>Если отчёта нет:</p>
+      <p>1-й раз → напоминание.</p>
+      <p>Повторяется → выясняем причину.</p>
+      <p>Систематически → руководитель разбирает нарушение и принимает необходимые действия.</p>
+      <p>Компания может самостоятельно установить дисциплинарные меры. Например, 500 ₽ за несданный отчёт, если такая мера соответствует внутренним правилам компании.</p>
+      <p class="cue">При этом:</p>
+      <p>Сначала необходимо выяснить причину отсутствия отчёта.</p>
+      <p>Проблема может быть не в дисциплине, а в самом процессе, интерфейсе или организации работы.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-texts">
-      <header class="section-header">
-        <div class="eyebrow">14</div>
-        <h2>Готовые тексты</h2>
-      </header>
-      <p>Тексты можно копировать и отправлять без изменений.</p>
-      <div data-tabs="1">
-        <div class="tabs">
-          <button data-tab-btn="1">Объявление команде</button><button data-tab-btn="2">Презентация клиенту</button>
-        </div>
-        <div data-tab-panel="1">
-          <blockquote>
-            <p>Коллеги, мы начинаем использовать TRACK для контроля монтажных работ. Его задача — не добавить вам работы, а заменить постоянные звонки и вопросы единым коротким отчётом.</p>
-            <p>Каждый день вам нужно будет через TRACK указать, что сделали, что планируете дальше, отметить статус по срокам и приложить фото.</p>
-            <p>Для руководителя это позволит видеть состояние объектов без постоянных звонков и поездок. Если на объекте возникает проблема — мы сразу фиксируем её в системе, чтобы она не потерялась в переписке.</p>
-            <p>С этого момента TRACK становится основным способом отчётности по монтажным работам. Если что-то неудобно — сообщайте. Первое время мы будем дорабатывать процесс вместе.</p>
-          </blockquote>
-          <p><strong>Дополнительно проговорите:</strong> дату, с которой отчётность ведётся через TRACK; время, до которого сдаётся отчёт; к кому обращаться с вопросами.</p>
-          <p><strong>Формулировка про пользу для монтажника:</strong> «TRACK не нужен, чтобы усложнить вам работу или следить за каждым вашим шагом. Наоборот — задача сделать так, чтобы вам не приходилось по несколько раз объяснять руководителю, что происходит на объекте. Один короткий отчёт — и вся информация зафиксирована».</p>
-        </div>
-        <div data-tab-panel="2">
-          <p>TRACK для клиента — это не «бот для монтажников», а дополнительный сервис контроля его объекта.</p>
-          <blockquote>
-            <p>После начала работ мы подключим ваш объект к системе контроля. Вы сможете видеть, на каком этапе находится монтаж, что уже выполнено, что запланировано дальше, текущий прогресс и фотографии с объекта.</p>
-            <p>Вам не нужно постоянно звонить менеджеру и спрашивать, как идут работы — актуальная информация будет у вас под рукой.</p>
-          </blockquote>
-          <p><strong>Ваш объект под контролем.</strong> После начала монтажа клиент получает:</p>
-          <ul class="check">
-            <li>информацию о ходе работ;</li>
-            <li>фото и видео с объекта;</li>
-            <li>текущий прогресс монтажа;</li>
-            <li>информацию о следующих этапах;</li>
-            <li>актуальный статус по срокам.</li>
-          </ul>
-        </div>
-      </div>
+    <section class="sec" id="s14">
+      <div class="sec-num">14</div>
+      <h2>Как внедрять TRACK без сопротивления</h2>
+      <p>Не нужно сразу подключать все объекты.</p>
+      <h4>День 1</h4>
+      <p class="cue">Выбрать:</p>
+      <p>1–2 объекта + 1–2 бригады.</p>
+      <p>Подключить сотрудников и ознакомить их с инструкцией.</p>
+      <h4>Дни 2–3</h4>
+      <p class="cue">Проверить:</p>
+      <ul><li>понятно ли монтажникам, что делать;</li><li>удобно ли отправлять отчёт;</li><li>сколько времени занимает отчёт;</li><li>какие вопросы вызывают сложности;</li><li>корректно ли руководитель получает информацию.</li></ul>
+      <h4>Дни 4–7</h4>
+      <p>Исправить выявленные проблемы и расширить использование TRACK на остальные объекты.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-result">
-      <header class="section-header">
-        <div class="eyebrow">15</div>
-        <h2>Как работает процесс после внедрения</h2>
-      </header>
-      <p>Каждый день: <strong>монтажник</strong> сдаёт отчёт → <strong>TRACK</strong> фиксирует и структурирует информацию → <strong>руководитель</strong> видит состояние объектов → при необходимости принимает решение и реагирует на отклонения → <strong>клиент</strong> получает прозрачную информацию о ходе работ.</p>
-      <p>Компания получает прозрачный контроль монтажных работ, понимание прогресса и сроков по каждому объекту, единую историю работ, своевременное выявление проблем, меньше ручного контроля и выездов, единый стандарт отчётности и более высокий уровень клиентского сервиса.</p>
-      <aside class="callout">
-        <p><strong>Главная задача TRACK — не контролировать людей, а сделать контроль монтажных работ простым, системным и прозрачным.</strong></p>
-        <p>Если руководитель продолжает обзванивать монтажников, собирать фотографии в чатах и вручную выяснять статус объектов — TRACK используется, но ещё не внедрён.</p>
-      </aside>
+    <section class="sec" id="s15">
+      <div class="sec-num">15</div>
+      <h2>Еженедельный контроль</h2>
+      <p>Помимо ежедневного контроля отчётов, руководителю рекомендуется раз в неделю просматривать общую картину по объектам.</p>
+      <p class="cue">Проверить:</p>
+      <ul><li>динамику прогресса;</li><li>объекты с риском задержки;</li><li>объекты с фактической задержкой;</li><li>проблемные этапы;</li><li>дисциплину сдачи отчётов;</li><li>насколько актуальна информация в TRACK.</li></ul>
+      <p>Это позволяет использовать TRACK не только как ежедневную отчётность, но и как инструмент управления монтажным направлением.</p>
     </section>
 
-    <hr class="rule">
-
-    <section id="s-checklist">
-      <header class="section-header">
-        <div class="eyebrow">16</div>
-        <h2>Чек-лист: внедрение завершено</h2>
-      </header>
-      <ul class="check">
-        <li>Назначен один ответственный за внедрение и соблюдение процесса</li>
-        <li>Все активные объекты заведены в TRACK</li>
-        <li>Все монтажники подключены и ознакомлены с правилами</li>
-        <li>Установлено и объявлено время ежедневного отчёта</li>
-        <li>Объявлена дата, с которой TRACK — основной способ отчётности</li>
-        <li>Монтажники сдают отчёты ежедневно, доля вовремя сданных — 90%+</li>
-        <li>Отчёты содержат конкретику, план на завтра, статус и актуальные фото</li>
-        <li>Отчёт сдаётся и в дни, когда работы не велись, с указанием причины</li>
-        <li>Статусы 🟡 и 🔴 не остаются без реакции руководителя</li>
-        <li>Руководитель перестал собирать информацию звонками и в чатах</li>
-        <li>Раз в неделю руководитель смотрит общую картину по объектам</li>
-        <li>Клиентам объектов рассказано о возможности видеть ход работ</li>
-      </ul>
+    <section class="sec" id="s16">
+      <div class="sec-num">16</div>
+      <h2>KPI внедрения TRACK</h2>
+      <p>Чтобы понять, действительно ли TRACK внедрён, необходимо измерять несколько показателей.</p>
+      <h4>Основные KPI:</h4>
+      <p class="step">1. Доля отчётов, сданных вовремя</p>
+      <p>Целевой ориентир — 90%+.</p>
+      <p class="step">2. Доля активных объектов с актуальной информацией</p>
+      <p>Цель — 100% активных объектов.</p>
+      <p class="step">3. Доля отчётов с необходимыми фото/видео</p>
+      <p>Цель — 90%+, если фото предусмотрены процессом.</p>
+      <p class="step">4. Количество объектов со статусом 🟡 / 🔴</p>
+      <p>Важно отслеживать не только количество проблем, но и то, насколько быстро они устраняются.</p>
+      <h4>Внедрение можно считать успешным, если:</h4>
+      <p>монтажники регулярно сдают отчёты, информация по объектам актуальна, руководитель использует TRACK для контроля, а необходимость ручного сбора информации существенно сокращается.</p>
     </section>
 
-  </article>
+    <section class="sec" id="s17">
+      <div class="sec-num">17</div>
+      <h2>Как презентовать TRACK клиенту</h2>
+      <p>TRACK для клиента — это не «бот для монтажников».</p>
+      <p>Это дополнительный сервис контроля его объекта.</p>
+      <h4>Вариант презентации при заключении договора</h4>
+      <blockquote>«После начала работ мы подключим ваш объект к системе контроля. Вы сможете видеть, на каком этапе находится монтаж, что уже выполнено, что запланировано дальше, текущий прогресс и фотографии с объекта. Вам не нужно постоянно звонить менеджеру и спрашивать, как идут работы — актуальная информация будет у вас под рукой».</blockquote>
+      <h4>Вариант позиционирования</h4>
+      <h3 class="banner">Ваш объект под контролем</h3>
+      <p>После начала монтажа клиент получает:</p>
+      <ul class="ticks"><li>информацию о ходе работ</li><li>фото и видео с объекта</li><li>текущий прогресс монтажа</li><li>информацию о следующих этапах</li><li>актуальный статус по срокам</li></ul>
+      <p>Вам не нужно постоянно следить за процессом — компания сама держит вас в курсе.</p>
+    </section>
+
+    <section class="sec" id="s18">
+      <div class="sec-num">18</div>
+      <h2>Что делать, если сотрудники сопротивляются</h2>
+      <h4>«Зачем это нужно? Мы и так в Telegram работаем».</h4>
+      <blockquote>«TRACK не заменяет коммуникацию. Он заменяет ручной сбор информации и контроль монтажных работ».</blockquote>
+      <h4>«Это дополнительная работа».</h4>
+      <blockquote>«TRACK не должен добавлять новую отчётность. Он должен заменить существующий процесс сбора отчётов».</blockquote>
+      <h4>«Я и так каждый день звоню руководителю».</h4>
+      <blockquote>«Именно это мы хотим убрать. Один короткий отчёт вместо нескольких звонков».</blockquote>
+      <h4>«А если я забуду?»</h4>
+      <blockquote>«TRACK сам напомнит об отчёте».</blockquote>
+    </section>
+
+    <section class="sec" id="s19">
+      <div class="sec-num">19</div>
+      <h2>Принцип внедрения TRACK</h2>
+      <p>TRACK не должен становиться дополнительной работой поверх существующего процесса.</p>
+      <p>Его задача — заменить часть существующих звонков, переписок и ручного сбора информации единой системой.</p>
+      <p>Поэтому при внедрении важно не просто заставить сотрудников отправлять отчёты в TRACK, а перенести существующий процесс контроля в TRACK.</p>
+      <p>Если руководитель продолжает ежедневно обзванивать монтажников, собирать фотографии в чатах и вручную выяснять статус объектов — значит, TRACK используется, но ещё не внедрён.</p>
+      <p>Внедрение считается завершённым, когда TRACK становится привычной частью рабочего дня монтажника и основным инструментом контроля для руководителя.</p>
+    </section>
+
+    <section class="sec" id="s20">
+      <div class="sec-num">20</div>
+      <h2>Итог внедрения TRACK</h2>
+      <p>После внедрения TRACK становится частью стандартного рабочего процесса компании, а не дополнительным инструментом.</p>
+      <p>Каждый день:</p>
+      <h4>Монтажник</h4>
+      <p>→ сдаёт отчёт</p>
+      <h4>TRACK</h4>
+      <p>→ фиксирует и структурирует информацию</p>
+      <h4>Руководитель</h4>
+      <p>→ видит состояние объектов</p>
+      <h4>При необходимости</h4>
+      <p>→ принимает решение и реагирует на отклонения</p>
+      <h4>Клиент</h4>
+      <p>→ получает прозрачную информацию о ходе работ</p>
+      <p>В результате компания получает:</p>
+      <ul><li>прозрачный контроль монтажных работ;</li><li>понимание прогресса и сроков по каждому объекту;</li><li>единую историю работ;</li><li>своевременное выявление проблем;</li><li>меньше ручного контроля, звонков и выездов;</li><li>единый стандарт отчётности;</li><li>более высокий уровень клиентского сервиса.</li></ul>
+      <p>Главная задача TRACK — не контролировать людей, а сделать контроль монтажных работ простым, системным и прозрачным.</p>
+      <p>И главное:</p>
+      <p>Если руководителю больше не приходится вручную собирать информацию по объектам, монтажники регулярно фиксируют результаты своей работы, а проблемные ситуации выявляются до того, как превращаются в серьёзные задержки — внедрение TRACK можно считать успешным.</p>
+    </section>
+  </main>
 </div>
 
 <footer class="site-footer">
-  <div class="footer-top">
-    <div>
-      <p class="tag" style="font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:.04em;color:var(--text-heading);margin-bottom:8px;">TRACK</p>
-      <p class="tag">Регламент внедрения TRACK в рабочие процессы строительной компании.</p>
-    </div>
-    <div class="footer-cols">
-      <div>
-        <h4>Разделы</h4>
-        <a href="#s-roles">Кто за что отвечает</a>
-        <a href="#s-rules">Правила работы</a>
-        <a href="#s-status">Статусы</a>
-      </div>
-      <div>
-        <h4>Внедрение</h4>
-        <a href="#s-rollout">План внедрения</a>
-        <a href="#s-kpi">KPI</a>
-        <a href="#s-checklist">Чек-лист</a>
-      </div>
-      <div>
-        <h4>Тексты</h4>
-        <a href="#s-texts">Объявление команде</a>
-        <a href="#s-texts">Презентация клиенту</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>Внутренний регламент компании</span>
+  <div class="footer-in">
+    <p>TRACK — система оперативного контроля монтажных работ</p>
+    <a class="footer-cta" href="https://t.me/tupikov_a" target="_blank" rel="noopener">Попробовать TRACK</a>
   </div>
 </footer>
 
+<a href="#top" class="to-top" id="to-top" aria-label="Наверх">↑</a>
+
 <script>
-// Scout — article interactivity. Vanilla JS replacement for the
-// design-system's article-enhance.js. Reads the same data-* contract
-// described in the spec, so markup never needs to change.
-(function () {
-  "use strict";
+(function(){
+  var bar = document.getElementById('read-progress-bar');
+  var top = document.getElementById('to-top');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var secs = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); });
 
-  /* ---- 9.1 scroll-spy ----
-     Раньше список наблюдаемых секций строился ИЗ ссылок в содержании
-     (TOC href → getElementById). Если хоть один id в реальной статье не
-     совпадал с href, элемент тихо выпадал из списка — и на длинных
-     статьях (20+ секций) подсветка переставала обновляться почти до
-     самого конца, потому что наблюдался только последний совпавший
-     элемент. Теперь берём РЕАЛЬНЫЕ секции статьи напрямую и следим за
-     прокруткой, а не за пересечением тонкой полосы — это надёжно
-     работает при любом числе секций и не зависит от точного совпадения
-     каждого id. */
-  var navs = document.querySelectorAll("[data-spy-nav]");
-  if (navs.length) {
-    var links = [];
-    navs.forEach(function (nav) {
-      nav.querySelectorAll("a[href^='#']").forEach(function (a) { links.push(a); });
-    });
+  function onScroll(){
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    var y = window.scrollY || window.pageYOffset;
+    if (bar) bar.style.width = (h > 0 ? Math.min(100, y / h * 100) : 0) + '%';
+    if (top) top.classList.toggle('show', y > 600);
 
-    var sections = Array.prototype.slice.call(
-      document.querySelectorAll("article section[id]")
-    );
-
-    function setActive(id) {
-      links.forEach(function (a) {
-        var on = a.getAttribute("href") === "#" + id;
-        a.classList.toggle("is-active", on);
-        if (on) scrollChipIntoView(a);
-      });
+    var active = -1;
+    for (var i = 0; i < secs.length; i++){
+      if (secs[i] && secs[i].getBoundingClientRect().top <= 120) active = i;
     }
-
-    /* На мобильном содержание — горизонтальная лента. Активный пункт
-       подъезжает в видимую зону сам, КУДА БЫ пользователь её ни пролистал.
-       Прокручиваем только саму ленту (не страницу) и только по горизонтали,
-       поэтому scrollIntoView здесь не подходит — он дёргает всю страницу. */
-    function scrollChipIntoView(a) {
-      var strip = a.parentElement;
-      if (!strip || strip.scrollWidth <= strip.clientWidth) return; // лента не листается — десктоп
-      var target = a.offsetLeft - (strip.clientWidth - a.offsetWidth) / 2;
-      var max = strip.scrollWidth - strip.clientWidth;
-      strip.scrollTo({
-        left: Math.max(0, Math.min(target, max)),
-        behavior: "smooth"
-      });
-    }
-
-    var ticking = false;
-    var progressBar = document.getElementById("read-progress-bar");
-    var articleEl = document.querySelector("article");
-
-    function updateProgress() {
-      if (!progressBar) return;
-      // считаем прогресс по самой статье, а не по всей странице:
-      // иначе футер и шапка «съедают» проценты и полоса врёт
-      var start = 0, total = document.documentElement.scrollHeight - window.innerHeight;
-      if (articleEl) {
-        start = articleEl.offsetTop;
-        total = articleEl.offsetHeight - (window.innerHeight - 120);
-      }
-      var passed = window.scrollY - start;
-      var pct = total > 0 ? (passed / total) * 100 : 0;
-      progressBar.style.width = Math.max(0, Math.min(100, pct)) + "%";
-    }
-
-    function updateActiveSection() {
-      ticking = false;
-      updateProgress();
-      if (!sections.length) return;
-      var line = 140; // отступ под липкую шапку + запас
-      var current = sections[0];
-      for (var i = 0; i < sections.length; i++) {
-        if (sections[i].getBoundingClientRect().top - line <= 0) {
-          current = sections[i];
-        } else {
-          break;
-        }
-      }
-      setActive(current.id);
-    }
-    function onScrollOrResize() {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateActiveSection);
-      }
-    }
-    window.addEventListener("scroll", onScrollOrResize, { passive: true });
-    window.addEventListener("resize", onScrollOrResize);
-    updateActiveSection();
+    links.forEach(function(a, i){ a.classList.toggle('active', i === active); });
   }
 
-  /* ---- 9.2 step selector ("путь клиента") ---- */
-  document.querySelectorAll("[data-steps]").forEach(function (container) {
-    var chips = container.querySelectorAll("[data-step-chip]");
-    var panels = container.querySelectorAll("[data-step-panel]");
-    function activate(n) {
-      chips.forEach(function (c) { c.classList.toggle("is-active", c.getAttribute("data-step-chip") === n); });
-      panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-step-panel") === n); });
-    }
-    chips.forEach(function (c) {
-      c.addEventListener("click", function () { activate(c.getAttribute("data-step-chip")); });
-    });
-    if (chips[0]) activate(chips[0].getAttribute("data-step-chip"));
-  });
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ onScroll(); ticking = false; });
+  }, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  onScroll();
 
-  /* ---- 9.3 tabs ("США / Россия") ---- */
-  document.querySelectorAll("[data-tabs]").forEach(function (container) {
-    var btns = container.querySelectorAll("[data-tab-btn]");
-    var panels = container.querySelectorAll("[data-tab-panel]");
-    function activate(n) {
-      btns.forEach(function (b) { b.classList.toggle("is-active", b.getAttribute("data-tab-btn") === n); });
-      panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-tab-panel") === n); });
-    }
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () { activate(b.getAttribute("data-tab-btn")); });
-    });
-    if (btns[0]) activate(btns[0].getAttribute("data-tab-btn"));
-  });
-
-  /* ---- 9.4 economics calculator ---- */
-  document.querySelectorAll("[data-calc]").forEach(function (container) {
-    var inputs = {};
-    container.querySelectorAll("[data-in]").forEach(function (el) {
-      inputs[el.getAttribute("data-in")] = el;
-      el.value = el.getAttribute("data-init") || el.value;
-    });
-    var outs = {};
-    container.querySelectorAll("[data-out]").forEach(function (el) { outs[el.getAttribute("data-out")] = el; });
-    var vals = {};
-    container.querySelectorAll("[data-val]").forEach(function (el) { vals[el.getAttribute("data-val")] = el; });
-
-    function fmt(n) { return Math.round(n).toLocaleString("ru-RU"); }
-
-    function recalc() {
-      var avg = parseFloat(inputs.avg ? inputs.avg.value : 0) || 0;
-      var orders = parseFloat(inputs.orders ? inputs.orders.value : 0) || 0;
-      var margin = parseFloat(inputs.margin ? inputs.margin.value : 0) || 0;
-      var agg = parseFloat(inputs.agg ? inputs.agg.value : 0) || 0;
-
-      var mult = parseFloat(container.getAttribute("data-calc-mult")) || 30;
-      var revenue = avg * orders * mult;
-      var netShare = (margin - agg) / 100;
-      var perOrder = avg * netShare;
-      var aggFee = revenue * (agg / 100);
-      var profit = revenue * netShare;
-
-      if (vals.avg) vals.avg.textContent = fmt(avg) + " ₽";
-      if (vals.orders) vals.orders.textContent = fmt(orders);
-      if (vals.margin) vals.margin.textContent = margin + "%";
-      if (vals.agg) vals.agg.textContent = agg + "%";
-
-      if (outs.rev) outs.rev.textContent = fmt(revenue) + " ₽";
-      if (outs.aggfee) outs.aggfee.textContent = "−" + fmt(aggFee) + " ₽";
-      if (outs.perorder) outs.perorder.textContent = fmt(perOrder) + " ₽";
-      if (outs.profit) outs.profit.textContent = fmt(profit) + " ₽";
-    }
-
-    Object.keys(inputs).forEach(function (k) { inputs[k].addEventListener("input", recalc); });
-    recalc();
+  // на мобильном закрываем список после перехода к разделу
+  var acc = document.getElementById('toc-mobile');
+  if (acc) acc.addEventListener('click', function(e){
+    if (e.target.tagName === 'A') acc.removeAttribute('open');
   });
 })();
+
 </script>
 </body>
 </html>
