@@ -332,6 +332,47 @@ code{
   color:var(--gold);font-family:var(--mono);font-size:14px;font-weight:500;margin-right:6px;
 }
 
+/* картинка кликабельна */
+.shot-btn{
+  display:block;padding:0;border:0;background:none;cursor:zoom-in;
+  width:100%;position:relative;border-radius:4px;
+}
+.shot-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.shot-btn img{transition:border-color .25s,transform .3s cubic-bezier(.22,1,.36,1)}
+.shot-btn:hover img{border-color:var(--gold-dim)}
+.shot-btn::after{
+  content:"";position:absolute;right:10px;bottom:10px;width:30px;height:30px;
+  border-radius:50%;background:rgba(11,10,8,.78) no-repeat center/15px 15px;
+  border:1px solid var(--edge-hi);opacity:0;transition:opacity .25s;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8B84B' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4.2-4.2M11 8v6M8 11h6'/%3E%3C/svg%3E");
+}
+.shot-btn:hover::after,.shot-btn:focus-visible::after{opacity:1}
+
+/* окно просмотра */
+.lb[hidden]{display:none}
+.lb{
+  position:fixed;inset:0;z-index:90;display:grid;place-items:center;
+  padding:28px;background:rgba(5,4,3,.92);backdrop-filter:blur(6px);
+  cursor:zoom-out;animation:lbIn .22s ease;
+  overflow:auto;-webkit-overflow-scrolling:touch;
+}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+.lb img{
+  display:block;height:auto;
+  border-radius:5px;border:1px solid var(--edge-hi);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+.lb-close{
+  position:absolute;top:18px;right:18px;width:44px;height:44px;
+  display:grid;place-items:center;cursor:pointer;border-radius:50%;
+  background:var(--raised);border:1px solid var(--edge-hi);color:var(--gold);
+  transition:transform .25s,border-color .25s;
+}
+.lb-close:hover{transform:scale(1.06);border-color:var(--gold-dim)}
+.lb-close svg{width:18px;height:18px}
+@media(max-width:520px){.lb{padding:14px}.lb-close{top:10px;right:10px}}
+@media (prefers-reduced-motion:reduce){.lb{animation:none}.shot-btn img{transition:none}}
+
 </style>
 </head>
 <body id="top">
@@ -428,14 +469,14 @@ code{
       <p class="step"><b>1.</b> Нажмите кнопку <strong>«Старт»</strong> (или команду <code>/start</code>).</p>
       <div class="dlg"><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Как называется ваша компания?</em></div></div><div class="dlg-row dlg-row--you"><span class="dlg-who">Вы вводите</span><div class="dlg-txt">Эвелон</div></div><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Компания «Эвелон» успешно создана.</em></div></div></div>
       <p>После создания появится кнопка <strong>«Открыть компанию»</strong> <strong>— нажмите её, чтобы перейти в карточку компании.</strong></p>
-      <figure class="shot"><img src="img/image1.png" width="602" height="344" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image1.png" width="602" height="344" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s5">
       <div class="sec-num">02</div><h2>Карточка компании</h2>
       <p>В карточке компании отображаются:</p>
       <ul><li>название компании;</li><li>общее количество проектов;</li><li>количество активных проектов;</li><li>регламент внедрения системы в бизнес-процессы компании (если есть). Доступен только руководителям.</li><li>инструкция по использованию сервиса (доступна и руководителям, и монтажникам).</li></ul>
-      <figure class="shot"><img src="img/image2.png" width="602" height="400" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image2.png" width="602" height="400" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p>Из карточки компании руководитель видит список всех своих проектов. Если проектов ещё нет — их можно создать здесь же.</p>
     </section>
 
@@ -444,12 +485,12 @@ code{
       <p>Чтобы создать проект, нажмите кнопку создания нового проекта и последовательно ответьте на вопросы бота:</p>
       <div class="dlg"><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Укажите название проекта.</em></div></div><div class="dlg-row dlg-row--you"><span class="dlg-who">Вы вводите</span><div class="dlg-txt">ЖК Парус (Пример)</div></div><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Укажите адрес объекта.</em></div></div><div class="dlg-row dlg-row--you"><span class="dlg-who">Вы вводите</span><div class="dlg-txt">ул. Ленина, д. 19 (Пример)</div></div><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Укажите предполагаемую дату окончания работ в указанном формате.</em></div></div><div class="dlg-row dlg-row--you"><span class="dlg-who">Вы вводите</span><div class="dlg-txt">01.11.2026 (Пример)</div></div><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Отправьте план производства монтажных работ.</em></div></div></div>
       <p><strong>На этом шаге можно описать план монтажных работ или отказаться. Это отдельно необходимый шаг — если план не прикреплён, бот не сможет автоматически считать процент готовности объекта.</strong></p>
-      <figure class="shot"><img src="img/image3.png" width="361" height="546" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image3.png" width="361" height="546" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p>План оформляется по образцу, который присылает бот, например:</p>
       <ul><li>приёмка материала;</li><li>разметка;</li><li>установка оборудования;</li><li>прокладка трасс вентиляции;</li><li>прокладка трасс увлажнения;</li><li>сдача объекта.</li></ul>
-      <figure class="shot"><img src="img/image4.png" width="420" height="315" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image4.png" width="420" height="315" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p>После заполнения всех пунктов бот автоматически создаёт карточку проекта со следующими данными: название, процент готовности (изначально 0%, так как отчётов ещё не было), адрес, участники, дедлайн и последние новости по объекту.</p>
-      <figure class="shot"><img src="img/image5.png" width="420" height="408" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image5.png" width="420" height="408" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s7">
@@ -464,9 +505,9 @@ code{
       <p class="step"><b>1.</b> Откройте проект и нажмите кнопку <strong>«Участники».</strong></p>
       <p class="step"><b>2.</b> Выберите, кого хотите добавить: руководителя, сотрудника (монтажника) или клиента.</p>
       <p class="step"><b>3.</b> Бот сформирует пригласительную ссылку — отправьте её человеку в Telegram.</p>
-      <figure class="shot"><img src="img/image6.png" width="332" height="394" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image6.png" width="332" height="394" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p>Пример сообщения, которое получит будущий монтажник:</p>
-      <figure class="shot"><img src="img/image7.png" width="602" height="267" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image7.png" width="602" height="267" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s9">
@@ -475,7 +516,7 @@ code{
       <div class="tbl-wrap"><table><thead><tr><th>Статус</th><th>Что означает</th></tr></thead><tbody><tr><td><strong>Зелёный</strong></td><td>Всё идёт по плану, задержек нет</td></tr><tr><td><strong>Жёлтый</strong></td><td>Есть риск задержки — монтажник указывает причину</td></tr><tr><td><strong>Красный</strong></td><td>Задержка уже произошла — монтажник указывает причину</td></tr></tbody></table></div>
       <p>Это позволяет руководителю мгновенно понять, на какие объекты нужно обратить внимание в первую очередь, а куда пока вникать не требуется — если по объекту всё «зелёное», необходимости погружаться в детали нет.</p>
       <p><strong>Если объект отмечен жёлтым или красным статусом,</strong> руководитель может открыть его и увидеть причину задержки или риска — она указывается монтажником при заполнении отчёта.</p>
-      <figure class="shot"><img src="img/image8.png" width="555" height="213" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image8.png" width="555" height="213" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec sec--part" id="p10">
@@ -486,12 +527,12 @@ code{
     <section class="sec" id="s11">
       <div class="sec-num">01</div><h2>Присоединение к проекту</h2>
       <p class="step"><b>1.</b> Получите от руководителя пригласительную ссылку в Telegram.</p>
-      <figure class="shot"><img src="img/image9.png" width="479" height="212" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image9.png" width="479" height="212" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p class="step"><b>2.</b> Перейдите по ссылке — придёт сообщение о присоединении к проекту.</p>
       <p class="step"><b>3.</b> Нажмите кнопку «Старт» в боте.</p>
-      <figure class="shot"><img src="img/image10.png" width="488" height="301" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image10.png" width="488" height="301" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <p>Далее нажмите кнопку <strong>«Открыть проект»</strong> — откроется карточка проекта: название, процент реализации, адрес, список сотрудников, дата окончания (дедлайн) и последние новости.</p>
-      <figure class="shot"><img src="img/image11.png" width="228" height="441" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image11.png" width="228" height="441" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s12">
@@ -514,29 +555,29 @@ code{
       <div class="dlg"><div class="dlg-row dlg-row--bot"><span class="dlg-who">Бот</span><div class="dlg-txt"><em>Проект находится на стадии «Приёмка материала». Подскажите, как дела с этим этапом?</em></div></div></div>
       <p>Ответьте одним из вариантов:</p>
       <ul><li>Готово — этап полностью завершён;</li><li>В процессе — этап ещё не завершён.</li></ul>
-      <figure class="shot"><img src="img/image12.png" width="343" height="488" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image12.png" width="343" height="488" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <h3>Прикрепление фото и видео</h3>
       <p>Если этап отмечен как «Готово», необходимо прикрепить от 3 до 10 фотографий или видео с объекта, подтверждающих выполнение этапа — без этого отчёт не будет засчитан.</p>
       <p>После загрузки материалов обязательно нажмите кнопку <strong>«Готово»,</strong> чтобы подтвердить, что все материалы прикреплены и отчёт полностью сформирован.</p>
       <p><strong><em>Если кнопка «Готово» пропала из вида, нажмите на значок из четырёх квадратиков рядом с полем ввода сообщения — кнопка появится снова\!</em></strong></p>
-      <figure class="shot"><img src="img/image13.png" width="339" height="452" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image13.png" width="339" height="452" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
       <h3>После отправки отчёта</h3>
       <p><strong>Сформированный отчёт сразу становится виден:</strong></p>
       <ul><li>самому монтажнику — как подтверждение, что отчёт зафиксирован;</li><li>руководителю — отчёт поступает автоматически;</li><li>клиенту — если руководитель подключил клиента к проекту, он тоже видит ежедневный прогресс по своему объекту.</li></ul>
       <p>Процент готовности объекта и статус этапа плана обновляются автоматически по итогам отчёта.</p>
-      <figure class="shot"><img src="img/image14.png" width="256" height="556" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image14.png" width="256" height="556" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s14">
       <div class="sec-num">04</div><h2>Кнопка «Проблема»</h2>
       <p>Используется, если на объекте возникла непредвиденная ситуация, которую нужно решить срочно — вне рамок обычного ежедневного отчёта. Сообщение о проблеме сразу попадает в отчёт и позволяет руководителю и другим сотрудникам быстро подключиться к решению вопроса.</p>
-      <figure class="shot"><img src="img/image15.png" width="365" height="535" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image15.png" width="365" height="535" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
 
     <section class="sec" id="s15">
       <div class="sec-num">05</div><h2>Просмотр своих отчётов</h2>
       <p>Кнопка «Отчёты» показывает все ранее отправленные отчёты по проекту: даты, статусы, комментарии и загруженные фотографии/видео. Отчёты за разные даты и этапы можно листать.</p>
-      <figure class="shot"><img src="img/image16.png" width="243" height="526" loading="lazy" decoding="async" alt="Экран бота «Трек»"></figure>
+      <figure class="shot"><button type="button" class="shot-btn" aria-label="Открыть изображение крупнее"><img src="img/image16.png" width="243" height="526" loading="lazy" decoding="async" alt="Экран бота «Трек»"></button></figure>
     </section>
   </main>
 </div>
@@ -561,6 +602,11 @@ code{
     </div>
   </div>
 </footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Просмотр изображения" hidden>
+  <button class="lb-close" id="lb-close" aria-label="Закрыть просмотр"><svg><use href="#i-close"></use></svg></button>
+  <img id="lb-img" alt="">
+</div>
 
 <a href="#top" class="to-top" id="to-top" aria-label="Наверх"><svg style="width:17px;height:17px"><use href="#i-up"></use></svg></a>
 
@@ -624,6 +670,55 @@ code{
     }, {rootMargin:'0px 0px -12% 0px', threshold:.05});
     targets.forEach(function(el){ io.observe(el); });
   }
+})();
+
+/* ---- просмотр скриншотов крупнее по клику ---- */
+(function(){
+  var box   = document.getElementById('lb');
+  var img   = document.getElementById('lb-img');
+  var close = document.getElementById('lb-close');
+  if (!box || !img) return;
+  var opener = null;
+
+  function fit(){
+    var nat = img.naturalWidth || 1, natH = img.naturalHeight || 1;
+    var byW = window.innerWidth * 0.94;              // вписать по ширине
+    var byH = window.innerHeight * 0.9 * (nat / natH); // вписать по высоте
+    // не мельче оригинала (иначе на телефоне «увеличение» ничего не даёт)
+    // и не крупнее двух оригиналов (дальше картинка расплывается)
+    var w = Math.min(nat * 2, Math.max(nat, Math.min(byW, byH)));
+    img.style.width = Math.round(w) + 'px';
+  }
+
+  function open(src, alt, btn){
+    opener = btn;
+    img.src = src;
+    img.alt = alt || '';
+    box.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (img.complete) fit(); else img.onload = fit;
+    close.focus();
+  }
+
+  function shut(){
+    box.hidden = true;
+    img.removeAttribute('src');
+    img.style.width = '';
+    document.body.style.overflow = '';
+    if (opener) { opener.focus(); opener = null; }
+  }
+
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest && e.target.closest('.shot-btn');
+    if (btn){
+      var i = btn.querySelector('img');
+      open(i.getAttribute('src'), i.getAttribute('alt'), btn);
+      return;
+    }
+    if (!box.hidden && (e.target === box || e.target === img || e.target.closest('#lb-close'))) shut();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !box.hidden) shut(); });
+  window.addEventListener('resize', function(){ if (!box.hidden) fit(); }, {passive:true});
 })();
 
 </script>
